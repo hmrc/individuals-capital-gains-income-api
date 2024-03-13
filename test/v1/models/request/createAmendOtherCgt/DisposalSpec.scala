@@ -25,7 +25,7 @@ class DisposalSpec extends UnitSpec {
   val mtdJson: JsValue = Json.parse(
     """
       |{
-      |  "assetType": "otherProperty",
+      |  "assetType": "other-property",
       |  "assetDescription": "Property Sale",
       |  "acquisitionDate": "2021-01-01",
       |  "disposalDate": "2021-02-01",
@@ -44,7 +44,7 @@ class DisposalSpec extends UnitSpec {
   val mtdJsonWithMultipleCodes: JsValue = Json.parse(
     """
       |{
-      |  "assetType": "otherProperty",
+      |  "assetType": "other-property",
       |  "assetDescription": "Property Sale",
       |  "acquisitionDate": "2021-01-01",
       |  "disposalDate": "2021-02-01",
@@ -63,7 +63,7 @@ class DisposalSpec extends UnitSpec {
   )
 
   val mtdRequestBody: Disposal = Disposal(
-    AssetType.otherProperty.toString,
+    AssetType.`other-property`.toString,
     "Property Sale",
     "2021-01-01",
     "2021-02-01",
@@ -78,7 +78,7 @@ class DisposalSpec extends UnitSpec {
   )
 
   val mtdRequestBodyWithMultipleCodes: Disposal = Disposal(
-    AssetType.otherProperty.toString,
+    AssetType.`other-property`.toString,
     "Property Sale",
     "2021-01-01",
     "2021-02-01",
@@ -163,13 +163,13 @@ class DisposalSpec extends UnitSpec {
 
     "written JSON" should {
       "produce the expected JsObject" in {
-        Json.toJson(mtdRequestBody) shouldBe desJson
+        Json.toJson(mtdRequestBody) shouldBe mtdJson
       }
     }
 
     "written JSON with multiple codes" should {
       "produce the expected JsObject" in {
-        Json.toJson(mtdRequestBodyWithMultipleCodes) shouldBe desJsonWithMultipleCodes
+        Json.toJson(mtdRequestBodyWithMultipleCodes) shouldBe mtdJsonWithMultipleCodes
       }
     }
   }

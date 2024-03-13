@@ -23,13 +23,13 @@ sealed trait AssetType
 
 object AssetType {
 
-  case object otherProperty extends AssetType
+  case object `other-property` extends AssetType
 
-  case object unlistedShares extends AssetType
+  case object `unlisted-shares` extends AssetType
 
-  case object listedShares extends AssetType
+  case object `listed-shares` extends AssetType
 
-  case object otherAsset extends AssetType
+  case object `other-asset` extends AssetType
 
   implicit val format: Format[AssetType]         = Enums.format[AssetType]
   val parser: PartialFunction[String, AssetType] = Enums.parser[AssetType]

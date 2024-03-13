@@ -58,7 +58,7 @@ class RetrieveOtherCgtControllerSpec
     disposals = Some(
       List(
         Disposal(
-          assetType = "otherProperty",
+          assetType = "other-property",
           assetDescription = "string",
           acquisitionDate = "2021-05-07",
           disposalDate = "2021-05-07",
@@ -99,7 +99,7 @@ class RetrieveOtherCgtControllerSpec
       |   "submittedOn":"2021-05-07T16:18:44.403Z",
       |   "disposals":[
       |      {
-      |         "assetType":"otherProperty",
+      |         "assetType":"other-property",
       |         "assetDescription":"string",
       |         "acquisitionDate":"2021-05-07",
       |         "disposalDate":"2021-05-07",
