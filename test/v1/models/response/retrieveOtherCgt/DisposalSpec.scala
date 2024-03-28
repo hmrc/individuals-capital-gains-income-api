@@ -24,7 +24,7 @@ class DisposalSpec extends UnitSpec {
   val validResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "assetType":"otherProperty",
+      |   "assetType":"other-property",
       |   "assetDescription":"string",
       |   "acquisitionDate":"2021-05-07",
       |   "disposalDate":"2021-05-07",
@@ -43,7 +43,7 @@ class DisposalSpec extends UnitSpec {
   val minimumValidResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "assetType":"otherProperty",
+      |   "assetType":"other-property",
       |   "assetDescription":"string",
       |   "acquisitionDate":"2021-05-07",
       |   "disposalDate":"2021-05-07",
@@ -56,7 +56,7 @@ class DisposalSpec extends UnitSpec {
   val invalidJson: JsValue = JsObject.empty
 
   val responseModel: Disposal = Disposal(
-    assetType = "otherProperty",
+    assetType = "other-property",
     assetDescription = "string",
     acquisitionDate = "2021-05-07",
     disposalDate = "2021-05-07",
@@ -71,7 +71,7 @@ class DisposalSpec extends UnitSpec {
   )
 
   val minimumResponseModel: Disposal = Disposal(
-    assetType = "otherProperty",
+    assetType = "other-property",
     assetDescription = "string",
     acquisitionDate = "2021-05-07",
     disposalDate = "2021-05-07",
