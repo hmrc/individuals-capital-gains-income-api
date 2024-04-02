@@ -44,7 +44,7 @@ class DisposalSpec extends UnitSpec {
   val mtdJsonWithMultipleCodes: JsValue = Json.parse(
     """
       |{
-      |  "assetType": "other-property",
+      |  "assetType": "otherProperty",
       |  "assetDescription": "Property Sale",
       |  "acquisitionDate": "2021-01-01",
       |  "disposalDate": "2021-02-01",
@@ -102,7 +102,6 @@ class DisposalSpec extends UnitSpec {
       |  "disposalProceeds":1000.12,
       |  "allowableCosts":100.13,
       |  "gain":900.12,
-      |  "loss":
       |  "claimOrElectionCodes":[
       |    "PRR"
       |  ],

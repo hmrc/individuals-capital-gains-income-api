@@ -16,6 +16,7 @@
 
 package v1.models.response.retrieveOtherCgt
 
+import api.models.domain.AssetType.`other-property`
 import api.models.downstream.DownstreamAssetType.`otherProperty`
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
@@ -44,12 +45,31 @@ class DisposalSpec extends UnitSpec {
   val minimumValidResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "assetType": "otherProperty",
+      |   "assetType":"otherProperty",
       |   "assetDescription":"string",
       |   "acquisitionDate":"2021-05-07",
       |   "disposalDate":"2021-05-07",
       |   "disposalProceeds":59999999999.99,
       |   "allowableCosts":59999999999.99
+      |}
+     """.stripMargin
+  )
+
+  val validMtdResponseJson: JsValue = Json.parse(
+    """
+      |{
+      |   "assetType":"other-property",
+      |   "assetDescription":"string",
+      |   "acquisitionDate":"2021-05-07",
+      |   "disposalDate":"2021-05-07",
+      |   "disposalProceeds":59999999999.99,
+      |   "allowableCosts":59999999999.99,
+      |   "gain":59999999999.99,
+      |   "claimOrElectionCodes":[
+      |      "OTH"
+      |   ],
+      |   "gainAfterRelief":59999999999.99,
+      |   "rttTaxPaid":59999999999.99
       |}
      """.stripMargin
   )
@@ -86,6 +106,21 @@ class DisposalSpec extends UnitSpec {
     rttTaxPaid = None
   )
 
+  val responseDownstreamModel: Disposal = Disposal(
+    assetType = `other-property`,
+    assetDescription = "string",
+    acquisitionDate = "2021-05-07",
+    disposalDate = "2021-05-07",
+    disposalProceeds = 59999999999.99,
+    allowableCosts = 59999999999.99,
+    gain = Some(59999999999.99),
+    loss = None,
+    claimOrElectionCodes = Some(Seq("OTH")),
+    gainAfterRelief = Some(59999999999.99),
+    lossAfterRelief = None,
+    rttTaxPaid = Some(59999999999.99)
+  )
+
   "Disposal" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
@@ -107,7 +142,7 @@ class DisposalSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(responseDownstreamModel) shouldBe validMtdResponseJson
       }
     }
   }
