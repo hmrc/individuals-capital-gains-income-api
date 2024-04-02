@@ -24,14 +24,15 @@ class AssetTypeValidationSpec extends UnitSpec {
   "AssetTypeValidation" when {
     "validate" must {
       "return an empty list for a valid scheme plan type" in {
-        AssetTypeValidation.validate(assetType = "other-property") shouldBe NoValidationErrors
-        AssetTypeValidation.validate(assetType = "unlisted-shares") shouldBe NoValidationErrors
-        AssetTypeValidation.validate(assetType = "listed-shares") shouldBe NoValidationErrors
-        AssetTypeValidation.validate(assetType = "other-asset") shouldBe NoValidationErrors
+        AssetTypeValidation.validate(assetType = "other-property", path = "/path") shouldBe NoValidationErrors
+        AssetTypeValidation.validate(assetType = "unlisted-shares", path = "/path") shouldBe NoValidationErrors
+        AssetTypeValidation.validate(assetType = "listed-shares", path = "/path") shouldBe NoValidationErrors
+        AssetTypeValidation.validate(assetType = "other-asset", path = "/path") shouldBe NoValidationErrors
       }
 
       "return a AssetTypeFormatError for a invalid scheme plan type" in {
-        AssetTypeValidation.validate(assetType = "Not an asset type") shouldBe List(AssetTypeFormatError)
+        AssetTypeValidation.validate(assetType = "Not an asset type", path = "/path") shouldBe List(
+          AssetTypeFormatError.copy(paths = Some(Seq("/path"))))
       }
     }
   }

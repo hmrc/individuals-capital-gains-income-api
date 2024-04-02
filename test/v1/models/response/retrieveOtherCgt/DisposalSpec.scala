@@ -16,6 +16,7 @@
 
 package v1.models.response.retrieveOtherCgt
 
+import api.models.downstream.DownstreamAssetType.`otherProperty`
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
 
@@ -24,7 +25,7 @@ class DisposalSpec extends UnitSpec {
   val validResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "assetType":"other-property",
+      |   "assetType":"otherProperty",
       |   "assetDescription":"string",
       |   "acquisitionDate":"2021-05-07",
       |   "disposalDate":"2021-05-07",
@@ -43,7 +44,7 @@ class DisposalSpec extends UnitSpec {
   val minimumValidResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "assetType":"other-property",
+      |   "assetType": "otherProperty",
       |   "assetDescription":"string",
       |   "acquisitionDate":"2021-05-07",
       |   "disposalDate":"2021-05-07",
@@ -56,7 +57,7 @@ class DisposalSpec extends UnitSpec {
   val invalidJson: JsValue = JsObject.empty
 
   val responseModel: Disposal = Disposal(
-    assetType = "other-property",
+    assetType = `otherProperty`.toMtd,
     assetDescription = "string",
     acquisitionDate = "2021-05-07",
     disposalDate = "2021-05-07",
@@ -71,7 +72,7 @@ class DisposalSpec extends UnitSpec {
   )
 
   val minimumResponseModel: Disposal = Disposal(
-    assetType = "other-property",
+    assetType = `otherProperty`.toMtd,
     assetDescription = "string",
     acquisitionDate = "2021-05-07",
     disposalDate = "2021-05-07",

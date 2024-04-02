@@ -102,6 +102,7 @@ class DisposalSpec extends UnitSpec {
       |  "disposalProceeds":1000.12,
       |  "allowableCosts":100.13,
       |  "gain":900.12,
+      |  "loss":
       |  "claimOrElectionCodes":[
       |    "PRR"
       |  ],
@@ -132,6 +133,36 @@ class DisposalSpec extends UnitSpec {
       |""".stripMargin
   )
 
+  val desRequestBody: Disposal = Disposal(
+    AssetType.`other-property`.toDownstreamString,
+    "Property Sale",
+    "2021-01-01",
+    "2021-02-01",
+    1000.12,
+    100.13,
+    Some(900.12),
+    None,
+    Some(Seq(ClaimOrElectionCodes.PRR.toString)),
+    Some(10.12),
+    None,
+    Some(12.12)
+  )
+
+  val desRequestBodyWithMultipleCodes: Disposal = Disposal(
+    AssetType.`other-property`.toDownstreamString,
+    "Property Sale",
+    "2021-01-01",
+    "2021-02-01",
+    1000.12,
+    100.13,
+    Some(900.12),
+    None,
+    Some(Seq(ClaimOrElectionCodes.PRR.toString, ClaimOrElectionCodes.OTH.toString, ClaimOrElectionCodes.BAD.toString)),
+    Some(10.12),
+    None,
+    Some(12.12)
+  )
+
   val emptyJson: JsValue = JsObject.empty
 
   val invalidJson: JsValue = Json.parse(
@@ -145,13 +176,13 @@ class DisposalSpec extends UnitSpec {
   "Disposals" when {
     "read from a valid JSON" should {
       "produce the expected object" in {
-        mtdJson.as[Disposal] shouldBe mtdRequestBody
+        desJson.as[Disposal] shouldBe desRequestBody
       }
     }
 
     "read from a valid JSON with multiple codes" should {
       "produce the expected object" in {
-        mtdJsonWithMultipleCodes.as[Disposal] shouldBe mtdRequestBodyWithMultipleCodes
+        desJsonWithMultipleCodes.as[Disposal] shouldBe desRequestBodyWithMultipleCodes
       }
     }
 
@@ -163,7 +194,7 @@ class DisposalSpec extends UnitSpec {
 
     "written JSON" should {
       "produce the expected JsObject" in {
-        Json.toJson(mtdRequestBody) shouldBe mtdJson
+        Json.toJson(mtdRequestBody) shouldBe desJson
       }
     }
 
