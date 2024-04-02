@@ -22,7 +22,7 @@ import v1.models.request.createAmendOtherCgt.{CreateAmendOtherCgtRequestBody, Di
 object CreateAmendOtherCgtConnectorServiceFixture {
 
   val disposal: Disposal = Disposal(
-    AssetType.`other-property`.toString,
+    AssetType.`other-property`.toDownstreamString,
     "Property Sale",
     "2021-01-01",
     "2021-02-01",

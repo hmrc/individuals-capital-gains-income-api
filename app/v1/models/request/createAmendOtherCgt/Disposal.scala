@@ -15,8 +15,10 @@
  */
 
 package v1.models.request.createAmendOtherCgt
+import api.models.domain.AssetType
 
-import play.api.libs.json.{Json, OFormat}
+
+import play.api.libs.json.{Json, OWrites, Reads}
 
 case class Disposal(assetType: String,
                     assetDescription: String,
@@ -32,5 +34,25 @@ case class Disposal(assetType: String,
                     rttTaxPaid: Option[BigDecimal])
 
 object Disposal {
-  implicit val format: OFormat[Disposal] = Json.format[Disposal]
+
+  implicit val reads: Reads[Disposal] = Json.reads[Disposal]
+
+  implicit val writes: OWrites[Disposal] = (requestBody: Disposal) => {
+
+    val assetType = AssetType.parser(requestBody.assetType)
+    Json.obj(
+      "assetType" -> assetType.toDownstreamString,
+      "assetDescription" -> requestBody.assetDescription,
+      "acquisitionDate" -> requestBody.acquisitionDate,
+      "disposalDate" -> requestBody.disposalDate,
+      "disposalProceeds" -> requestBody.disposalProceeds,
+      "allowableCosts" -> requestBody.allowableCosts,
+      "gain" -> requestBody.gain,
+      "loss" -> requestBody.loss,
+      "claimOrElectionCodes" -> requestBody.claimOrElectionCodes,
+      "gainAfterRelief" -> requestBody.gainAfterRelief,
+      "lossAfterRelief" -> requestBody.lossAfterRelief,
+      "rttTaxPaid" -> requestBody.rttTaxPaid
+    )
+  }
 }
