@@ -315,7 +315,7 @@ class CreateAmendOtherCgtValidatorSpec extends UnitSpec with ValueFormatErrorMes
         |{
         |  "disposals":[
         |    {
-        |      "assetType":"beans".,
+        |      "assetType":"beans",
         |      "assetDescription":"Property Sale",
         |      "acquisitionDate":"2019-05-01",
         |      "disposalDate":"2019-06-01",
