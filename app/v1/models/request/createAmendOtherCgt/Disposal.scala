@@ -15,9 +15,10 @@
  */
 
 package v1.models.request.createAmendOtherCgt
-//import api.models.domain.AssetType
+
 import api.models.domain.AssetType
-import play.api.libs.json._
+import play.api.libs.functional.syntax.{toFunctionalBuilderOps, unlift}
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class Disposal(assetType: String,
                     assetDescription: String,
@@ -32,32 +33,23 @@ case class Disposal(assetType: String,
                     lossAfterRelief: Option[BigDecimal],
                     rttTaxPaid: Option[BigDecimal])
 
-/*
-implicit val format: OFormat[Disposal] = {
-  implicit val assetTypeWrites: Writes[AssetType] = implicitly[Writes[String]].contramap[AssetType](_.toDownstreamString)
-  Json.format[Disposal]
-}
- */
-
 object Disposal {
 
   implicit val reads: Reads[Disposal] = Json.reads[Disposal]
 
-    implicit val writes: OWrites[Disposal] = (requestBody: Disposal) => {
-      val assetType = AssetType.parser(requestBody.assetType)
-      Json.obj(
-        "assetType" -> assetType.toDownstreamString,
-        "assetDescription" -> requestBody.assetDescription,
-        "acquisitionDate" -> requestBody.acquisitionDate,
-        "disposalDate" -> requestBody.disposalDate,
-        "disposalProceeds" -> requestBody.disposalProceeds,
-        "allowableCosts" -> requestBody.allowableCosts,
-        "gain" -> Writes.optionWithNull[BigDecimal].writes(requestBody.gain),
-        "loss" -> Writes.optionWithNull[BigDecimal].writes(requestBody.loss),
-        "claimOrElectionCodes" -> Writes.optionWithNull[Seq[String]].writes(requestBody.claimOrElectionCodes),
-        "gainAfterRelief" -> Writes.optionWithNull[BigDecimal].writes(requestBody.gainAfterRelief),
-        "lossAfterRelief" -> Writes.optionWithNull[BigDecimal].writes(requestBody.lossAfterRelief),
-        "rttTaxPaid" -> Writes.optionWithNull[BigDecimal].writes(requestBody.rttTaxPaid)
-      )
-    }
-  }
+  implicit val disposalWrites: OWrites[Disposal] = (
+    (JsPath \ "assetType").write[String].contramap[String](assetType => AssetType.parser(assetType).toDownstreamString) and
+      (JsPath \ "assetDescription").write[String] and
+      (JsPath \ "acquisitionDate").write[String] and
+      (JsPath \ "disposalDate").write[String] and
+      (JsPath \ "disposalProceeds").write[BigDecimal] and
+      (JsPath \ "allowableCosts").write[BigDecimal] and
+      (JsPath \ "gain").writeNullable[BigDecimal] and
+      (JsPath \ "loss").writeNullable[BigDecimal] and
+      (JsPath \ "claimOrElectionCodes").writeNullable[Seq[String]] and
+      (JsPath \ "gainAfterRelief").writeNullable[BigDecimal] and
+      (JsPath \ "lossAfterRelief").writeNullable[BigDecimal] and
+      (JsPath \ "rttTaxPaid").writeNullable[BigDecimal]
+  )(unlift(Disposal.unapply))
+
+}
