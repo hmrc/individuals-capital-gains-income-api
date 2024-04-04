@@ -15,10 +15,9 @@
  */
 
 package v1.models.request.createAmendOtherCgt
+//import api.models.domain.AssetType
 import api.models.domain.AssetType
-
-
-import play.api.libs.json.{Json, OWrites, Reads}
+import play.api.libs.json._
 
 case class Disposal(assetType: String,
                     assetDescription: String,
@@ -33,26 +32,32 @@ case class Disposal(assetType: String,
                     lossAfterRelief: Option[BigDecimal],
                     rttTaxPaid: Option[BigDecimal])
 
+/*
+implicit val format: OFormat[Disposal] = {
+  implicit val assetTypeWrites: Writes[AssetType] = implicitly[Writes[String]].contramap[AssetType](_.toDownstreamString)
+  Json.format[Disposal]
+}
+ */
+
 object Disposal {
 
   implicit val reads: Reads[Disposal] = Json.reads[Disposal]
 
-  implicit val writes: OWrites[Disposal] = (requestBody: Disposal) => {
-
-    val assetType = AssetType.parser(requestBody.assetType)
-    Json.obj(
-      "assetType" -> assetType.toDownstreamString,
-      "assetDescription" -> requestBody.assetDescription,
-      "acquisitionDate" -> requestBody.acquisitionDate,
-      "disposalDate" -> requestBody.disposalDate,
-      "disposalProceeds" -> requestBody.disposalProceeds,
-      "allowableCosts" -> requestBody.allowableCosts,
-      "gain" -> requestBody.gain,
-      "loss" -> requestBody.loss,
-      "claimOrElectionCodes" -> requestBody.claimOrElectionCodes,
-      "gainAfterRelief" -> requestBody.gainAfterRelief,
-      "lossAfterRelief" -> requestBody.lossAfterRelief,
-      "rttTaxPaid" -> requestBody.rttTaxPaid
-    )
+    implicit val writes: OWrites[Disposal] = (requestBody: Disposal) => {
+      val assetType = AssetType.parser(requestBody.assetType)
+      Json.obj(
+        "assetType" -> assetType.toDownstreamString,
+        "assetDescription" -> requestBody.assetDescription,
+        "acquisitionDate" -> requestBody.acquisitionDate,
+        "disposalDate" -> requestBody.disposalDate,
+        "disposalProceeds" -> requestBody.disposalProceeds,
+        "allowableCosts" -> requestBody.allowableCosts,
+        "gain" -> Writes.optionWithNull[BigDecimal].writes(requestBody.gain),
+        "loss" -> Writes.optionWithNull[BigDecimal].writes(requestBody.loss),
+        "claimOrElectionCodes" -> Writes.optionWithNull[Seq[String]].writes(requestBody.claimOrElectionCodes),
+        "gainAfterRelief" -> Writes.optionWithNull[BigDecimal].writes(requestBody.gainAfterRelief),
+        "lossAfterRelief" -> Writes.optionWithNull[BigDecimal].writes(requestBody.lossAfterRelief),
+        "rttTaxPaid" -> Writes.optionWithNull[BigDecimal].writes(requestBody.rttTaxPaid)
+      )
+    }
   }
-}

@@ -304,13 +304,13 @@ class CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
 
     "written JSON" should {
       "produce the expected JsObject" in {
-        Json.toJson(mtdRequestBody) shouldBe mtdJson
+        Json.toJson(mtdRequestBody) shouldBe desJson
       }
     }
 
     "written JSON With Multiple Disposals" should {
       "produce the expected JsObject" in {
-        Json.toJson(mtdRequestBodyWithMultipleDisposals) shouldBe mtdJsonWithMultipleDisposals
+        Json.toJson(mtdRequestBodyWithMultipleDisposals) shouldBe desJsonWithMultipleDisposals
       }
     }
 
