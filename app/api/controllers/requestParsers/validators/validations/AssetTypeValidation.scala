@@ -22,5 +22,5 @@ import api.models.errors.{AssetTypeFormatError, MtdError}
 object AssetTypeValidation {
 
   def validate(assetType: String, path: String): List[MtdError] =
-    if (AssetType.parser.isDefinedAt(assetType)) NoValidationErrors else List(AssetTypeFormatError.copy(paths = Some(Seq(path))))
+    if (AssetType.parser.isDefinedAt(assetType)) NoValidationErrors else List(AssetTypeFormatError.copy(paths = Some(List(path))))
 }
