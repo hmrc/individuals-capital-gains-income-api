@@ -31,12 +31,11 @@ import v1.mocks.services.MockRetrieveOtherCgtService
 import v1.models.request.retrieveOtherCgt.RetrieveOtherCgtRequestData
 import v1.models.response.retrieveOtherCgt._
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
-
+import scala.concurrent.Future
 
 class RetrieveOtherCgtControllerSpec
-  extends ControllerBaseSpec
+    extends ControllerBaseSpec
     with ControllerTestRunner
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
@@ -46,7 +45,6 @@ class RetrieveOtherCgtControllerSpec
     with MockAppConfig {
 
   val taxYear: String = "2019-20"
-
 
   val requestData: RetrieveOtherCgtRequestData = RetrieveOtherCgtRequestData(
     nino = Nino(validNino),

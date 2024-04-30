@@ -24,8 +24,6 @@ import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.models.request.retrieveOtherCgt.RetrieveOtherCgtRequestData
 
-
-
 trait MockRetrieveOtherCgtValidatorFactory extends MockFactory {
 
   val mockRetrieveOtherCgtValidatorFactory: RetrieveOtherCgtValidatorFactory =
@@ -38,8 +36,7 @@ trait MockRetrieveOtherCgtValidatorFactory extends MockFactory {
 
   }
 
-  def willUseValidator(
-      use: Validator[RetrieveOtherCgtRequestData]): CallHandler[Validator[RetrieveOtherCgtRequestData]] = {
+  def willUseValidator(use: Validator[RetrieveOtherCgtRequestData]): CallHandler[Validator[RetrieveOtherCgtRequestData]] = {
     MockedRetrieveOtherCgtValidatorFactory
       .validator()
       .anyNumberOfTimes()

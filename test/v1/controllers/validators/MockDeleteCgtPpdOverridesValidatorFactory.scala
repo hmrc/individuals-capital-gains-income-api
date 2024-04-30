@@ -24,7 +24,6 @@ import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.models.request.deleteCgtPpdOverrides.DeleteCgtPpdOverridesRequestData
 
-
 trait MockDeleteCgtPpdOverridesValidatorFactory extends MockFactory {
 
   val mockDeleteCgtPpdOverridesValidatorFactory: DeleteCgtPpdOverridesValidatorFactory =
@@ -37,8 +36,7 @@ trait MockDeleteCgtPpdOverridesValidatorFactory extends MockFactory {
 
   }
 
-  def willUseValidator(
-      use: Validator[DeleteCgtPpdOverridesRequestData]): CallHandler[Validator[DeleteCgtPpdOverridesRequestData]] = {
+  def willUseValidator(use: Validator[DeleteCgtPpdOverridesRequestData]): CallHandler[Validator[DeleteCgtPpdOverridesRequestData]] = {
     MockedDeleteCgtPpdOverridesValidatorFactory
       .validator()
       .anyNumberOfTimes()

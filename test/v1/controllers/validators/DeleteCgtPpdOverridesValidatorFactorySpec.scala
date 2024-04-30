@@ -26,11 +26,11 @@ class DeleteCgtPpdOverridesValidatorFactorySpec extends UnitSpec with MockAppCon
 
   private implicit val correlationId: String = "1234"
 
-  private val validNino          = "AA123456A"
-  private val validTaxYear       = "2020-21"
+  private val validNino    = "AA123456A"
+  private val validTaxYear = "2020-21"
 
-  private val parsedNino          = Nino(validNino)
-  private val parsedTaxYear       = TaxYear.fromMtd(validTaxYear)
+  private val parsedNino    = Nino(validNino)
+  private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
   val validatorFactory = new DeleteCgtPpdOverridesValidatorFactory(mockAppConfig)
 
