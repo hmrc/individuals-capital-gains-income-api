@@ -20,7 +20,7 @@ import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.controllers.requestParsers.RetrieveOtherCgtRequestParser
-import v1.models.request.retrieveOtherCgt.{RetrieveOtherCgtRawData, RetrieveOtherCgtRequest}
+import v1.models.request.retrieveOtherCgt.{RetrieveOtherCgtRawData, RetrieveOtherCgtRequestData}
 
 trait MockRetrieveOtherCgtRequestParser extends MockFactory {
 
@@ -28,7 +28,7 @@ trait MockRetrieveOtherCgtRequestParser extends MockFactory {
 
   object MockRetrieveOtherCgtRequestParser {
 
-    def parse(data: RetrieveOtherCgtRawData): CallHandler[Either[ErrorWrapper, RetrieveOtherCgtRequest]] =
+    def parse(data: RetrieveOtherCgtRawData): CallHandler[Either[ErrorWrapper, RetrieveOtherCgtRequestData]] =
       (mockRetrieveOtherCgtRequestParser.parseRequest(_: RetrieveOtherCgtRawData)(_: String)).expects(data, *)
 
   }

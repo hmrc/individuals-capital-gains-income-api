@@ -19,15 +19,15 @@ package v1.controllers.requestParsers
 import api.controllers.requestParsers.RequestParser
 import api.models.domain.{Nino, TaxYear}
 import v1.controllers.requestParsers.validators.RetrieveOtherCgtValidator
-import v1.models.request.retrieveOtherCgt.{RetrieveOtherCgtRawData, RetrieveOtherCgtRequest}
+import v1.models.request.retrieveOtherCgt.{RetrieveOtherCgtRawData, RetrieveOtherCgtRequestData}
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
 class RetrieveOtherCgtRequestParser @Inject() (val validator: RetrieveOtherCgtValidator)
-    extends RequestParser[RetrieveOtherCgtRawData, RetrieveOtherCgtRequest] {
+    extends RequestParser[RetrieveOtherCgtRawData, RetrieveOtherCgtRequestData] {
 
-  override protected def requestFor(data: RetrieveOtherCgtRawData): RetrieveOtherCgtRequest =
-    RetrieveOtherCgtRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
+  override protected def requestFor(data: RetrieveOtherCgtRawData): RetrieveOtherCgtRequestData =
+    RetrieveOtherCgtRequestData(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
 
 }

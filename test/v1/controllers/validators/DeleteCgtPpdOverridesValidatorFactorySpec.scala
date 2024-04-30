@@ -18,29 +18,34 @@ package v1.controllers.validators
 
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
+import mocks.MockAppConfig
 import support.UnitSpec
-import v1.models.request.deleteCgtPpdOverrides.DeleteCgtPpdOverridesRequest
+import v1.models.request.deleteCgtPpdOverrides.DeleteCgtPpdOverridesRequestData
 
-class DeleteCgtPpdOverridesValidatorFactorySpec extends UnitSpec {
+class DeleteCgtPpdOverridesValidatorFactorySpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "1234"
 
   private val validNino          = "AA123456A"
-  private val validTaxYear       = "2017-18"
+  private val validTaxYear       = "2020-21"
 
   private val parsedNino          = Nino(validNino)
   private val parsedTaxYear       = TaxYear.fromMtd(validTaxYear)
 
-  val validatorFactory = new DeleteCgtPpdOverridesValidatorFactory
+  val validatorFactory = new DeleteCgtPpdOverridesValidatorFactory(mockAppConfig)
 
   private def validator(nino: String, taxYear: String) =
     validatorFactory.validator(nino, taxYear)
+
+  MockedAppConfig.minimumPermittedTaxYear
+    .returns(2021)
+    .anyNumberOfTimes()
 
   "validator" should {
     "return the parsed domain object" when {
       "a valid request is supplied" in {
         val result = validator(validNino, validTaxYear).validateAndWrapResult()
-        result shouldBe Right(DeleteCgtPpdOverridesRequest(parsedNino, parsedTaxYear))
+        result shouldBe Right(DeleteCgtPpdOverridesRequestData(parsedNino, parsedTaxYear))
       }
     }
 

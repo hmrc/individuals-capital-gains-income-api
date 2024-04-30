@@ -17,7 +17,7 @@
 package api.controllers
 
 import api.controllers.requestParsers.RequestParser
-import api.models.errors.{ErrorWrapper,RuleRequestCannotBeFulfilled, InternalError}
+import api.models.errors.{ErrorWrapper,RuleRequestCannotBeFulfilledError, InternalError}
 import api.models.outcomes.ResponseWrapper
 import api.models.request.RawData
 import cats.data.EitherT
@@ -115,7 +115,7 @@ object RequestHandlerOld {
             s"with correlationId : ${ctx.correlationId}")
 
         val result = if (simulateRequestCannotBeFulfilled) {
-          EitherT[Future, ErrorWrapper, Result](Future.successful(Left(ErrorWrapper(ctx.correlationId, RuleRequestCannotBeFulfilled))))
+          EitherT[Future, ErrorWrapper, Result](Future.successful(Left(ErrorWrapper(ctx.correlationId, RuleRequestCannotBeFulfilledError))))
         } else {
           for {
             parsedRequest   <- EitherT.fromEither[Future](parser.parseRequest(rawData))

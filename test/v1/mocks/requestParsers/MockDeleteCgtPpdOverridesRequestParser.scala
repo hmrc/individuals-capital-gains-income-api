@@ -20,7 +20,7 @@ import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.controllers.requestParsers.DeleteCgtPpdOverridesRequestParser
-import v1.models.request.deleteCgtPpdOverrides.{DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequest}
+import v1.models.request.deleteCgtPpdOverrides.{DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequestData}
 
 trait MockDeleteCgtPpdOverridesRequestParser extends MockFactory {
 
@@ -29,7 +29,7 @@ trait MockDeleteCgtPpdOverridesRequestParser extends MockFactory {
 
   object MockDeleteCgtPpdOverridesRequestParser {
 
-    def parse(data: DeleteCgtPpdOverridesRawData): CallHandler[Either[ErrorWrapper, DeleteCgtPpdOverridesRequest]] =
+    def parse(data: DeleteCgtPpdOverridesRawData): CallHandler[Either[ErrorWrapper, DeleteCgtPpdOverridesRequestData]] =
       (mockDeleteCgtPpdOverridesRequestParser.parseRequest(_: DeleteCgtPpdOverridesRawData)(_: String)).expects(data, *)
 
   }

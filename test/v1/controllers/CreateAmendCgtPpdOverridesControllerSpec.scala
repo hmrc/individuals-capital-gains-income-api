@@ -96,7 +96,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
   )
 
   val rawData: CreateAmendCgtPpdOverridesRawData = CreateAmendCgtPpdOverridesRawData(
-    nino = nino,
+    nino = validNino,
     taxYear = taxYear,
     body = AnyContentAsJson.apply(validRequestJson)
   )
@@ -120,7 +120,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
   //@formatter:on
 
   val requestData: CreateAmendCgtPpdOverridesRequest = CreateAmendCgtPpdOverridesRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),
     body = requestModel
   )
@@ -128,7 +128,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
   val auditData: JsValue = Json.parse(
     s"""
        |{
-       |  "nino":"$nino",
+       |  "nino":"$validNino",
        |  "taxYear": "$taxYear"
        |  }""".stripMargin)
 
@@ -142,7 +142,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
           .returns(Right(requestData))
 
         MockNrsProxyService
-          .submitAsync(nino, "itsa-cgt-disposal-ppd", validRequestJson)
+          .submitAsync(validNino, "itsa-cgt-disposal-ppd", validRequestJson)
           .returns(())
 
         MockCreateAmendCgtPpdOverridesService
@@ -168,7 +168,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
           .returns(Right(requestData))
 
         MockNrsProxyService
-          .submitAsync(nino, "itsa-cgt-disposal-ppd", validRequestJson)
+          .submitAsync(validNino, "itsa-cgt-disposal-ppd", validRequestJson)
           .returns(())
 
         MockCreateAmendCgtPpdOverridesService
@@ -193,7 +193,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    protected def callController(): Future[Result] = controller.createAmendCgtPpdOverrides(nino, taxYear)(fakePutRequest(validRequestJson))
+    protected def callController(): Future[Result] = controller.createAmendCgtPpdOverrides(validNino, taxYear)(fakePostRequest(validRequestJson))
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetailOld] =
       AuditEvent(
@@ -202,7 +202,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
         detail = GenericAuditDetailOld(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse

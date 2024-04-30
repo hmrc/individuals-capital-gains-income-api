@@ -20,7 +20,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.{BadRequestError, ErrorWrapper, NinoFormatError, TaxYearFormatError}
 import support.UnitSpec
 import v1.mocks.validators.MockRetrieveOtherCgtValidator
-import v1.models.request.retrieveOtherCgt.{RetrieveOtherCgtRawData, RetrieveOtherCgtRequest}
+import v1.models.request.retrieveOtherCgt.{RetrieveOtherCgtRawData, RetrieveOtherCgtRequestData}
 
 class RetrieveOtherCgtRequestParserSpec extends UnitSpec {
 
@@ -47,7 +47,7 @@ class RetrieveOtherCgtRequestParserSpec extends UnitSpec {
         MockRetrieveOtherCgtValidator.validate(rawData).returns(Nil)
 
         parser.parseRequest(rawData) shouldBe
-          Right(RetrieveOtherCgtRequest(Nino(nino), TaxYear.fromMtd(taxYear)))
+          Right(RetrieveOtherCgtRequestData(Nino(nino), TaxYear.fromMtd(taxYear)))
       }
     }
 

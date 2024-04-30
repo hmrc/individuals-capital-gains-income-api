@@ -22,24 +22,25 @@ import api.models.domain.TaxYear
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
-import v1.models.request.retrieveOtherCgt.RetrieveOtherCgtRequest
+import config.AppConfig
+import v1.models.request.retrieveOtherCgt.RetrieveOtherCgtRequestData
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 @Singleton
-class RetrieveOtherCgtValidatorFactory {
+class RetrieveOtherCgtValidatorFactory @Inject() (appConfig: AppConfig){
 
-  private val retrieveOtherCgtMinimumTaxYear = TaxYear.fromMtd("2017-18")
-  private val resolveTaxYear                 = ResolveTaxYearMinimum(retrieveOtherCgtMinimumTaxYear)
+  private lazy val minimumTaxYear = appConfig.minimumPermittedTaxYear
+  private lazy val resolveTaxYear = ResolveTaxYearMinimum(TaxYear.fromDownstreamInt(minimumTaxYear))
 
-  def validator(nino: String, taxYear: String): Validator[RetrieveOtherCgtRequest] =
-    new Validator[RetrieveOtherCgtRequest] {
+  def validator(nino: String, taxYear: String): Validator[RetrieveOtherCgtRequestData] =
+    new Validator[RetrieveOtherCgtRequestData] {
 
-      def validate: Validated[Seq[MtdError], RetrieveOtherCgtRequest] =
+      def validate: Validated[Seq[MtdError], RetrieveOtherCgtRequestData] =
         (
           ResolveNino(nino),
           resolveTaxYear(taxYear)
-        ).mapN(RetrieveOtherCgtRequest)
+        ).mapN(RetrieveOtherCgtRequestData)
 
     }
 

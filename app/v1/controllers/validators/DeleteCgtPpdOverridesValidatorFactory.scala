@@ -22,24 +22,25 @@ import api.models.domain.TaxYear
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
-import v1.models.request.deleteCgtPpdOverrides.DeleteCgtPpdOverridesRequest
+import config.AppConfig
+import v1.models.request.deleteCgtPpdOverrides.DeleteCgtPpdOverridesRequestData
 
-import javax.inject.Singleton
+import javax.inject.{Inject, Singleton}
 
 @Singleton
-class DeleteCgtPpdOverridesValidatorFactory {
+class DeleteCgtPpdOverridesValidatorFactory @Inject() (appConfig: AppConfig){
 
-  private val deleteCgtPpdOverridesMinimumTaxYear = TaxYear.fromMtd("2017-18")
-  private val resolveTaxYear                      = ResolveTaxYearMinimum(deleteCgtPpdOverridesMinimumTaxYear)
+  private lazy val minimumTaxYear = appConfig.minimumPermittedTaxYear
+  private lazy val resolveTaxYear = ResolveTaxYearMinimum(TaxYear.fromDownstreamInt(minimumTaxYear))
 
-  def validator(nino: String, taxYear: String): Validator[DeleteCgtPpdOverridesRequest] =
-    new Validator[DeleteCgtPpdOverridesRequest] {
+  def validator(nino: String, taxYear: String): Validator[DeleteCgtPpdOverridesRequestData] =
+    new Validator[DeleteCgtPpdOverridesRequestData] {
 
-      def validate: Validated[Seq[MtdError], DeleteCgtPpdOverridesRequest] =
+      def validate: Validated[Seq[MtdError], DeleteCgtPpdOverridesRequestData] =
         (
           ResolveNino(nino),
           resolveTaxYear(taxYear)
-        ).mapN(DeleteCgtPpdOverridesRequest)
+        ).mapN(DeleteCgtPpdOverridesRequestData)
 
     }
 

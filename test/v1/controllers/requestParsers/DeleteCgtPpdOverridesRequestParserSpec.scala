@@ -20,7 +20,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import support.UnitSpec
 import v1.mocks.validators.MockDeleteCgtPpdOverridesValidator
-import v1.models.request.deleteCgtPpdOverrides.{DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequest}
+import v1.models.request.deleteCgtPpdOverrides.{DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequestData}
 
 class DeleteCgtPpdOverridesRequestParserSpec extends UnitSpec {
 
@@ -47,7 +47,7 @@ class DeleteCgtPpdOverridesRequestParserSpec extends UnitSpec {
         MockDeleteCgtPpdOverridesValidator.validate(deleteCgtPpdOverridesRawData).returns(Nil)
 
         parser.parseRequest(deleteCgtPpdOverridesRawData) shouldBe
-          Right(DeleteCgtPpdOverridesRequest(Nino(nino), TaxYear.fromMtd(taxYear)))
+          Right(DeleteCgtPpdOverridesRequestData(Nino(nino), TaxYear.fromMtd(taxYear)))
       }
     }
 

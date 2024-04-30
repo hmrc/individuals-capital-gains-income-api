@@ -18,29 +18,34 @@ package v1.controllers.validators
 
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
+import mocks.MockAppConfig
 import support.UnitSpec
-import v1.models.request.retrieveOtherCgt.RetrieveOtherCgtRequest
+import v1.models.request.retrieveOtherCgt.RetrieveOtherCgtRequestData
 
-class RetrieveOtherCgtValidatorFactorySpec extends UnitSpec {
+class RetrieveOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
 
   private implicit val correlationId: String = "1234"
 
   private val validNino          = "AA123456A"
-  private val validTaxYear       = "2017-18"
+  private val validTaxYear       = "2020-21"
 
   private val parsedNino          = Nino(validNino)
   private val parsedTaxYear       = TaxYear.fromMtd(validTaxYear)
 
-  val validatorFactory = new RetrieveOtherCgtValidatorFactory
+  val validatorFactory = new RetrieveOtherCgtValidatorFactory(mockAppConfig)
 
   private def validator(nino: String, taxYear: String) =
     validatorFactory.validator(nino, taxYear)
+
+  MockedAppConfig.minimumPermittedTaxYear
+    .returns(2021)
+    .anyNumberOfTimes()
 
   "validator" should {
     "return the parsed domain object" when {
       "a valid request is supplied" in {
         val result = validator(validNino, validTaxYear).validateAndWrapResult()
-        result shouldBe Right(RetrieveOtherCgtRequest(parsedNino, parsedTaxYear))
+        result shouldBe Right(RetrieveOtherCgtRequestData(parsedNino, parsedTaxYear))
       }
     }
 

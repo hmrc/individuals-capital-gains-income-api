@@ -19,15 +19,15 @@ package v1.controllers.requestParsers
 import api.controllers.requestParsers.RequestParser
 import api.models.domain.{Nino, TaxYear}
 import v1.controllers.requestParsers.validators.DeleteCgtPpdOverridesValidator
-import v1.models.request.deleteCgtPpdOverrides.{DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequest}
+import v1.models.request.deleteCgtPpdOverrides.{DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequestData}
 
 import javax.inject.{Inject, Singleton}
 
 @Singleton
 class DeleteCgtPpdOverridesRequestParser @Inject() (val validator: DeleteCgtPpdOverridesValidator)
-    extends RequestParser[DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequest] {
+    extends RequestParser[DeleteCgtPpdOverridesRawData, DeleteCgtPpdOverridesRequestData] {
 
-  override protected def requestFor(data: DeleteCgtPpdOverridesRawData): DeleteCgtPpdOverridesRequest =
-    DeleteCgtPpdOverridesRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
+  override protected def requestFor(data: DeleteCgtPpdOverridesRawData): DeleteCgtPpdOverridesRequestData =
+    DeleteCgtPpdOverridesRequestData(Nino(data.nino), TaxYear.fromMtd(data.taxYear))
 
 }

@@ -47,12 +47,12 @@ class DeleteCgtNonPpdControllerSpec
   val taxYear: String = "2019-20"
 
   val rawData: DeleteCgtNonPpdRawData = DeleteCgtNonPpdRawData(
-    nino = nino,
+    nino = validNino,
     taxYear = taxYear
   )
 
   val requestData: DeleteCgtNonPpdRequest = DeleteCgtNonPpdRequest(
-    nino = Nino(nino),
+    nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
@@ -106,7 +106,7 @@ class DeleteCgtNonPpdControllerSpec
       idGenerator = mockIdGenerator
     )
 
-    protected def callController(): Future[Result] = controller.deleteCgtNonPpd(nino, taxYear)(fakeDeleteRequest)
+    protected def callController(): Future[Result] = controller.deleteCgtNonPpd(validNino, taxYear)(fakeDeleteRequest)
 
     def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetailOld] =
       AuditEvent(
@@ -115,7 +115,7 @@ class DeleteCgtNonPpdControllerSpec
         detail = GenericAuditDetailOld(
           userType = "Individual",
           agentReferenceNumber = None,
-          params = Map("nino" -> nino, "taxYear" -> taxYear),
+          params = Map("nino" -> validNino, "taxYear" -> taxYear),
           request = requestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse
