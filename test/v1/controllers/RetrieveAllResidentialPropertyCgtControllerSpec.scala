@@ -45,8 +45,6 @@ class RetrieveAllResidentialPropertyCgtControllerSpec
   val taxYear: String        = "2019-20"
   val source: Option[String] = Some("latest")
 
-
-
   val requestData: RetrieveAllResidentialPropertyCgtRequestData = RetrieveAllResidentialPropertyCgtRequestData(
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear),

@@ -48,7 +48,6 @@ class DeleteOtherCgtControllerSpec
 
 
   val requestData: DeleteOtherCgtRequestData = DeleteOtherCgtRequestData(
-
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
@@ -96,7 +95,6 @@ class DeleteOtherCgtControllerSpec
       cc = cc,
       idGenerator = mockIdGenerator
     )
-
     protected def callController(): Future[Result] = controller.deleteOtherCgt(validNino, taxYear)(fakeRequest)
 
     def event(auditResponse: AuditResponse, maybeRequestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =

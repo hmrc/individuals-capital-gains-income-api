@@ -47,7 +47,6 @@ class DeleteCgtNonPpdControllerSpec
   val taxYear: String = "2019-20"
 
   val requestData: DeleteCgtNonPpdRequestData = DeleteCgtNonPpdRequestData(
-
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
