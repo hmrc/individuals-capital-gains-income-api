@@ -18,7 +18,7 @@ package v1.controllers
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.MockIdGenerator
-import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetailOld}
+import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
@@ -26,9 +26,9 @@ import api.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLooku
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.mocks.requestParsers.MockDeleteCgtNonPpdRequestParser
+import v1.controllers.validators.MockDeleteCgtNonPpdValidatorFactory
 import v1.mocks.services.MockDeleteCgtNonPpdService
-import v1.models.request.deleteCgtNonPpd.{DeleteCgtNonPpdRawData, DeleteCgtNonPpdRequest}
+import v1.models.request.deleteCgtNonPpd.DeleteCgtNonPpdRequestData
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -40,18 +40,14 @@ class DeleteCgtNonPpdControllerSpec
     with MockMtdIdLookupService
     with MockDeleteCgtNonPpdService
     with MockAuditService
-    with MockDeleteCgtNonPpdRequestParser
+    with MockDeleteCgtNonPpdValidatorFactory
     with MockIdGenerator
     with MockAppConfig {
 
   val taxYear: String = "2019-20"
 
-  val rawData: DeleteCgtNonPpdRawData = DeleteCgtNonPpdRawData(
-    nino = validNino,
-    taxYear = taxYear
-  )
+  val requestData: DeleteCgtNonPpdRequestData = DeleteCgtNonPpdRequestData(
 
-  val requestData: DeleteCgtNonPpdRequest = DeleteCgtNonPpdRequest(
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
@@ -59,9 +55,7 @@ class DeleteCgtNonPpdControllerSpec
   "DeleteCgtNonPpdController" should {
     "return a successful response with status 204 (No Content)" when {
       "a valid request is supplied" in new Test {
-        MockDeleteCgtNonPpdRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteCgtNonPpdService
           .deleteCgtNonPpdService(requestData)
@@ -73,17 +67,13 @@ class DeleteCgtNonPpdControllerSpec
 
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
-        MockDeleteCgtNonPpdRequestParser
-          .parse(rawData)
-          .returns(Left(ErrorWrapper(correlationId, NinoFormatError)))
+        willUseValidator(returning(NinoFormatError))
 
         runErrorTestWithAudit(NinoFormatError)
       }
 
       "service returns an error" in new Test {
-        MockDeleteCgtNonPpdRequestParser
-          .parse(rawData)
-          .returns(Right(requestData))
+        willUseValidator(returningSuccess(requestData))
 
         MockDeleteCgtNonPpdService
           .deleteCgtNonPpdService(requestData)
@@ -94,31 +84,33 @@ class DeleteCgtNonPpdControllerSpec
     }
   }
 
-  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetailOld] {
+  trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
     val controller = new DeleteCgtNonPpdController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
-      parser = mockDeleteCgtNonPpdRequestParser,
+      validatorFactory = mockDeleteCgtNonPpdValidatorFactory,
       service = mockDeleteCgtNonPpdService,
       auditService = mockAuditService,
       cc = cc,
       idGenerator = mockIdGenerator
     )
 
-    protected def callController(): Future[Result] = controller.deleteCgtNonPpd(validNino, taxYear)(fakeDeleteRequest)
+    
+    protected def callController(): Future[Result] = controller.deleteCgtNonPpd(validNino, taxYear)(fakeRequest)
 
-    def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetailOld] =
+    def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetail] =
       AuditEvent(
         auditType = "DeleteCgtNonPpd",
         transactionName = "Delete-Cgt-Non-Ppd",
-        detail = GenericAuditDetailOld(
+        detail = GenericAuditDetail(
           userType = "Individual",
           agentReferenceNumber = None,
+          versionNumber = "1.0",
           params = Map("nino" -> validNino, "taxYear" -> taxYear),
-          request = requestBody,
+          requestBody = requestBody,
           `X-CorrelationId` = correlationId,
-          response = auditResponse
+          auditResponse = auditResponse
         )
       )
 

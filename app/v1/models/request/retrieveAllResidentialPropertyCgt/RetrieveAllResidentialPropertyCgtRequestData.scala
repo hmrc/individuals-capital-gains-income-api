@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package v1.models.request.deleteCgtNonPpd
+package v1.models.request.retrieveAllResidentialPropertyCgt
 
-import api.models.request.RawData
+import api.models.domain.{MtdSourceEnum, Nino, TaxYear}
 
-case class DeleteCgtNonPpdRawData(nino: String, taxYear: String) extends RawData
+case class RetrieveAllResidentialPropertyCgtRequestData(nino: Nino, taxYear: TaxYear, source: MtdSourceEnum)

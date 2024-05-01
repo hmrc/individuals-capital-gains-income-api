@@ -195,7 +195,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
 
     protected def callController(): Future[Result] = controller.createAmendCgtPpdOverrides(validNino, taxYear)(fakePostRequest(validRequestJson))
 
-    def event(auditResponse: AuditResponse, requestBody: Option[JsValue]): AuditEvent[GenericAuditDetailOld] =
+    def event(auditResponse: AuditResponse, maybeRequestBody: Option[JsValue]): AuditEvent[GenericAuditDetailOld] =
       AuditEvent(
         auditType = "CreateAmendCgtPpdOverrides",
         transactionName = "Create-Amend-Cgt-Ppd-Overrides",
@@ -203,7 +203,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
           userType = "Individual",
           agentReferenceNumber = None,
           params = Map("nino" -> validNino, "taxYear" -> taxYear),
-          request = requestBody,
+          request = maybeRequestBody,
           `X-CorrelationId` = correlationId,
           response = auditResponse
         )
