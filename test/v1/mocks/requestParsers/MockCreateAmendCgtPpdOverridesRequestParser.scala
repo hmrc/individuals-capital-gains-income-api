@@ -20,7 +20,7 @@ import api.models.errors.ErrorWrapper
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
 import v1.controllers.requestParsers.CreateAmendCgtPpdOverridesRequestParser
-import v1.models.request.createAmendCgtPpdOverrides.{CreateAmendCgtPpdOverridesRawData, CreateAmendCgtPpdOverridesRequest}
+import v1.models.request.createAmendCgtPpdOverrides.{CreateAmendCgtPpdOverridesRawData, CreateAmendCgtPpdOverridesRequestData}
 
 trait MockCreateAmendCgtPpdOverridesRequestParser extends MockFactory {
 
@@ -28,7 +28,7 @@ trait MockCreateAmendCgtPpdOverridesRequestParser extends MockFactory {
 
   object MockCreateAmendCgtPpdOverridesRequestParser {
 
-    def parse(data: CreateAmendCgtPpdOverridesRawData): CallHandler[Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequest]] = {
+    def parse(data: CreateAmendCgtPpdOverridesRawData): CallHandler[Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequestData]] = {
       (mockCreateAmendCgtPpdOverridesRequestParser.parseRequest(_: CreateAmendCgtPpdOverridesRawData)(_: String)).expects(data, *)
     }
 

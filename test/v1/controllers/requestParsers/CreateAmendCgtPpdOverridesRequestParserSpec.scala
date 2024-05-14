@@ -153,7 +153,7 @@ class CreateAmendCgtPpdOverridesRequestParserSpec extends UnitSpec {
         MockCreateAmendCgtPpdOverridesValidator.validate(createAmendCgtPpdOverridesRawData).returns(Nil)
 
         parser.parseRequest(createAmendCgtPpdOverridesRawData) shouldBe
-          Right(CreateAmendCgtPpdOverridesRequest(Nino(nino), TaxYear.fromMtd(taxYear), requestBody))
+          Right(CreateAmendCgtPpdOverridesRequestData(Nino(nino), TaxYear.fromMtd(taxYear), requestBody))
       }
 
     }

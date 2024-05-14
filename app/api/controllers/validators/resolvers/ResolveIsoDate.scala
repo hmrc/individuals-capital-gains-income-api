@@ -18,7 +18,7 @@ package api.controllers.validators.resolvers
 
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
-import api.models.errors.MtdError
+import api.models.errors.{MtdError, RuleTaxYearRangeInvalidError}
 
 import java.time.LocalDate
 import java.time.format.DateTimeParseException
@@ -42,6 +42,8 @@ case class ResolveIsoDate(error: MtdError) extends ResolverSupport {
 
 object ResolveIsoDate extends ResolverSupport {
 
+  private def isDateRangeValid(date: LocalDate): Boolean            = date.getYear >= 1900 && date.getYear <= 2100
+
   def apply(value: String, error: MtdError): Validated[Seq[MtdError], LocalDate] =
     ResolveIsoDate(error).resolver(value)
 
@@ -49,5 +51,19 @@ object ResolveIsoDate extends ResolverSupport {
     val resolver = ResolveIsoDate(error).resolver.resolveOptionally
     resolver(value)
   }
+  def apply(value: String, error: MtdError, isDateRangeCheck: Boolean): Validated[Seq[MtdError], Option[LocalDate]] = {
+    val resolver = ResolveIsoDate(error).resolver
+    resolver(value).andThen { dateOption =>
+      if (isDateRangeCheck) {
+        dateOption match {
+          case (date) if isDateRangeValid(date) => Valid(dateOption)
+          case _ => Invalid(List(RuleTaxYearRangeInvalidError))
+        }
+      } else {
+        Valid(())
+      }
+    }
+  }
+
 
 }

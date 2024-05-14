@@ -25,9 +25,9 @@ import javax.inject.{Inject, Singleton}
 
 @Singleton
 class CreateAmendCgtPpdOverridesRequestParser @Inject() (val validator: CreateAmendCgtPpdOverridesValidator)
-    extends RequestParser[CreateAmendCgtPpdOverridesRawData, CreateAmendCgtPpdOverridesRequest] {
+    extends RequestParser[CreateAmendCgtPpdOverridesRawData, CreateAmendCgtPpdOverridesRequestData] {
 
-  override protected def requestFor(data: CreateAmendCgtPpdOverridesRawData): CreateAmendCgtPpdOverridesRequest =
-    CreateAmendCgtPpdOverridesRequest(Nino(data.nino), TaxYear.fromMtd(data.taxYear), data.body.json.as[CreateAmendCgtPpdOverridesRequestBody])
+  override protected def requestFor(data: CreateAmendCgtPpdOverridesRawData): CreateAmendCgtPpdOverridesRequestData =
+    CreateAmendCgtPpdOverridesRequestData(Nino(data.nino), TaxYear.fromMtd(data.taxYear), data.body.json.as[CreateAmendCgtPpdOverridesRequestBody])
 
 }
