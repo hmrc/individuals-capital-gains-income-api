@@ -17,7 +17,7 @@
 package v1.controllers.validators
 
 import api.controllers.validators.RulesValidator
-import api.controllers.validators.resolvers.{ResolveDateRange, ResolveIsoDate, ResolveParsedNumber}
+import api.controllers.validators.resolvers.{ResolveIsoDate, ResolveParsedNumber}
 import api.models.errors._
 import cats.data.Validated
 import cats.data.Validated._
@@ -27,9 +27,6 @@ import v1.models.request.createAmendCgtPpdOverrides._
 object CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[CreateAmendCgtPpdOverridesRequestData] {
 
   private val resolveNonNegativeParsedNumber = ResolveParsedNumber()
-  private val minYear: Int = 1900
-  private val maxYear: Int = 2100
-  private val resolveDateRange = ResolveDateRange(RuleDateRangeInvalidError).withYearsLimitedTo(minYear, maxYear)
   private val ppdSubmissionIdRegex           = "^[A-Za-z0-9]{12}$"
 
   def validateBusinessRules(parsed: CreateAmendCgtPpdOverridesRequestData): Validated[Seq[MtdError], CreateAmendCgtPpdOverridesRequestData] = {
@@ -161,12 +158,25 @@ object CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[CreateAme
     }
 
     val validatedCompletionDate = {
-      val resolveCompletionDate = ResolveIsoDate(DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/completionDate"))
-      resolveCompletionDate(completionDate)
+      ResolveIsoDate(
+        value = completionDate,
+        error = DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/completionDate"),
+        isDateRangeChecked = true,
+        mtdDateRangeError = RuleDateRangeInvalidError.withPath(s"/singlePropertyDisposals/$arrayIndex/completionDate")
+      )
     }
+
     val validatedAcquisitionDate = {
-      val resolveAquisitionDate = ResolveIsoDate(DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/acquisitionDate"))
-      resolveAquisitionDate(acquisitionDate)
+      acquisitionDate match {
+        case Some(value) =>
+          ResolveIsoDate(
+            value = value,
+            error = DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/acquisitionDate"),
+            isDateRangeChecked = true,
+            mtdDateRangeError = RuleDateRangeInvalidError.withPath(s"/singlePropertyDisposals/$arrayIndex/acquisitionDate")
+          )
+        case None => valid
+      }
     }
 
     combine(validatedNonNegatives, validatedOptionalNonNegatives, validatedCompletionDate, validatedAcquisitionDate)
