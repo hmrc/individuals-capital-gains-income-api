@@ -17,7 +17,7 @@
 package v1.controllers
 
 import api.controllers._
-import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetailOld}
+import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
 import api.models.auth.UserDetails
 import api.models.errors._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService, NrsProxyService}
@@ -27,8 +27,7 @@ import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.IdGenerator
-import v1.controllers.requestParsers.CreateAmendOtherCgtRequestParser
-import v1.models.request.createAmendOtherCgt.CreateAmendOtherCgtRawData
+import v1.controllers.validators.MockCreateAmendOtherCgtValidatorFactory
 import v1.models.response.createAmendOtherCgt.CreateAmendOtherCgtAuditData
 import v1.services._
 
@@ -38,7 +37,7 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthService,
                                                val lookupService: MtdIdLookupService,
-                                               parser: CreateAmendOtherCgtRequestParser,
+                                               validatorFactory: MockCreateAmendOtherCgtValidatorFactory,
                                                service: CreateAmendOtherCgtService,
                                                nrsProxyService: NrsProxyService,
                                                auditService: AuditService,
@@ -56,14 +55,13 @@ class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthSe
     authorisedAction(nino).async(parse.json) { implicit request =>
       implicit val ctx: RequestContext = RequestContext.from(idGenerator, endpointLogContext)
 
-      val rawData: CreateAmendOtherCgtRawData = CreateAmendOtherCgtRawData(
+      val validator = validatorFactory.validator(
         nino = nino,
-        taxYear = taxYear,
-        body = AnyContentAsJson(request.body)
+        taxYear = taxYear
       )
 
-      val requestHandler = RequestHandlerOld
-        .withParser(parser)
+      val requestHandler = RequestHandler
+        .withValidator(validator)
         .withService { req =>
           nrsProxyService.submitAsync(nino, "itsa-cgt-disposal-other", request.body)
           service.createAmend(req)
@@ -71,11 +69,11 @@ class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthSe
         .withAuditing(auditHandler(nino, taxYear, request))
         .withNoContentResult(OK)
 
-      requestHandler.handleRequest(rawData)
+      requestHandler.handleRequest()
     }
 
-  private def auditHandler(nino: String, taxYear: String, request: UserRequest[JsValue]): AuditHandlerOld = {
-    new AuditHandlerOld() {
+  private def auditHandler(nino: String, taxYear: String, request: UserRequest[JsValue]): AuditHandler = {
+    new AuditHandler() {
       override def performAudit(userDetails: UserDetails, httpStatus: Int, response: Either[ErrorWrapper, Option[JsValue]])(implicit
           ctx: RequestContext,
           ec: ExecutionContext): Unit = {
@@ -83,9 +81,10 @@ class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthSe
         response match {
           case Left(err: ErrorWrapper) =>
             auditSubmission(
-              GenericAuditDetailOld(
-                request.userDetails,
-                Map("nino" -> nino, "taxYear" -> taxYear),
+              GenericAuditDetail(
+                userDetails = request.userDetails,
+                apiVersion = "1.0",
+                params = Map("nino" -> nino, "taxYear" -> taxYear),
                 Some(request.body),
                 ctx.correlationId,
                 AuditResponse(httpStatus = httpStatus, response = Left(err.auditErrors))
@@ -93,9 +92,10 @@ class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthSe
 
           case Right(_: Option[JsValue]) =>
             auditSubmission(
-              GenericAuditDetailOld(
-                request.userDetails,
-                Map("nino" -> nino, "taxYear" -> taxYear),
+              GenericAuditDetail(
+                userDetails = request.userDetails,
+                apiVersion = "1.0",
+                params = Map("nino" -> nino, "taxYear" -> taxYear),
                 Some(request.body),
                 ctx.correlationId,
                 AuditResponse(OK, Right(Some(Json.toJson(CreateAmendOtherCgtAuditData(nino, taxYear)))))
@@ -105,7 +105,7 @@ class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthSe
     }
   }
 
-  private def auditSubmission(details: GenericAuditDetailOld)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[AuditResult] = {
+  private def auditSubmission(details: GenericAuditDetail)(implicit hc: HeaderCarrier, ec: ExecutionContext): Future[AuditResult] = {
     val event = AuditEvent("CreateAmendOtherCgtDisposalsAndGains", "Create-Amend-Other-Cgt-Disposals-And-Gains", details)
     auditService.auditEvent(event)
   }
