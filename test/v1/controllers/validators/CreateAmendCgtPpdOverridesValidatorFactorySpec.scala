@@ -582,13 +582,13 @@ class CreateAmendCgtPpdOverridesValidatorFactorySpec
       }
     }
 
-      "a valid request contains only multiple disposals is supplied" in  {
+      "a valid request containing only multiple disposals is supplied" in  {
         val result: Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequestData] =
           validator(validNino, validTaxYear, validOnlyMultiplePropertyDisposalsRequestJson).validateAndWrapResult()
         result shouldBe Right(CreateAmendCgtPpdOverridesRequestData(parsedNino, parsedTaxYear,parsedValidMultipleOnlyBody))
       }
 
-      "a valid request contains only single disposals is supplied" in  {
+      "a valid request containing only single disposals is supplied" in  {
         val result: Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequestData] =
           validator(validNino, validTaxYear, validOnlySinglePropertyDisposalsRequestJson).validateAndWrapResult()
         result shouldBe Right(CreateAmendCgtPpdOverridesRequestData(parsedNino, parsedTaxYear,parsedValidSingleOnlyBody))
