@@ -17,12 +17,26 @@
 package v1.controllers.validators
 
 import api.controllers.validators.RulesValidator
-import api.controllers.validators.resolvers.{ResolveAssetDescription, ResolveAssetType, ResolveIsoDate, ResolveParsedNumber, ResolveStringPattern}
-import api.models.errors.{AssetDescriptionFormatError, DateFormatError, MtdError}
+import api.controllers.validators.resolvers.{
+  ResolveAssetDescription,
+  ResolveAssetType,
+  ResolveClaimOrElectionCodes,
+  ResolveIsoDate,
+  ResolveParsedNumber
+}
+import api.models.errors.{
+  AssetDescriptionFormatError,
+  AssetTypeFormatError,
+  ClaimOrElectionCodesFormatError,
+  DateFormatError,
+  MtdError,
+  RuleGainAfterReliefLossAfterReliefError,
+  RuleGainLossError
+}
 import cats.data.Validated
-import cats.data.Validated.Invalid
+import cats.data.Validated.{Invalid, Valid}
 import cats.implicits._
-import v1.models.request.createAmendOtherCgt.{CreateAmendOtherCgtRequestData, Disposal}
+import v1.models.request.createAmendOtherCgt.{CreateAmendOtherCgtRequestBody, CreateAmendOtherCgtRequestData, Disposal}
 
 object CreateAmendeOtherCgtRulesValidator extends RulesValidator[CreateAmendOtherCgtRequestData] {
 
@@ -31,13 +45,19 @@ object CreateAmendeOtherCgtRulesValidator extends RulesValidator[CreateAmendOthe
 
   def validateBusinessRules(parsed: CreateAmendOtherCgtRequestData): Validated[Seq[MtdError], CreateAmendOtherCgtRequestData] = {
 
-    import parsed.body._
+    import parsed._
 
     combine(
+      validateDisposalSequence(body)
+    ).onSuccess(parsed)
+  }
+
+  private def validateDisposalSequence(requestBody: CreateAmendOtherCgtRequestBody): Validated[Seq[MtdError], Unit] = {
+    requestBody.disposals.fold[Validated[Seq[MtdError], Unit]](Valid(())) { disposals =>
       disposals.zipWithIndex.traverse_ { case (disposal, index) =>
         validateDisposal(disposal, index)
       }
-    ).onSuccess(parsed)
+    }
   }
 
   private def validateDisposal(disposal: Disposal, index: Int): Validated[Seq[MtdError], Unit] = {
@@ -68,20 +88,50 @@ object CreateAmendeOtherCgtRulesValidator extends RulesValidator[CreateAmendOthe
       resolveDate(value)
     }
 
-    val validatedAssetDescription = assetDescription match {
+    val validatedAssetDescription: Validated[Seq[MtdError], String] = assetDescription match {
       case value: String =>
-        val resolveAssetDescription = ResolveAssetDescription(regex, AssetDescriptionFormatError.withPath(s"/disposals/$index/assetDescription"))
-        resolveAssetDescription(value)
-      case _ => Invalid
+        ResolveAssetDescription(value, regex, AssetDescriptionFormatError.withPath(s"/disposals/$index/assetDescription"))
+      case _ => Invalid(List(AssetDescriptionFormatError.withPath(s"/disposals/$index/assetDescription")))
     }
 
     val validatedAssetType = assetType match {
       case value: String =>
-        ResolveAssetType(value, AssetDescriptionFormatError.withPath(s"/disposals/$index/assetType"))
-      case _ => Invalid
+        ResolveAssetType(value, AssetTypeFormatError.withPath(s"/disposals/$index/assetType"))
+      case _ => Invalid(List(AssetDescriptionFormatError.withPath(s"/disposals/$index/assetDescription")))
     }
 
-    combine(validatedMandatoryDecimalNumbers, validatedOptionalDecimalNumbers, validatedDates, validatedAssetDescription, validatedAssetType)
+    val validatedClaimOrElectionCodes = claimOrElectionCodes match {
+      case Some(values: Seq[String]) =>
+        combine(
+          values.zipWithIndex.traverse_ { case (value, index) =>
+            ResolveClaimOrElectionCodes(value, ClaimOrElectionCodesFormatError.withPath(s"/disposals/$index/claimOrElectionCodes"))
+          }
+        )
+      case None => valid
+    }
+
+    val validatedLossOrGains = if (disposal.gainAndLossBothSupplied) {
+      Invalid(List(RuleGainLossError))
+    } else {
+      valid
+    }
+
+    val validatedLossAfterReliefOrGainAfterRelief = if (disposal.gainAfterReliefAndLossAfterReliefAreBothSupplied) {
+      Invalid(List(RuleGainAfterReliefLossAfterReliefError))
+    } else {
+      valid
+    }
+
+    combine(
+      validatedMandatoryDecimalNumbers,
+      validatedOptionalDecimalNumbers,
+      validatedDates,
+      validatedLossOrGains,
+      validatedLossAfterReliefOrGainAfterRelief,
+      validatedAssetDescription,
+      validatedAssetType,
+      validatedClaimOrElectionCodes
+    )
   }
 
 }

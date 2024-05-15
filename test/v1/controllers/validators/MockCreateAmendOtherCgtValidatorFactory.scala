@@ -22,6 +22,7 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import play.api.libs.json.JsValue
 import v1.models.request.createAmendOtherCgt.CreateAmendOtherCgtRequestData
 
 trait MockCreateAmendOtherCgtValidatorFactory extends MockFactory {
@@ -32,7 +33,7 @@ trait MockCreateAmendOtherCgtValidatorFactory extends MockFactory {
   object MockedCreateAmendCgtPpdOverridesValidatorFactory {
 
     def validator(): CallHandler[Validator[CreateAmendOtherCgtRequestData]] =
-      (mockCreateAmendOtherCgtValidatorFactory.validator(_: String, _: String)).expects(*, *)
+      (mockCreateAmendOtherCgtValidatorFactory.validator(_: String, _: String, _: JsValue)).expects(*, *, *)
 
   }
 

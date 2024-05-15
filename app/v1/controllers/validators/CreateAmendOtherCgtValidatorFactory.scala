@@ -24,6 +24,7 @@ import cats.data.Validated
 import cats.implicits._
 import config.AppConfig
 import play.api.libs.json.JsValue
+import v1.controllers.validators.CreateAmendeOtherCgtRulesValidator.validateBusinessRules
 import v1.models.request.createAmendOtherCgt.{CreateAmendOtherCgtRequestBody, CreateAmendOtherCgtRequestData}
 
 import javax.inject.{Inject, Singleton}
@@ -43,7 +44,7 @@ class CreateAmendOtherCgtValidatorFactory @Inject() (appConfig: AppConfig) {
           ResolveNino(nino),
           resolveTaxYear(taxYear),
           resolveJson(body)
-        ).mapN(CreateAmendOtherCgtRequestData)
+        ).mapN(CreateAmendOtherCgtRequestData) andThen validateBusinessRules
 
     }
 

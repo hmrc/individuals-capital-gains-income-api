@@ -23,11 +23,11 @@ import api.models.errors._
 import api.services.{AuditService, EnrolmentsAuthService, MtdIdLookupService, NrsProxyService}
 import config.AppConfig
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{Action, AnyContentAsJson, ControllerComponents}
+import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.IdGenerator
-import v1.controllers.validators.MockCreateAmendOtherCgtValidatorFactory
+import v1.controllers.validators.CreateAmendOtherCgtValidatorFactory
 import v1.models.response.createAmendOtherCgt.CreateAmendOtherCgtAuditData
 import v1.services._
 
@@ -37,7 +37,7 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthService,
                                                val lookupService: MtdIdLookupService,
-                                               validatorFactory: MockCreateAmendOtherCgtValidatorFactory,
+                                               validatorFactory: CreateAmendOtherCgtValidatorFactory,
                                                service: CreateAmendOtherCgtService,
                                                nrsProxyService: NrsProxyService,
                                                auditService: AuditService,
@@ -57,7 +57,8 @@ class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthSe
 
       val validator = validatorFactory.validator(
         nino = nino,
-        taxYear = taxYear
+        taxYear = taxYear,
+        body = request.body
       )
 
       val requestHandler = RequestHandler

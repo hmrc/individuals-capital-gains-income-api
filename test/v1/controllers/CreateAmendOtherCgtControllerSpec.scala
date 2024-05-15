@@ -25,7 +25,7 @@ import api.models.outcomes.ResponseWrapper
 import api.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService, MockNrsProxyService}
 import mocks.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{AnyContentAsJson, Result}
+import play.api.mvc.Result
 import v1.controllers.validators.MockCreateAmendOtherCgtValidatorFactory
 import v1.mocks.services._
 import v1.models.request.createAmendOtherCgt._

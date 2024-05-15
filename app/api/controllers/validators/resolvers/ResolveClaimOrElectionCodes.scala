@@ -19,7 +19,8 @@ package api.controllers.validators.resolvers
 import api.models.errors.MtdError
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
-case class ResolveAssetType(error: MtdError) extends ResolverSupport {
+
+case class ResolveClaimOrElectionCodes(error: MtdError) extends ResolverSupport {
 
   val resolver: Resolver[String, String] = value =>
     if (isValid(value))
@@ -29,19 +30,27 @@ case class ResolveAssetType(error: MtdError) extends ResolverSupport {
 
   def apply(value: String): Validated[Seq[MtdError], String] = resolver(value)
 
-  def isValid(assetType: String): Boolean = assetType match {
-    case "other-property" => true
-    case "unlisted-shares" => true
-    case "listed-shares" => true
-    case "other-asset" => true
-    case _ => false
+  def isValid(code: String): Boolean = code match {
+    case "PRR" => true
+    case "LET" => true
+    case "GHO" => true
+    case "ROR" => true
+    case "PRO" => true
+    case "ESH" => true
+    case "NVC" => true
+    case "SIR" => true
+    case "OTH" => true
+    case "BAD" => true
+    case "INV" => true
+    case _     => false
   }
+
 }
 
-object ResolveAssetType {
+object ResolveClaimOrElectionCodes {
 
   def apply(value: String, error: MtdError): Validated[Seq[MtdError], String] = {
-    val resolver = ResolveAssetType(error)
+    val resolver = ResolveClaimOrElectionCodes(error)
     resolver(value)
   }
 
