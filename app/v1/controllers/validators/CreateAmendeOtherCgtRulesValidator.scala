@@ -103,21 +103,21 @@ object CreateAmendeOtherCgtRulesValidator extends RulesValidator[CreateAmendOthe
     val validatedClaimOrElectionCodes = claimOrElectionCodes match {
       case Some(values: Seq[String]) =>
         combine(
-          values.zipWithIndex.traverse_ { case (value, index) =>
-            ResolveClaimOrElectionCodes(value, ClaimOrElectionCodesFormatError.withPath(s"/disposals/$index/claimOrElectionCodes"))
+          values.zipWithIndex.traverse_ { case (value, subIndex) =>
+            ResolveClaimOrElectionCodes(value, ClaimOrElectionCodesFormatError.withPath(s"/disposals/$index/claimOrElectionCodes/$subIndex"))
           }
         )
       case None => valid
     }
 
     val validatedLossOrGains = if (disposal.gainAndLossBothSupplied) {
-      Invalid(List(RuleGainLossError))
+      Invalid(List(RuleGainLossError.copy(paths = Some(Seq(s"/disposals/$index")))))
     } else {
       valid
     }
 
     val validatedLossAfterReliefOrGainAfterRelief = if (disposal.gainAfterReliefAndLossAfterReliefAreBothSupplied) {
-      Invalid(List(RuleGainAfterReliefLossAfterReliefError))
+      Invalid(List(RuleGainAfterReliefLossAfterReliefError.copy(paths = Some(Seq(s"/disposals/$index")))))
     } else {
       valid
     }
