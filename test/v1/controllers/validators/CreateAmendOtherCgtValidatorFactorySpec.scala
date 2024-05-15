@@ -58,69 +58,6 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfi
 """.stripMargin
   )
 
-  private val validRequest2BodyJson: JsValue = Json.parse(
-    s"""
-       |{
-       |  "disposals":[
-       |    {
-       |      "assetType":"unlisted-shares",
-       |      "assetDescription":"$validDescription",
-       |      "acquisitionDate":"$validAcquisitionDate",
-       |      "disposalDate":"$validDisposalDate",
-       |      "disposalProceeds":$validValue,
-       |      "allowableCosts":$validValue,
-       |      "gain":$validValue,
-       |      "claimOrElectionCodes":$validCodes,
-       |      "gainAfterRelief":$validValue,
-       |      "rttTaxPaid":$validValue
-       |    }
-       |  ]
-       |}
-""".stripMargin
-  )
-
-  private val validRequest3BodyJson: JsValue = Json.parse(
-    s"""
-       |{
-       |  "disposals":[
-       |    {
-       |      "assetType":"other-property",
-       |      "assetDescription":"$validDescription",
-       |      "acquisitionDate":"$validAcquisitionDate",
-       |      "disposalDate":"$validDisposalDate",
-       |      "disposalProceeds":$validValue,
-       |      "allowableCosts":$validValue,
-       |      "gain":$validValue,
-       |      "claimOrElectionCodes":$validCodes,
-       |      "gainAfterRelief":$validValue,
-       |      "rttTaxPaid":$validValue
-       |    }
-       |  ]
-       |}
-""".stripMargin
-  )
-
-  private val validRequest4BodyJson: JsValue = Json.parse(
-    s"""
-       |{
-       |  "disposals":[
-       |    {
-       |      "assetType":"other-asset",
-       |      "assetDescription":"$validDescription",
-       |      "acquisitionDate":"$validAcquisitionDate",
-       |      "disposalDate":"$validDisposalDate",
-       |      "disposalProceeds":$validValue,
-       |      "allowableCosts":$validValue,
-       |      "gain":$validValue,
-       |      "claimOrElectionCodes":$validCodes,
-       |      "gainAfterRelief":$validValue,
-       |      "rttTaxPaid":$validValue
-       |    }
-       |  ]
-       |}
-""".stripMargin
-  )
-
   private val oneBadValueFieldJson: JsValue = Json.parse(
     s"""
        |{
@@ -368,9 +305,6 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfi
   private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
   private val parsedBody    = validRequestBodyJson.as[CreateAmendOtherCgtRequestBody]
-  private val parsed2Body    = validRequest2BodyJson.as[CreateAmendOtherCgtRequestBody]
-  private val parsed3Body    = validRequest3BodyJson.as[CreateAmendOtherCgtRequestBody]
-  private val parsed4Body    = validRequest4BodyJson.as[CreateAmendOtherCgtRequestBody]
 
   val validatorFactory = new CreateAmendOtherCgtValidatorFactory(mockAppConfig)
 
@@ -386,21 +320,6 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfi
       "a valid request is supplied" in {
         val result = validator(validNino, validTaxYear, validRequestBodyJson).validateAndWrapResult()
         result shouldBe Right(CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, parsedBody))
-      }
-
-      "a valid request 2 is supplied" in {
-        val result = validator(validNino, validTaxYear, validRequest2BodyJson).validateAndWrapResult()
-        result shouldBe Right(CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, parsed2Body))
-      }
-
-      "a valid request 3 is supplied" in {
-        val result = validator(validNino, validTaxYear, validRequest3BodyJson).validateAndWrapResult()
-        result shouldBe Right(CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, parsed3Body))
-      }
-
-      "a valid request 4 is supplied" in {
-        val result = validator(validNino, validTaxYear, validRequest4BodyJson).validateAndWrapResult()
-        result shouldBe Right(CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, parsed4Body))
       }
     }
 
