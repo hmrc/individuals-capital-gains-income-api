@@ -747,7 +747,7 @@ class CreateAmendCgtPpdOverridesValidatorFactorySpec
     }
 
     "return a dateFormatError" when {
-      "a body with an incorrect date is provided" in { // 20-02-28 //2020-03-29
+      "a body with an incorrect date is provided" in {
         val requestWithInvalidDates = invalidDateRequestBodyJson(acquisitionDate = "20-02-28", completionDate = "20-02-28")
         val result: Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequestData] =
           validator(validNino, validTaxYear, requestWithInvalidDates).validateAndWrapResult()
