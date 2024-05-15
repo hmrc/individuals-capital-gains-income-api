@@ -158,25 +158,19 @@ object CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[CreateAme
     }
 
     val validatedCompletionDate = {
-      ResolveIsoDate(
-        value = completionDate,
-        error = DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/completionDate"),
-        isDateRangeChecked = true,
-        mtdDateRangeError = RuleDateRangeInvalidError.withPath(s"/singlePropertyDisposals/$arrayIndex/completionDate")
+      ResolveIsoDate.withMinMaxCheck(
+        completionDate,
+        DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/completionDate"),
+        RuleDateRangeInvalidError.withPath(s"/singlePropertyDisposals/$arrayIndex/completionDate")
       )
     }
 
     val validatedAcquisitionDate = {
-      acquisitionDate match {
-        case Some(value) =>
-          ResolveIsoDate(
-            value = value,
-            error = DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/acquisitionDate"),
-            isDateRangeChecked = true,
-            mtdDateRangeError = RuleDateRangeInvalidError.withPath(s"/singlePropertyDisposals/$arrayIndex/acquisitionDate")
-          )
-        case None => valid
-      }
+      ResolveIsoDate.withMinMaxCheck(
+        acquisitionDate,
+        DateFormatError.withPath(s"/singlePropertyDisposals/$arrayIndex/acquisitionDate"),
+        RuleDateRangeInvalidError.withPath(s"/singlePropertyDisposals/$arrayIndex/acquisitionDate")
+      )
     }
 
     combine(validatedNonNegatives, validatedOptionalNonNegatives, validatedCompletionDate, validatedAcquisitionDate)

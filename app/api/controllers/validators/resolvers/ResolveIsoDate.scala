@@ -42,7 +42,7 @@ case class ResolveIsoDate(error: MtdError) extends ResolverSupport {
 
 object ResolveIsoDate extends ResolverSupport {
 
-  private def validateDateRange(error: MtdError): Validator[LocalDate] = {
+  private def validateYearRange(error: MtdError): Validator[LocalDate] = {
     combinedValidator[LocalDate](
       satisfies(error)(_.getYear >= 1900),
       satisfies(error)(_.getYear <= 2100)
@@ -57,13 +57,15 @@ object ResolveIsoDate extends ResolverSupport {
     resolver(value)
   }
 
-  def apply(value: String, error: MtdError, isDateRangeChecked: Boolean, mtdDateRangeError: MtdError): Validated[Seq[MtdError], LocalDate] = {
-    if (isDateRangeChecked) {
-      val resolver = ResolveIsoDate(error).resolver thenValidate validateDateRange(mtdDateRangeError)
-      resolver(value)
-    } else {
-      ResolveIsoDate(error).resolver(value)
-    }
+  def withMinMaxCheck(value: String, error: MtdError, minMaxError: MtdError): Validated[Seq[MtdError], LocalDate] = {
+    val resolver = ResolveIsoDate(error).resolver thenValidate validateYearRange(minMaxError)
+    resolver(value)
   }
+
+  def withMinMaxCheck(maybeValue: Option[String], error: MtdError, minMaxError: MtdError): Validated[Seq[MtdError], Option[LocalDate]] =
+    maybeValue match {
+      case Some(value) => withMinMaxCheck(value, error, minMaxError).map(Some(_))
+      case None        => Valid(None)
+    }
 
 }
