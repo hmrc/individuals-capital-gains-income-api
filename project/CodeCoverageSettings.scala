@@ -32,7 +32,6 @@ object CodeCoverageSettings {
   )
 
   private val excludedOldPackages: Seq[String] = Seq(
-    "api.controllers.RequestHandlerOld",
     "api.models.domain.ClaimOrElectionCodes",
     "api.connectors.NrsProxyConnector"
   )
