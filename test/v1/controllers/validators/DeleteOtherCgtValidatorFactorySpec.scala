@@ -33,7 +33,7 @@ class DeleteOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
   private val validatorFactory                         = new DeleteOtherCgtValidatorFactory(mockAppConfig)
   private def validator(nino: String, taxYear: String) = validatorFactory.validator(nino, taxYear)
 
-  MockedAppConfig.minimumPermittedTaxYear
+  MockAppConfig.minimumPermittedTaxYear
     .returns(2021)
     .anyNumberOfTimes()
 

@@ -35,7 +35,7 @@ class RetrieveAllResidentialPropertyCgtValidatorFactorySpec extends UnitSpec wit
   private val validatorFactory                                                 = new RetrieveAllResidentialPropertyCgtValidatorFactory(mockAppConfig)
   private def validator(nino: String, taxYear: String, source: Option[String]) = validatorFactory.validator(nino, taxYear, source)
 
-  MockedAppConfig.minimumPermittedTaxYear
+  MockAppConfig.minimumPermittedTaxYear
     .returns(2021)
     .anyNumberOfTimes()
 
