@@ -20,7 +20,7 @@ import api.models.domain.{Nino, TaxYear}
 import v1.otherCgt.createAmend.CreateAmendOtherCgtSchema
 import v1.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
-case class Def1_CreateAmendOtherCgtRequestData(nino: Nino, taxYear: TaxYear, body: CreateAmendOtherCgtRequestBody) extends CreateAmendOtherCgtRequestData {
+case class Def1_CreateAmendOtherCgtRequestData(nino: Nino, taxYear: TaxYear, body: Def1_CreateAmendOtherCgtRequestBody)
+    extends CreateAmendOtherCgtRequestData {
   val schema: CreateAmendOtherCgtSchema = CreateAmendOtherCgtSchema.Def1
 }
-

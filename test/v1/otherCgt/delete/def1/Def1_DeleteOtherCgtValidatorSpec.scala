@@ -35,7 +35,7 @@ class Def1_DeleteOtherCgtValidatorSpec extends UnitSpec with MockAppConfig {
 
   class Test {
 
-    MockAppConfig.minimumPermittedTaxYear
+    MockedAppConfig.minimumPermittedTaxYear
       .returns(2021)
       .anyNumberOfTimes()
 

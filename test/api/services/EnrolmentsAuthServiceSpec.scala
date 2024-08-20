@@ -163,7 +163,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec with MockAppConfig {
     }
 
     def mockConfidenceLevelCheckConfig(authValidationEnabled: Boolean): Unit = {
-      MockAppConfig.confidenceLevelCheckEnabled.returns(
+      MockedAppConfig.confidenceLevelCheckEnabled.returns(
         ConfidenceLevelConfig(
           confidenceLevel = ConfidenceLevel.L200,
           definitionEnabled = true,

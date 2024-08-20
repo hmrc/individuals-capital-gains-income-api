@@ -20,7 +20,7 @@ import api.models.domain.{AssetType, ClaimOrElectionCodes}
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
 
-class CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
+class Def1CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
 
   val mtdJson: JsValue = Json.parse(
     """
@@ -159,11 +159,11 @@ class CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
     Some(150.99)
   )
 
-  val mtdRequestBody: CreateAmendOtherCgtRequestBody =
-    CreateAmendOtherCgtRequestBody(Some(Seq(disposal)), Some(nonStandardGains), Some(losses), Some(160.99))
+  val mtdRequestBody: Def1_CreateAmendOtherCgtRequestBody =
+    Def1_CreateAmendOtherCgtRequestBody(Some(Seq(disposal)), Some(nonStandardGains), Some(losses), Some(160.99))
 
-  val mtdRequestBodyWithMultipleDisposals: CreateAmendOtherCgtRequestBody =
-    CreateAmendOtherCgtRequestBody(Some(Seq(disposal, disposal2)), Some(nonStandardGains), Some(losses), Some(160.99))
+  val mtdRequestBodyWithMultipleDisposals: Def1_CreateAmendOtherCgtRequestBody =
+    Def1_CreateAmendOtherCgtRequestBody(Some(Seq(disposal, disposal2)), Some(nonStandardGains), Some(losses), Some(160.99))
 
   val desJson: JsValue = Json.parse(
     """
@@ -277,28 +277,28 @@ class CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
       |""".stripMargin
   )
 
-  "CreateAmendOtherCgtRequestBody" when {
+  "Def1_CreateAmendOtherCgtRequestBody" when {
     "read from a valid JSON" should {
       "produce the expected object" in {
-        mtdJson.as[CreateAmendOtherCgtRequestBody] shouldBe mtdRequestBody
+        mtdJson.as[Def1_CreateAmendOtherCgtRequestBody] shouldBe mtdRequestBody
       }
     }
 
     "read from a valid JSON With Multiple Disposals" should {
       "produce the expected object" in {
-        mtdJsonWithMultipleDisposals.as[CreateAmendOtherCgtRequestBody] shouldBe mtdRequestBodyWithMultipleDisposals
+        mtdJsonWithMultipleDisposals.as[Def1_CreateAmendOtherCgtRequestBody] shouldBe mtdRequestBodyWithMultipleDisposals
       }
     }
 
     "read from invalid Json" should {
       "provide a JsError" in {
-        invalidJson.validate[CreateAmendOtherCgtRequestBody] shouldBe a[JsError]
+        invalidJson.validate[Def1_CreateAmendOtherCgtRequestBody] shouldBe a[JsError]
       }
     }
 
     "read from an empty JSON" should {
       "produce an empty object" in {
-        emptyJson.as[CreateAmendOtherCgtRequestBody] shouldBe CreateAmendOtherCgtRequestBody.empty
+        emptyJson.as[Def1_CreateAmendOtherCgtRequestBody] shouldBe Def1_CreateAmendOtherCgtRequestBody.empty
       }
     }
 
@@ -316,7 +316,7 @@ class CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
 
     "written from an empty object" should {
       "produce an empty JSON" in {
-        Json.toJson(CreateAmendOtherCgtRequestBody.empty) shouldBe emptyJson
+        Json.toJson(Def1_CreateAmendOtherCgtRequestBody.empty) shouldBe emptyJson
       }
     }
   }

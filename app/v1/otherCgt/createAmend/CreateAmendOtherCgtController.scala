@@ -27,7 +27,7 @@ import play.api.mvc.{Action, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.IdGenerator
-import v1.otherCgt.createAmend.model.response.CreateAmendOtherCgtResponse
+import v1.otherCgt.createAmend.model.response.CreateAmendOtherCgtAuditData
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -97,7 +97,7 @@ class CreateAmendOtherCgtController @Inject() (val authService: EnrolmentsAuthSe
                 params = Map("nino" -> nino, "taxYear" -> taxYear),
                 Some(request.body),
                 ctx.correlationId,
-                AuditResponse(OK, Right(Some(Json.toJson(CreateAmendOtherCgtResponse(nino, taxYear)))))
+                AuditResponse(OK, Right(Some(Json.toJson(CreateAmendOtherCgtAuditData(nino, taxYear)))))
               ))
         }
       }

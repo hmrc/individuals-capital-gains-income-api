@@ -22,7 +22,7 @@ import api.models.downstream.DownstreamAssetType.`otherProperty`
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
 
-class RetrieveOtherCgtResponseSpec extends UnitSpec {
+class Def1_RetrieveOtherCgtResponseSpec extends UnitSpec {
 
   val validResponseJson: JsValue = Json.parse(
     """

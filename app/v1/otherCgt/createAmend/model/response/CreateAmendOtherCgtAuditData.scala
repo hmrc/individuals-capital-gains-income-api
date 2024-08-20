@@ -18,9 +18,9 @@ package v1.otherCgt.createAmend.model.response
 
 import play.api.libs.json.{Json, Writes}
 
-case class CreateAmendOtherCgtResponse(nino: String, taxYear: String)
+case class CreateAmendOtherCgtAuditData(nino: String, taxYear: String)
 
-object CreateAmendOtherCgtResponse {
-  implicit val writes: Writes[CreateAmendOtherCgtResponse] = Json.writes[CreateAmendOtherCgtResponse]
+object CreateAmendOtherCgtAuditData {
+  implicit val writes: Writes[CreateAmendOtherCgtAuditData] = Json.writes[CreateAmendOtherCgtAuditData]
 
 }

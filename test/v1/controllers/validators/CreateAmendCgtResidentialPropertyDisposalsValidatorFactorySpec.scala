@@ -327,7 +327,7 @@ class CreateAmendCgtResidentialPropertyDisposalsValidatorFactorySpec
     validatorFactory.validator(nino, taxYear, body)
 
   private val MINIMUM_YEAR = 2020
-  MockAppConfig.minimumPermittedTaxYear returns MINIMUM_YEAR
+  MockedAppConfig.minimumPermittedTaxYear returns MINIMUM_YEAR
 
   "validator" should {
     "return the parsed domain object" when {

@@ -22,9 +22,9 @@ import api.models.utils.JsonErrorValidators
 import mocks.MockAppConfig
 import play.api.libs.json._
 import support.UnitSpec
-import v1.otherCgt.createAmend.def1.model.request.{CreateAmendOtherCgtRequestBody, Def1_CreateAmendOtherCgtRequestData}
+import v1.otherCgt.createAmend.def1.model.request.{Def1_CreateAmendOtherCgtRequestBody, Def1_CreateAmendOtherCgtRequestData}
 
-class Def1_CreateAmendOtherCgtValidatorSpec extends UnitSpec with MockAppConfig with JsonErrorValidators {
+class Def1_CreateAmendOtherCgtRulesValidatorSpec extends UnitSpec with MockAppConfig with JsonErrorValidators {
 
   private implicit val correlationId: String = "someCorrelationId"
 
@@ -100,8 +100,6 @@ class Def1_CreateAmendOtherCgtValidatorSpec extends UnitSpec with MockAppConfig 
   private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
-  // val validatorFactory = new CreateAmendOtherCgtValidatorFactory(mockAppConfig)
-
   private def validate(nino: String = validNino, taxYear: String = validTaxYear, body: JsValue = validRequestBodyJson) =
     new Def1_CreateAmendOtherCgtValidator(nino, taxYear, body)(mockAppConfig).validateAndWrapResult()
 
@@ -109,7 +107,7 @@ class Def1_CreateAmendOtherCgtValidatorSpec extends UnitSpec with MockAppConfig 
 
   class Test {
 
-    MockAppConfig.minimumPermittedTaxYear
+    MockedAppConfig.minimumPermittedTaxYear
       .returns(2021)
       .anyNumberOfTimes()
 
@@ -137,7 +135,7 @@ class Def1_CreateAmendOtherCgtValidatorSpec extends UnitSpec with MockAppConfig 
         val body = requestBodyJson(disposalJsonWith(useLoss, useAfterReliefLoss))
 
         validate(validNino, validTaxYear, body) shouldBe
-          Right(Def1_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, body.as[CreateAmendOtherCgtRequestBody]))
+          Right(Def1_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, body.as[Def1_CreateAmendOtherCgtRequestBody]))
       }
     }
 

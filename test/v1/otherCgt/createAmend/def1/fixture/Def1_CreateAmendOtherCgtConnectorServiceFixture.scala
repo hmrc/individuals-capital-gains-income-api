@@ -17,9 +17,9 @@
 package v1.otherCgt.createAmend.def1.fixture
 
 import api.models.domain.{AssetType, ClaimOrElectionCodes}
-import v1.otherCgt.createAmend.def1.model.request.{CreateAmendOtherCgtRequestBody, Disposal, Losses, NonStandardGains}
+import v1.otherCgt.createAmend.def1.model.request.{Def1_CreateAmendOtherCgtRequestBody, Disposal, Losses, NonStandardGains}
 
-object CreateAmendOtherCgtConnectorServiceFixture {
+object Def1_CreateAmendOtherCgtConnectorServiceFixture {
 
   val disposal: Disposal = Disposal(
     AssetType.`other-property`.toDownstreamString,
@@ -52,7 +52,7 @@ object CreateAmendOtherCgtConnectorServiceFixture {
     Some(150.99)
   )
 
-  val mtdRequestBody: CreateAmendOtherCgtRequestBody =
-    CreateAmendOtherCgtRequestBody(Some(Seq(disposal)), Some(nonStandardGains), Some(losses), Some(160.99))
+  val mtdRequestBody: Def1_CreateAmendOtherCgtRequestBody =
+    Def1_CreateAmendOtherCgtRequestBody(Some(Seq(disposal)), Some(nonStandardGains), Some(losses), Some(160.99))
 
 }

@@ -22,22 +22,15 @@ import v1.otherCgt.retrieve.def1.Def1_RetrieveOtherCgtValidator
 
 class RetrieveOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
 
-  private val validNino      = "AA123456A"
-  private val invalidNino    = "AA123456"
-  private val validTaxYear   = "2021-22"
-  private val invalidTaxYear = "202222"
+  private val validNino    = "AA123456A"
+  private val validTaxYear = "2021-22"
 
   private val validatorFactory = new RetrieveOtherCgtValidatorFactory(mockAppConfig)
 
   "validator" should {
     "return the Def1 validator" when {
-      "given any valid request" in {
+      "given a request handled by a Def1 schema" in {
         val result = validatorFactory.validator(validNino, validTaxYear)
-        result shouldBe a[Def1_RetrieveOtherCgtValidator]
-      }
-
-      "given any invalid request" in {
-        val result = validatorFactory.validator(invalidNino, invalidTaxYear)
         result shouldBe a[Def1_RetrieveOtherCgtValidator]
       }
     }

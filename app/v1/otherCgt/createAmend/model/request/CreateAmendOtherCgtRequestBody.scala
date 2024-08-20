@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,17 @@
 
 package v1.otherCgt.createAmend.model.request
 
-import api.models.domain.{Nino, TaxYear}
+import play.api.libs.json.OWrites
+import utils.JsonWritesUtil
+import v1.otherCgt.createAmend.def1.model.request.Def1_CreateAmendOtherCgtRequestBody
 
-trait CreateAmendOtherCgtRequestData {
-  def nino: Nino
-  def taxYear: TaxYear
-  def body: CreateAmendOtherCgtRequestBody
+trait CreateAmendOtherCgtRequestBody
+
+object CreateAmendOtherCgtRequestBody extends JsonWritesUtil {
+
+  implicit val writes: OWrites[CreateAmendOtherCgtRequestBody] = writesFrom { case def1: Def1_CreateAmendOtherCgtRequestBody =>
+    implicitly[OWrites[Def1_CreateAmendOtherCgtRequestBody]].writes(def1)
+
+  }
 
 }

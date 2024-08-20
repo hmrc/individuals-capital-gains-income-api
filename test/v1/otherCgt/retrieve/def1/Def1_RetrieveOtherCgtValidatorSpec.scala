@@ -36,7 +36,7 @@ class Def1_RetrieveOtherCgtValidatorSpec extends UnitSpec with MockAppConfig {
 
   class Test {
 
-    MockAppConfig.minimumPermittedTaxYear
+    MockedAppConfig.minimumPermittedTaxYear
       .returns(2021)
       .anyNumberOfTimes()
 

@@ -27,7 +27,7 @@ trait MockAppConfig extends MockFactory {
 
   implicit val mockAppConfig: AppConfig = mock[AppConfig]
 
-  object MockAppConfig {
+  object MockedAppConfig {
     // DES Config
     def desBaseUrl: CallHandler[String]                         = (() => mockAppConfig.desBaseUrl).expects()
     def desToken: CallHandler[String]                           = (() => mockAppConfig.desToken).expects()

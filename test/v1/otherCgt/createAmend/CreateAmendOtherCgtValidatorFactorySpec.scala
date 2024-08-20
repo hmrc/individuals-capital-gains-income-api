@@ -41,7 +41,7 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorVal
 
   "running a validation" should {
     "return the parsed domain object" when {
-      "given a valid request" in {
+      "given a request handled by a Def1 schema" in {
         val result = validatorFactory.validator(validNino, validTaxYear, validRequestBody)
         result shouldBe a[Def1_CreateAmendOtherCgtValidator]
 

@@ -31,7 +31,7 @@ class DeleteOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
 
   "validator" should {
     "return the Def1 validator" when {
-      "given a valid request" in {
+      "given a request handled by a Def1 schema" in {
         val result: Validator[DeleteOtherCgtRequestData] = validatorFactory.validator(validNino, validTaxYear)
         result shouldBe a[Def1_DeleteOtherCgtValidator]
 

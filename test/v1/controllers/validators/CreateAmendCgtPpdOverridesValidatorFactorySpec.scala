@@ -560,7 +560,7 @@ class CreateAmendCgtPpdOverridesValidatorFactorySpec extends UnitSpec with Value
   private val validatorFactory                                        = new CreateAmendCgtPpdOverridesValidatorFactory(mockAppConfig)
   private def validator(nino: String, taxYear: String, body: JsValue) = validatorFactory.validator(nino, taxYear, body)
 
-  MockAppConfig.minimumPermittedTaxYear
+  MockedAppConfig.minimumPermittedTaxYear
     .returns(2020)
     .anyNumberOfTimes()
 

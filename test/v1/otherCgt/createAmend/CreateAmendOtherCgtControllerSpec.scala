@@ -84,7 +84,7 @@ class CreateAmendOtherCgtControllerSpec
      """.stripMargin
   )
 
-  val requestModel: CreateAmendOtherCgtRequestBody = CreateAmendOtherCgtRequestBody(
+  val requestModel: Def1_CreateAmendOtherCgtRequestBody = Def1_CreateAmendOtherCgtRequestBody(
     disposals = Some(
       List(
         Disposal(

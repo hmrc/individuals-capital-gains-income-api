@@ -136,7 +136,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
     "return a successful response with status OK" when {
       "happy path" in new Test {
         willUseValidator(returningSuccess(requestData))
-        MockAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
+        MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
 
 
         MockNrsProxyService
@@ -205,7 +205,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
         )
       )
 
-    MockAppConfig.featureSwitches.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
+    MockedAppConfig.featureSwitches.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
   }
 
 }

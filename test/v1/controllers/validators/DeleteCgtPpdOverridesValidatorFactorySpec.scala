@@ -37,7 +37,7 @@ class DeleteCgtPpdOverridesValidatorFactorySpec extends UnitSpec with MockAppCon
   private def validator(nino: String, taxYear: String) =
     validatorFactory.validator(nino, taxYear)
 
-  MockAppConfig.minimumPermittedTaxYear
+  MockedAppConfig.minimumPermittedTaxYear
     .returns(2021)
     .anyNumberOfTimes()
 

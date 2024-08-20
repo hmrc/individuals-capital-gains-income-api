@@ -109,7 +109,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
   "CreateAmendCgtResidentialPropertyDisposalsController" should {
     "return a successful response with status OK" when {
       "happy path" in new Test {
-        MockAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
+        MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
 
         willUseValidator(returningSuccess(requestData))
 
@@ -177,7 +177,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
         )
       )
 
-    MockAppConfig.featureSwitches.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
+    MockedAppConfig.featureSwitches.returns(Configuration("allowTemporalValidationSuspension.enabled" -> true)).anyNumberOfTimes()
   }
 
 }
