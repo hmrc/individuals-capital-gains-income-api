@@ -40,7 +40,7 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorVal
   private val validatorFactory = new CreateAmendOtherCgtValidatorFactory(mockAppConfig)
 
   "running a validation" should {
-    "return the parsed domain object" when {
+    "return the Def1 validator" when {
       "given a request handled by a Def1 schema" in {
         val result = validatorFactory.validator(validNino, validTaxYear, validRequestBody)
         result shouldBe a[Def1_CreateAmendOtherCgtValidator]
