@@ -28,6 +28,8 @@ import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.mvc.Result
 import v1.otherCgt.retrieve.def1.model.request.Def1_RetrieveOtherCgtRequestData
 import v1.otherCgt.retrieve.def1.model.response.{Def1_RetrieveOtherCgtResponse, Disposal, Losses, NonStandardGains}
+import v1.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData
+import v1.otherCgt.retrieve.model.response.RetrieveOtherCgtResponse
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -44,12 +46,12 @@ class RetrieveOtherCgtControllerSpec
 
   val taxYear: String = "2019-20"
 
-  val requestData: Def1_RetrieveOtherCgtRequestData = Def1_RetrieveOtherCgtRequestData(
+  val requestData: RetrieveOtherCgtRequestData = Def1_RetrieveOtherCgtRequestData(
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )
 
-  val responseModel: Def1_RetrieveOtherCgtResponse = Def1_RetrieveOtherCgtResponse(
+  val responseModel: RetrieveOtherCgtResponse = Def1_RetrieveOtherCgtResponse(
     submittedOn = Timestamp("2021-05-07T16:18:44.403Z"),
     disposals = Some(
       List(

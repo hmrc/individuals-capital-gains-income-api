@@ -21,6 +21,8 @@ import api.models.domain.{Nino, TaxYear, Timestamp}
 import api.models.outcomes.ResponseWrapper
 import v1.otherCgt.retrieve.def1.model.request.Def1_RetrieveOtherCgtRequestData
 import v1.otherCgt.retrieve.def1.model.response.Def1_RetrieveOtherCgtResponse
+import v1.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData
+import v1.otherCgt.retrieve.model.response.RetrieveOtherCgtResponse
 
 import scala.concurrent.Future
 
@@ -60,13 +62,13 @@ class RetrieveOtherCgtConnectorSpec extends ConnectorSpec {
 
     protected val nino: String = "AA111111A"
 
-    protected val request: Def1_RetrieveOtherCgtRequestData =
+    protected val request: RetrieveOtherCgtRequestData =
       Def1_RetrieveOtherCgtRequestData(
         nino = Nino(nino),
         taxYear = taxYear
       )
 
-    val response: Def1_RetrieveOtherCgtResponse = Def1_RetrieveOtherCgtResponse(
+    val response: RetrieveOtherCgtResponse = Def1_RetrieveOtherCgtResponse(
       submittedOn = Timestamp("2021-05-07T16:18:44.403Z"),
       disposals = None,
       nonStandardGains = None,

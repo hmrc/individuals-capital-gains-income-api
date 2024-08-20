@@ -21,6 +21,7 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
 import v1.otherCgt.createAmend.def1.fixture.CreateAmendOtherCgtConnectorServiceFixture.mtdRequestBody
 import v1.otherCgt.createAmend.def1.model.request.Def1_CreateAmendOtherCgtRequestData
+import v1.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
 import scala.concurrent.Future
 
@@ -43,7 +44,7 @@ class CreateAmendOtherCgtConnectorSpec extends ConnectorSpec {
       "a valid request is made" in new Api1661Test with Test {
         override val taxYear: TaxYear = TaxYear.fromMtd("2019-20")
 
-        val createAmendOtherCgtRequestData: Def1_CreateAmendOtherCgtRequestData = Def1_CreateAmendOtherCgtRequestData(
+        val createAmendOtherCgtRequestData: CreateAmendOtherCgtRequestData = Def1_CreateAmendOtherCgtRequestData(
           nino = Nino(nino),
           taxYear = taxYear,
           body = mtdRequestBody
@@ -62,7 +63,7 @@ class CreateAmendOtherCgtConnectorSpec extends ConnectorSpec {
       "a valid request is made with Tax Year Specific tax year" in new TysIfsTest with Test {
 
         override val taxYear: TaxYear = TaxYear.fromMtd("2023-24")
-        val createAmendOtherCgtRequestData: Def1_CreateAmendOtherCgtRequestData = Def1_CreateAmendOtherCgtRequestData(
+        val createAmendOtherCgtRequestData: CreateAmendOtherCgtRequestData = Def1_CreateAmendOtherCgtRequestData(
           nino = Nino(nino),
           taxYear = taxYear,
           body = mtdRequestBody
