@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package v1.controllers.validators
+package v1.otherCgt.delete.def1
 
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import mocks.MockAppConfig
 import support.UnitSpec
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.def1.model.request.Def1_DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
-class DeleteOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
+class Def1_DeleteOtherCgtValidatorSpec extends UnitSpec with MockAppConfig {
   private implicit val correlationId: String = "1234"
   private val validNino                      = "AA123456A"
   private val validTaxYear                   = "2020-21"
@@ -30,64 +31,67 @@ class DeleteOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
   private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
-  private val validatorFactory                         = new DeleteOtherCgtValidatorFactory(mockAppConfig)
-  private def validator(nino: String, taxYear: String) = validatorFactory.validator(nino, taxYear)
+  private def validator(nino: String, taxYear: String) = new Def1_DeleteOtherCgtValidator(nino, taxYear)(mockAppConfig).validateAndWrapResult()
 
-  MockAppConfig.minimumPermittedTaxYear
-    .returns(2021)
-    .anyNumberOfTimes()
+  class Test {
+
+    MockAppConfig.minimumPermittedTaxYear
+      .returns(2021)
+      .anyNumberOfTimes()
+
+  }
 
   "validator" should {
     "return the parsed domain object" when {
-      "a valid request is supplied" in {
+      "a valid request is supplied" in new Test {
         val result: Either[ErrorWrapper, DeleteOtherCgtRequestData] =
-          validator(validNino, validTaxYear).validateAndWrapResult()
+          validator(validNino, validTaxYear)
 
-        result shouldBe Right(DeleteOtherCgtRequestData(parsedNino, parsedTaxYear))
+        result shouldBe Right(Def1_DeleteOtherCgtRequestData(parsedNino, parsedTaxYear))
 
       }
     }
 
     "return NinoFormatError error" when {
-      "an invalid nino is supplied" in {
+      "an invalid nino is supplied" in new Test {
         val result: Either[ErrorWrapper, DeleteOtherCgtRequestData] =
-          validator("A12344A", validTaxYear).validateAndWrapResult()
+          validator("A12344A", validTaxYear)
 
         result shouldBe Left(ErrorWrapper(correlationId, NinoFormatError))
       }
     }
 
     "return TaxYearFormatError error" when {
-      "an invalid tax year is supplied" in {
+      "an invalid tax year is supplied" in new Test {
         val result: Either[ErrorWrapper, DeleteOtherCgtRequestData] =
-          validator(validNino, "20178").validateAndWrapResult()
+          validator(validNino, "20178")
 
         result shouldBe Left(ErrorWrapper(correlationId, TaxYearFormatError))
       }
     }
 
     "return RuleTaxYearRangeInvalidError error" when {
-      "an invalid tax year range is supplied" in {
+      "an invalid tax year range is supplied" in new Test {
         val result: Either[ErrorWrapper, DeleteOtherCgtRequestData] =
-          validator(validNino, "2019-21").validateAndWrapResult()
+          validator(validNino, "2019-21")
 
         result shouldBe Left(ErrorWrapper(correlationId, RuleTaxYearRangeInvalidError))
       }
     }
 
     "return RuleTaxYearNotSupportedError error" when {
-      "an invalid tax year is supplied" in {
+      "an invalid tax year is supplied" in new Test {
         val result: Either[ErrorWrapper, DeleteOtherCgtRequestData] =
-          validator(validNino, "2018-19").validateAndWrapResult()
+          validator(validNino, "2018-19")
 
         result shouldBe Left(ErrorWrapper(correlationId, RuleTaxYearNotSupportedError))
       }
     }
 
     "return multiple errors" when {
-      "request supplied has multiple errors" in {
+      "request supplied has multiple errors" in new Test {
         val result: Either[ErrorWrapper, DeleteOtherCgtRequestData] =
-          validator("A12344A", "20178").validateAndWrapResult()
+          validator("A12344A", "20178")
 
         result shouldBe Left(
           ErrorWrapper(

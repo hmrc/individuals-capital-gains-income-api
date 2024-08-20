@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.controllers
+package v1.otherCgt.delete
 
 import api.controllers._
 import api.models.audit.{AuditEvent, AuditResponse, GenericAuditDetail}
@@ -27,8 +27,6 @@ import play.api.mvc.{Action, AnyContent, ControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.audit.http.connector.AuditResult
 import utils.IdGenerator
-import v1.controllers.validators.DeleteOtherCgtValidatorFactory
-import v1.services.DeleteOtherCgtService
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}

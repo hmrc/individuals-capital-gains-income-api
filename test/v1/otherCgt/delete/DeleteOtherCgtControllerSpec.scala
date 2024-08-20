@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.controllers
+package v1.otherCgt.delete
 
 import api.controllers.{ControllerBaseSpec, ControllerTestRunner}
 import api.mocks.MockIdGenerator
@@ -26,9 +26,8 @@ import api.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLooku
 import mocks.MockAppConfig
 import play.api.libs.json.JsValue
 import play.api.mvc.Result
-import v1.controllers.validators.MockDeleteOtherCgtValidatorFactory
-import v1.mocks.services.MockDeleteOtherCgtService
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.def1.model.request.Def1_DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -46,7 +45,7 @@ class DeleteOtherCgtControllerSpec
 
   val taxYear: String = "2019-20"
 
-  val requestData: DeleteOtherCgtRequestData = DeleteOtherCgtRequestData(
+  val requestData: DeleteOtherCgtRequestData = Def1_DeleteOtherCgtRequestData(
     nino = Nino(validNino),
     taxYear = TaxYear.fromMtd(taxYear)
   )

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.controllers.validators
+package v1.otherCgt.delete
 
 import api.controllers.validators.Validator
 import api.models.errors.MtdError
@@ -22,7 +22,7 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 trait MockDeleteOtherCgtValidatorFactory extends MockFactory {
 

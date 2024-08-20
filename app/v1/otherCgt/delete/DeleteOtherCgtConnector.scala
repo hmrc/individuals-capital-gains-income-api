@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package v1.connectors
+package v1.otherCgt.delete
 
 import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
 import api.connectors.httpparsers.StandardDownstreamHttpParser._
 import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -29,8 +29,10 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class DeleteOtherCgtConnector @Inject() (val http: HttpClient, val appConfig: AppConfig) extends BaseDownstreamConnector {
 
-  def deleteOtherCgt(
-      request: DeleteOtherCgtRequestData)(implicit hc: HeaderCarrier, ec: ExecutionContext, correlationId: String): Future[DownstreamOutcome[Unit]] = {
+  def deleteOtherCgt(request: DeleteOtherCgtRequestData)(implicit
+      hc: HeaderCarrier,
+      ec: ExecutionContext,
+      correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
     import request._
 

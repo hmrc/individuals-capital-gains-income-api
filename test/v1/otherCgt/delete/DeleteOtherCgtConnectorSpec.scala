@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package v1.connectors
+package v1.otherCgt.delete
 
 import api.connectors.ConnectorSpec
 import api.models.domain.{Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.def1.model.request.Def1_DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 import scala.concurrent.Future
 
@@ -60,7 +61,7 @@ class DeleteOtherCgtConnectorSpec extends ConnectorSpec {
     protected val nino: String = "AA111111A"
 
     protected val request: DeleteOtherCgtRequestData =
-      DeleteOtherCgtRequestData(
+      Def1_DeleteOtherCgtRequestData(
         nino = Nino(nino),
         taxYear = taxYear
       )

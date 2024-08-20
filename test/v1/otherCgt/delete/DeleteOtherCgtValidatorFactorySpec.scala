@@ -14,36 +14,26 @@
  * limitations under the License.
  */
 
-package v1.otherCgt.createAmend
+package v1.otherCgt.delete
 
-import api.models.utils.JsonErrorValidators
+import api.controllers.validators.Validator
 import mocks.MockAppConfig
-import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
-import v1.otherCgt.createAmend.def1.Def1_CreateAmendOtherCgtValidator
+import v1.otherCgt.delete.def1.Def1_DeleteOtherCgtValidator
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
-class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+class DeleteOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
 
   private val validNino    = "AA123456A"
   private val validTaxYear = "2021-22"
 
-  def requestBodyJson(): JsValue = Json.parse(
-    s"""
-       |{
-       |
-       |}
-     """.stripMargin
-  )
+  private val validatorFactory = new DeleteOtherCgtValidatorFactory(mockAppConfig)
 
-  private val validRequestBody = requestBodyJson()
-
-  private val validatorFactory = new CreateAmendOtherCgtValidatorFactory(mockAppConfig)
-
-  "running a validation" should {
-    "return the parsed domain object" when {
+  "validator" should {
+    "return the Def1 validator" when {
       "given a valid request" in {
-        val result = validatorFactory.validator(validNino, validTaxYear, validRequestBody)
-        result shouldBe a[Def1_CreateAmendOtherCgtValidator]
+        val result: Validator[DeleteOtherCgtRequestData] = validatorFactory.validator(validNino, validTaxYear)
+        result shouldBe a[Def1_DeleteOtherCgtValidator]
 
       }
     }

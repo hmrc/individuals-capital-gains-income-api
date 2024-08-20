@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v1.controllers.validators
+package v1.otherCgt.delete.def1
 
 import api.controllers.validators.Validator
 import api.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
@@ -23,24 +23,20 @@ import api.models.errors.MtdError
 import cats.data.Validated
 import cats.implicits._
 import config.AppConfig
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.def1.model.request.Def1_DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 import javax.inject.Inject
 
-class DeleteOtherCgtValidatorFactory @Inject() (appConfig: AppConfig) {
+class Def1_DeleteOtherCgtValidator @Inject() (nino: String, taxYear: String)(appConfig: AppConfig) extends Validator[DeleteOtherCgtRequestData] {
 
   private lazy val minimumTaxYear = appConfig.minimumPermittedTaxYear
   private lazy val resolveTaxYear = ResolveTaxYearMinimum(TaxYear.fromDownstreamInt(minimumTaxYear))
 
-  def validator(nino: String, taxYear: String): Validator[DeleteOtherCgtRequestData] =
-    new Validator[DeleteOtherCgtRequestData] {
-
-      def validate: Validated[Seq[MtdError], DeleteOtherCgtRequestData] =
-        (
-          ResolveNino(nino),
-          resolveTaxYear(taxYear)
-        ).mapN(DeleteOtherCgtRequestData)
-
-    }
+  def validate: Validated[Seq[MtdError], DeleteOtherCgtRequestData] =
+    (
+      ResolveNino(nino),
+      resolveTaxYear(taxYear)
+    ).mapN(Def1_DeleteOtherCgtRequestData)
 
 }

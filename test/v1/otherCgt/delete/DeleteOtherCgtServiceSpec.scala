@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package v1.services
+package v1.otherCgt.delete
 
 import api.controllers.EndpointLogContext
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors._
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import v1.mocks.connectors.MockDeleteOtherCgtConnector
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.def1.model.request.Def1_DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 import scala.concurrent.Future
 
@@ -77,7 +77,7 @@ class DeleteOtherCgtServiceSpec extends ServiceSpec {
     private val nino    = Nino("AA112233A")
     private val taxYear = TaxYear.fromMtd("2019-20")
 
-    val request: DeleteOtherCgtRequestData = DeleteOtherCgtRequestData(
+    val request: DeleteOtherCgtRequestData = Def1_DeleteOtherCgtRequestData(
       nino = nino,
       taxYear = taxYear
     )

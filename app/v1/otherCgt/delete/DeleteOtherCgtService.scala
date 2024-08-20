@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package v1.services
+package v1.otherCgt.delete
 
 import api.controllers.RequestContext
 import api.models.errors._
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits._
-import v1.connectors.DeleteOtherCgtConnector
-import v1.models.request.deleteOtherCgt.DeleteOtherCgtRequestData
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}

@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package v1.models.request.deleteOtherCgt
+package v1.otherCgt.delete.def1.model.request
 
 import api.models.domain.{Nino, TaxYear}
+import v1.otherCgt.delete.DeleteOtherCgtSchema
+import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
-case class DeleteOtherCgtRequestData(nino: Nino, taxYear: TaxYear)
+case class Def1_DeleteOtherCgtRequestData(nino: Nino, taxYear: TaxYear) extends DeleteOtherCgtRequestData {
+  val schema: DeleteOtherCgtSchema = DeleteOtherCgtSchema.Def1
+}
