@@ -95,8 +95,7 @@ class CreateAmendCgtPpdOverridesController @Inject() (val authService: Enrolment
                 Map("nino" -> nino, "taxYear" -> taxYear),
                 Some(request.body),
                 ctx.correlationId,
-                AuditResponse(httpStatus = httpStatus, response =
-                  Right(Some(Json.toJson(CreateAmendCgtPpdOverridesAuditData(nino, taxYear)))))
+                AuditResponse(httpStatus = httpStatus, response = Right(Some(Json.toJson(CreateAmendCgtPpdOverridesAuditData(nino, taxYear)))))
               ))
         }
       }

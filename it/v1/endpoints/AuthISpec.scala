@@ -25,7 +25,7 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import support.IntegrationBaseSpec
 
-class AuthISpec extends IntegrationBaseSpec{
+class AuthISpec extends IntegrationBaseSpec {
 
   private trait Test {
     val nino    = "AA123456A"
@@ -35,6 +35,7 @@ class AuthISpec extends IntegrationBaseSpec{
     def uri: String = s"/residential-property/$nino/$taxYear"
 
     def ifsUri: String = s"/income-tax/income/disposals/residential-property/$nino/$taxYear"
+
     def request(): WSRequest = {
       setupStubs()
       buildRequest(uri)
@@ -43,6 +44,7 @@ class AuthISpec extends IntegrationBaseSpec{
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
+
   }
 
   "Calling the sample endpoint" when {

@@ -43,7 +43,7 @@ import java.time.LocalDateTime
 import scala.concurrent.{ExecutionContext, ExecutionContextExecutor, Future}
 
 class RequestHandlerSpec
-  extends UnitSpec
+    extends UnitSpec
     with MockAuditService
     with MockIdGenerator
     with Status

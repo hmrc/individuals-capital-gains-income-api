@@ -35,7 +35,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class CreateAmendCgtPpdOverridesControllerSpec
-  extends ControllerBaseSpec
+    extends ControllerBaseSpec
     with ControllerTestRunner
     with MockEnrolmentsAuthService
     with MockMtdIdLookupService
@@ -125,8 +125,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
     body = requestModel
   )
 
-  val auditData: JsValue = Json.parse(
-    s"""
+  val auditData: JsValue = Json.parse(s"""
        |{
        |  "nino":"$validNino",
        |  "taxYear": "$taxYear"
@@ -137,7 +136,6 @@ class CreateAmendCgtPpdOverridesControllerSpec
       "happy path" in new Test {
         willUseValidator(returningSuccess(requestData))
         MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
-
 
         MockNrsProxyService
           .submitAsync(validNino, "itsa-cgt-disposal-ppd", validRequestJson)
@@ -154,7 +152,6 @@ class CreateAmendCgtPpdOverridesControllerSpec
     "return the error as per spec" when {
       "the parser validation fails" in new Test {
         willUseValidator(returning(NinoFormatError))
-
 
         runErrorTestWithAudit(NinoFormatError, maybeAuditRequestBody = Some(validRequestJson))
       }
