@@ -44,6 +44,7 @@ class CreateAmendCgtPpdOverridesController @Inject() (val authService: Enrolment
                                                       cc: ControllerComponents,
                                                       val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: AppConfig)
     extends AuthorisedController(cc) {
+  val endpointName = "create-amend-cgt-ppd-overrides"
 
   implicit val endpointLogContext: EndpointLogContext =
     EndpointLogContext(
