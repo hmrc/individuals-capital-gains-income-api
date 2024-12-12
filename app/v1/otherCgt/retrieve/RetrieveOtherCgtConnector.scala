@@ -16,9 +16,8 @@
 
 package v1.otherCgt.retrieve
 
-import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
-import api.connectors.httpparsers.StandardDownstreamHttpParser._
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamUri}
+import shared.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
+import api.connectors.{DownstreamOutcome, DownstreamUri}
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData

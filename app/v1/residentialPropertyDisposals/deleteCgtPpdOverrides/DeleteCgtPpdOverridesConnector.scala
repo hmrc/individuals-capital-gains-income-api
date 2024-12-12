@@ -16,9 +16,8 @@
 
 package v1.residentialPropertyDisposals.deleteCgtPpdOverrides
 
-import api.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
-import api.connectors.httpparsers.StandardDownstreamHttpParser._
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
+import shared.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
+import api.connectors.DownstreamOutcome
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.residentialPropertyDisposals.deleteCgtPpdOverrides.model.request.DeleteCgtPpdOverridesRequestData

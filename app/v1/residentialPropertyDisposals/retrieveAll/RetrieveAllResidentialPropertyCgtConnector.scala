@@ -16,8 +16,8 @@
 
 package v1.residentialPropertyDisposals.retrieveAll
 
-import api.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome, DownstreamUri}
+import shared.connectors.DownstreamUri.{DesUri, TaxYearSpecificIfsUri}
+import api.connectors.{DownstreamOutcome, DownstreamUri}
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.residentialPropertyDisposals.retrieveAll.model.request.RetrieveAllResidentialPropertyCgtRequestData
@@ -33,8 +33,6 @@ class RetrieveAllResidentialPropertyCgtConnector @Inject() (val http: HttpClient
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[RetrieveAllResidentialPropertyCgtResponse]] = {
-
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
     import schema._
 

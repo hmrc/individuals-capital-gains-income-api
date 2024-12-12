@@ -16,8 +16,8 @@
 
 package v1.residentialPropertyDisposals.createAmendNonPpd
 
-import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
+import shared.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
+import api.connectors.DownstreamOutcome
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.residentialPropertyDisposals.createAmendNonPpd.model.request.CreateAmendCgtResidentialPropertyDisposalsRequestData
@@ -32,8 +32,6 @@ class CreateAmendCgtResidentialPropertyDisposalsConnector @Inject() (val http: H
                                                                                           hc: HeaderCarrier,
                                                                                           ec: ExecutionContext,
                                                                                           correlationId: String): Future[DownstreamOutcome[Unit]] = {
-
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
 
     val uri = if (taxYear.useTaxYearSpecificApi) {

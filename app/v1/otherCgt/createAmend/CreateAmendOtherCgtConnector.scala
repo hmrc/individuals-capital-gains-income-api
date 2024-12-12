@@ -16,8 +16,8 @@
 
 package v1.otherCgt.createAmend
 
-import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
+import shared.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
+import api.connectors.DownstreamOutcome
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
@@ -32,8 +32,6 @@ class CreateAmendOtherCgtConnector @Inject() (val http: HttpClient, val appConfi
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[Unit]] = {
-
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
 
     val downstreamUri =

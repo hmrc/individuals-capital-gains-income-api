@@ -16,9 +16,8 @@
 
 package v1.residentialPropertyDisposals.deleteNonPpd
 
-import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
-import api.connectors.httpparsers.StandardDownstreamHttpParser._
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
+import shared.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
+import api.connectors.DownstreamOutcome
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
 import v1.residentialPropertyDisposals.deleteNonPpd.model.request.DeleteCgtNonPpdRequestData

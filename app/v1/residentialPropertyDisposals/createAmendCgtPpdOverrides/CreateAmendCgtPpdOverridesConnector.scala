@@ -16,8 +16,8 @@
 
 package v1.residentialPropertyDisposals.createAmendCgtPpdOverrides
 
-import api.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
-import api.connectors.{BaseDownstreamConnector, DownstreamOutcome}
+import shared.connectors.DownstreamUri.{Api1661Uri, TaxYearSpecificIfsUri}
+import api.connectors.DownstreamOutcome
 import com.google.inject.Singleton
 import config.AppConfig
 import uk.gov.hmrc.http.{HeaderCarrier, HttpClient}
@@ -33,8 +33,6 @@ class CreateAmendCgtPpdOverridesConnector @Inject() (val http: HttpClient, val a
                                                                        hc: HeaderCarrier,
                                                                        ec: ExecutionContext,
                                                                        correlationId: String): Future[DownstreamOutcome[Unit]] = {
-
-    import api.connectors.httpparsers.StandardDownstreamHttpParser._
     import request._
 
     val downstreamUri =
