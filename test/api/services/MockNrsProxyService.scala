@@ -18,10 +18,11 @@ package api.services
 
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import play.api.libs.json.JsValue
 import uk.gov.hmrc.http.HeaderCarrier
 
-trait MockNrsProxyService extends MockFactory {
+trait MockNrsProxyService extends MockFactory with TestSuite {
 
   val mockNrsProxyService: NrsProxyService = mock[NrsProxyService]
 

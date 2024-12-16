@@ -22,10 +22,11 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import play.api.libs.json.JsValue
 import v1.residentialPropertyDisposals.createAmendNonPpd.model.request.CreateAmendCgtResidentialPropertyDisposalsRequestData
 
-trait MockCreateAmendCgtResidentialPropertyDisposalsValidatorFactory extends MockFactory {
+trait MockCreateAmendCgtResidentialPropertyDisposalsValidatorFactory extends MockFactory with TestSuite {
 
   val mockCreateAmendCgtResidentialPropertyDisposalsValidatorFactory: CreateAmendCgtResidentialPropertyDisposalsValidatorFactory =
     mock[CreateAmendCgtResidentialPropertyDisposalsValidatorFactory]

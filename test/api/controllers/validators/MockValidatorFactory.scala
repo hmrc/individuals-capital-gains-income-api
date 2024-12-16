@@ -21,8 +21,9 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 
-trait MockValidatorFactory[Request] extends MockFactory {
+trait MockValidatorFactory[Request] extends MockFactory with TestSuite {
 
   def validator(): CallHandler[Validator[Request]]
 

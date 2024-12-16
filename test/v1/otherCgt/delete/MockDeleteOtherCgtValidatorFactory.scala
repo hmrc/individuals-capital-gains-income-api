@@ -22,9 +22,10 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import v1.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
-trait MockDeleteOtherCgtValidatorFactory extends MockFactory {
+trait MockDeleteOtherCgtValidatorFactory extends MockFactory with TestSuite {
 
   val mockDeleteOtherCgtValidatorFactory: DeleteOtherCgtValidatorFactory =
     mock[DeleteOtherCgtValidatorFactory]
