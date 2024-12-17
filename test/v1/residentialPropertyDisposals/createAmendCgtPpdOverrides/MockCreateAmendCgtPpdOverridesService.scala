@@ -20,11 +20,12 @@ import api.controllers.RequestContext
 import api.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import v1.residentialPropertyDisposals.createAmendCgtPpdOverrides.model.request.CreateAmendCgtPpdOverridesRequestData
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockCreateAmendCgtPpdOverridesService extends MockFactory {
+trait MockCreateAmendCgtPpdOverridesService extends MockFactory with TestSuite {
 
   val mockCreateAmendCgtPpdOverridesService: CreateAmendCgtPpdOverridesService = mock[CreateAmendCgtPpdOverridesService]
 

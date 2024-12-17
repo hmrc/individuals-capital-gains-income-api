@@ -18,9 +18,10 @@ package utils
 
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import utils.IdGenerator
 
-trait MockIdGenerator extends MockFactory {
+trait MockIdGenerator extends MockFactory with TestSuite {
 
   val mockIdGenerator: IdGenerator = mock[IdGenerator]
 

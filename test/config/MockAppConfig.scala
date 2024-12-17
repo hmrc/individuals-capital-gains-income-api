@@ -20,10 +20,11 @@ import cats.data.Validated
 import config.{AppConfig, ConfidenceLevelConfig, Deprecation}
 import org.scalamock.handlers.{CallHandler, CallHandler0}
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import play.api.Configuration
 import routing.Version
 
-trait MockAppConfig extends MockFactory {
+trait MockAppConfig extends MockFactory with TestSuite {
 
   implicit val mockAppConfig: AppConfig = mock[AppConfig]
 

@@ -22,9 +22,10 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import v1.residentialPropertyDisposals.deleteCgtPpdOverrides.model.request.DeleteCgtPpdOverridesRequestData
 
-trait MockDeleteCgtPpdOverridesValidatorFactory extends MockFactory {
+trait MockDeleteCgtPpdOverridesValidatorFactory extends MockFactory with TestSuite {
 
   val mockDeleteCgtPpdOverridesValidatorFactory: DeleteCgtPpdOverridesValidatorFactory =
     mock[DeleteCgtPpdOverridesValidatorFactory]

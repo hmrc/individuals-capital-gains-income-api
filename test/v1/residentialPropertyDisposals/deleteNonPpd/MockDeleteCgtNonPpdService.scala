@@ -20,11 +20,12 @@ import api.controllers.RequestContext
 import api.services.ServiceOutcome
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import v1.residentialPropertyDisposals.deleteNonPpd.model.request.DeleteCgtNonPpdRequestData
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait MockDeleteCgtNonPpdService extends MockFactory {
+trait MockDeleteCgtNonPpdService extends MockFactory with TestSuite {
 
   val mockDeleteCgtNonPpdService: DeleteCgtNonPpdService = mock[DeleteCgtNonPpdService]
 

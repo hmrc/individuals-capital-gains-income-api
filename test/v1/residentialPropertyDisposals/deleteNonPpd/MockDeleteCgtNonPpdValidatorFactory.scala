@@ -22,9 +22,10 @@ import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import org.scalamock.handlers.CallHandler
 import org.scalamock.scalatest.MockFactory
+import org.scalatest.TestSuite
 import v1.residentialPropertyDisposals.deleteNonPpd.model.request.DeleteCgtNonPpdRequestData
 
-trait MockDeleteCgtNonPpdValidatorFactory extends MockFactory {
+trait MockDeleteCgtNonPpdValidatorFactory extends MockFactory with TestSuite {
 
   val mockDeleteCgtNonPpdValidatorFactory: DeleteCgtNonPpdValidatorFactory =
     mock[DeleteCgtNonPpdValidatorFactory]
