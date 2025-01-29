@@ -71,3 +71,8 @@ components:
       value:
         code: RULE_REQUEST_CANNOT_BE_FULFILLED
         message: Custom (will vary in production depending on the actual error)
+
+    outsideAmendmentWindow:
+      description: The request cannot be completed as you are outside the amendment window.
+      code: RULE_OUTSIDE_AMENDMENT_WINDOW
+      message: You are outside the amendment window
