@@ -16,15 +16,15 @@
 
 package v2.endpoints
 
-import shared.models.errors._
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import play.api.http.HeaderNames.ACCEPT
 import play.api.http.Status._
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import support.IntegrationBaseSpec
+import shared.models.errors._
+import shared.services._
+import shared.support.IntegrationBaseSpec
 
 class RetrieveOtherCgtControllerISpec extends IntegrationBaseSpec {
 

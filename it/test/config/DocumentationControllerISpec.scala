@@ -22,7 +22,7 @@ import play.api.http.Status.OK
 import play.api.libs.json.Json
 import play.api.libs.ws.WSResponse
 import shared.routing.Version1
-import support.IntegrationBaseSpec
+import shared.support.IntegrationBaseSpec
 
 import scala.util.Try
 

@@ -16,15 +16,16 @@
 
 package auth
 
-import shared.models.domain.TaxYear
 import play.api.http.Status.NO_CONTENT
 import play.api.libs.json.JsValue
 import play.api.libs.ws.{WSRequest, WSResponse}
+import shared.auth.AuthSupportingAgentsAllowedISpec
+import shared.models.domain.TaxYear
 import shared.services.DownstreamStub
 
 class IndividualsCapitalGainsIncomeAuthSupportingAgentsAllowedISpec extends AuthSupportingAgentsAllowedISpec {
 
-  val callingApiVersion = "1.0"
+  val callingApiVersion = "2.0"
 
   val supportingAgentsAllowedEndpoint = "delete-cgt-non-ppd"
 
@@ -39,6 +40,8 @@ class IndividualsCapitalGainsIncomeAuthSupportingAgentsAllowedISpec extends Auth
   override val downstreamHttpMethod: DownstreamStub.HTTPMethod = DownstreamStub.DELETE
 
   val maybeDownstreamResponseJson: Option[JsValue] = None
+
+  override val downstreamSuccessStatus: Int = NO_CONTENT
 
   override val expectedMtdSuccessStatus: Int = NO_CONTENT
 
