@@ -16,13 +16,13 @@
 
 package v1
 
+import common.fixtures.nrs.NrsFixture
 import org.scalatest.Inside
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import play.api.http.Status._
 import play.api.test.Injecting
+import shared.support.{IntegrationBaseSpec, WireMockMethods}
 import uk.gov.hmrc.http.{Authorization, HeaderCarrier, UpstreamErrorResponse}
-import common.fixtures.nrs.NrsFixture
-import support.{IntegrationBaseSpec, WireMockMethods}
 
 class NrsProxyConnectorISpec
     extends IntegrationBaseSpec
@@ -32,6 +32,12 @@ class NrsProxyConnectorISpec
     with IntegrationPatience
     with WireMockMethods
     with Injecting {
+
+  override def servicesConfig: Map[String, Any] =
+    super.servicesConfig ++ Map(
+      "microservice.services.mtd-api-nrs-proxy.host" -> mockHost,
+      "microservice.services.mtd-api-nrs-proxy.port" -> mockPort
+    )
 
   val path                       = s"/mtd-api-nrs-proxy/$nino/$event"
   val auth                       = "Bearer xyx"

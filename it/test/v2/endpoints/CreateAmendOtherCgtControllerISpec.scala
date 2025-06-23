@@ -24,8 +24,8 @@ import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors._
-import shared.services.{AuditStub, AuthStub, DownstreamStub, MtdIdLookupStub}
-import support.{IntegrationBaseSpec, WireMockMethods}
+import shared.services._
+import shared.support.{IntegrationBaseSpec, WireMockMethods}
 
 class CreateAmendOtherCgtControllerISpec extends IntegrationBaseSpec with WireMockMethods {
 
