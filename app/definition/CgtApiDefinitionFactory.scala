@@ -26,6 +26,8 @@ import javax.inject.{Inject, Singleton}
 @Singleton
 class CgtApiDefinitionFactory @Inject()(sharedAppConfig: SharedAppConfig) extends ApiDefinitionFactory {
 
+  override protected val appConfig: SharedAppConfig = sharedAppConfig
+
   lazy val confidenceLevel: ConfidenceLevel = {
     val clConfig = appConfig.confidenceLevelConfig
 
@@ -63,6 +65,4 @@ class CgtApiDefinitionFactory @Inject()(sharedAppConfig: SharedAppConfig) extend
         APIStatus.ALPHA
       }
   }
-
-  override protected val appConfig: SharedAppConfig = sharedAppConfig
 }
