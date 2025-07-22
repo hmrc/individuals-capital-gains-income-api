@@ -32,7 +32,7 @@ class CgtApiDefinitionFactory @Inject()(sharedAppConfig: SharedAppConfig) extend
     if (clConfig.definitionEnabled) clConfig.confidenceLevel else ConfidenceLevel.L50
   }
 
-  lazy val definition: Definition =
+  val definition: Definition =
     Definition(
       api = APIDefinition(
         name = "Individuals Capital Gains Income (MTD)",

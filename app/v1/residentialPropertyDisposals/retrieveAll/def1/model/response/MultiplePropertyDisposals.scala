@@ -43,7 +43,7 @@ object MultiplePropertyDisposals {
       (JsPath \ "completionDate").readNullable[String] and
       (JsPath \ "amountOfNetGain").readNullable[BigDecimal] and
       (JsPath \ "amountOfLoss").readNullable[BigDecimal]
-  )(MultiplePropertyDisposals.apply _)
+  )(MultiplePropertyDisposals.apply)
 
   implicit val writes: OWrites[MultiplePropertyDisposals] = Json.writes[MultiplePropertyDisposals]
 

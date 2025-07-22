@@ -8,7 +8,7 @@ The Individuals Capital Gains Income API allows a developer to create, amend, re
 
 ## Requirements
 
-- Scala 2.13.x
+- Scala 3.3.x
 - Java 11
 - sbt 1.7.x
 - [Service Manager V2](https://github.com/hmrc/sm2)

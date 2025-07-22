@@ -59,7 +59,7 @@ object SinglePropertyDisposals {
       (JsPath \ "lossesFromPreviousYear").readNullable[BigDecimal] and
       (JsPath \ "amountOfNetGain").readNullable[BigDecimal] and
       (JsPath \ "amountOfLoss").readNullable[BigDecimal]
-  )(SinglePropertyDisposals.apply _)
+  )(SinglePropertyDisposals.apply)
 
   implicit val writes: OWrites[SinglePropertyDisposals] = Json.writes[SinglePropertyDisposals]
 }

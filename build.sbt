@@ -16,7 +16,7 @@
 
 import uk.gov.hmrc.DefaultBuildSettings
 
-ThisBuild / scalaVersion := "2.13.16"
+ThisBuild / scalaVersion := "3.4.3"
 ThisBuild / majorVersion := 0
 
 val appName = "individuals-capital-gains-income-api"
@@ -27,11 +27,8 @@ lazy val microservice = Project(appName, file("."))
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
     retrieveManaged                 := true,
-    update / evictionWarningOptions := EvictionWarningOptions.default.withWarnScalaVersionEviction(warnScalaVersionEviction = false),
     scalacOptions ++= List(
-      "-language:higherKinds",
-      "-Xlint:-byname-implicit",
-      "-Xfatal-warnings",
+      "-nowarn",
       "-Wconf:src=routes/.*:silent",
       "-feature"
     )
@@ -40,7 +37,7 @@ lazy val microservice = Project(appName, file("."))
     Compile / unmanagedResourceDirectories += baseDirectory.value / "resources",
     Compile / unmanagedClasspath += baseDirectory.value / "resources"
   )
-  .settings(CodeCoverageSettings.settings: _*)
+  .settings(CodeCoverageSettings.settings)
   .settings(PlayKeys.playDefaultPort := 7764)
 
 lazy val it = project

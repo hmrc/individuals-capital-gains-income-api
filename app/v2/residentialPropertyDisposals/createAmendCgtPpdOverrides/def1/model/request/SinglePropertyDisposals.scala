@@ -56,6 +56,6 @@ object SinglePropertyDisposals {
       (JsPath \ "lossesFromPreviousYear").writeNullable[BigDecimal] and
       (JsPath \ "amountOfNetGain").writeNullable[BigDecimal] and
       (JsPath \ "amountOfLoss").writeNullable[BigDecimal]
-  )(unlift(SinglePropertyDisposals.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

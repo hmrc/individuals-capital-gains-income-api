@@ -52,6 +52,6 @@ object Disposal {
       (JsPath \ "gainAfterRelief").writeNullable[BigDecimal] and
       (JsPath \ "lossAfterRelief").writeNullable[BigDecimal] and
       (JsPath \ "rttTaxPaid").writeNullable[BigDecimal]
-  )(unlift(Disposal.unapply))
+  )(o => Tuple.fromProductTyped(o))
 
 }

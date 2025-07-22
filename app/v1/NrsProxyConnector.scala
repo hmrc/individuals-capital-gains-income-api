@@ -18,6 +18,7 @@ package v1
 
 import config.CgtAppConfig
 import play.api.libs.json.JsValue
+import play.api.libs.ws.writeableOf_JsValue
 import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse, StringContextOps}
