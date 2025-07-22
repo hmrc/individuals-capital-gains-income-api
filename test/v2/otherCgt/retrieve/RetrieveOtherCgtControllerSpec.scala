@@ -170,7 +170,7 @@ class RetrieveOtherCgtControllerSpec
 
   trait Test extends ControllerTest {
 
-    val controller = new RetrieveOtherCgtController(
+    val controller: RetrieveOtherCgtController = new RetrieveOtherCgtController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockRetrieveOtherCgtValidatorFactory,

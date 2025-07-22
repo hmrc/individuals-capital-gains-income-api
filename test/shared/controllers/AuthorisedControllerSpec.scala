@@ -176,7 +176,7 @@ class AuthorisedControllerSpec extends ControllerBaseSpec with MockSharedAppConf
 
     }
 
-    lazy val controller = new TestController()
+    lazy val controller: TestController = new TestController()
 
     protected def supportingAgentsfeatureEnabled: Boolean = true
 

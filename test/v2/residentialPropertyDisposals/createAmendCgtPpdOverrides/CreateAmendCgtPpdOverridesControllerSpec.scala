@@ -168,7 +168,7 @@ class CreateAmendCgtPpdOverridesControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new CreateAmendCgtPpdOverridesController(
+    val controller: CreateAmendCgtPpdOverridesController = new CreateAmendCgtPpdOverridesController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockCreateAmendCgtPpdOverridesValidatorFactory,

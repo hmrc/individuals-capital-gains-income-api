@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 package shared.controllers
 
-import play.api.mvc._
-import shared.config.{SharedAppConfig, ConfigFeatureSwitches}
+import play.api.mvc.*
+import shared.config.{ConfigFeatureSwitches, SharedAppConfig}
 import shared.models.auth.UserDetails
 import shared.models.errors.MtdError
 import shared.services.{EnrolmentsAuthService, MtdIdLookupService}
@@ -29,9 +29,9 @@ import scala.concurrent.{ExecutionContext, Future}
 case class UserRequest[A](userDetails: UserDetails, request: Request[A]) extends WrappedRequest[A](request)
 
 abstract class AuthorisedController(
-    cc: ControllerComponents
-)(implicit appConfig: SharedAppConfig, ec: ExecutionContext)
-    extends BackendController(cc) {
+                                     cc: ControllerComponents
+                                   )(implicit appConfig: SharedAppConfig, ec: ExecutionContext)
+  extends BackendController(cc) {
 
   val authService: EnrolmentsAuthService
   val lookupService: MtdIdLookupService
@@ -42,7 +42,7 @@ abstract class AuthorisedController(
 
   lazy private val endpointAllowsSupportingAgents: Boolean = {
     supportingAgentsAccessControlEnabled &&
-    appConfig.endpointAllowsSupportingAgents(endpointName)
+      appConfig.endpointAllowsSupportingAgents(endpointName)
   }
 
   def authorisedAction(nino: String): ActionBuilder[UserRequest, AnyContent] = new ActionBuilder[UserRequest, AnyContent] {
@@ -52,10 +52,10 @@ abstract class AuthorisedController(
     override protected def executionContext: ExecutionContext = cc.executionContext
 
     def invokeBlockWithAuthCheck[A](
-        mtdId: String,
-        request: Request[A],
-        block: UserRequest[A] => Future[Result]
-    )(implicit headerCarrier: HeaderCarrier): Future[Result] = {
+                                     mtdId: String,
+                                     request: Request[A],
+                                     block: UserRequest[A] => Future[Result]
+                                   )(implicit headerCarrier: HeaderCarrier): Future[Result] = {
 
       authService.authorised(mtdId, endpointAllowsSupportingAgents).flatMap[Result] {
         case Right(userDetails) =>
@@ -79,5 +79,4 @@ abstract class AuthorisedController(
 
     private def errorResponse[A](mtdError: MtdError): Future[Result] = Future.successful(Status(mtdError.httpStatus)(mtdError.asJson))
   }
-
 }

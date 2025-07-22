@@ -280,7 +280,7 @@ class EnrolmentsAuthServiceSpec extends ServiceSpec with MockSharedAppConfig {
   trait Test {
     val mockAuthConnector: AuthConnector = mock[AuthConnector]
 
-    lazy val enrolmentsAuthService = new EnrolmentsAuthService(mockAuthConnector, mockSharedAppConfig)
+    lazy val enrolmentsAuthService: EnrolmentsAuthService = new EnrolmentsAuthService(mockAuthConnector, mockSharedAppConfig)
 
     object MockedAuthConnector {
 

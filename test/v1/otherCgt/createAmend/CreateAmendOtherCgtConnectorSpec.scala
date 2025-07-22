@@ -38,7 +38,7 @@ class CreateAmendOtherCgtConnectorSpec extends ConnectorSpec with MockAppConfig 
     "X-Request-Timestamp",
     "X-Session-Id"
   )
-  trait Test { _: ConnectorTest =>
+  trait Test { self: ConnectorTest =>
     def taxYear: TaxYear
 
     val connector: CreateAmendOtherCgtConnector = new CreateAmendOtherCgtConnector(

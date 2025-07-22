@@ -139,7 +139,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
 
   trait Test extends ControllerTest with AuditEventChecking[GenericAuditDetail] {
 
-    val controller = new CreateAmendCgtResidentialPropertyDisposalsController(
+    val controller: CreateAmendCgtResidentialPropertyDisposalsController = new CreateAmendCgtResidentialPropertyDisposalsController(
       authService = mockEnrolmentsAuthService,
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockCreateAmendCgtResidentialPropertyDisposalsValidatorFactory,
