@@ -16,7 +16,7 @@
 
 package v1.otherCgt.createAmend.def1.model.request
 
-import play.api.libs.json.{Format, Writes}
+import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
 enum AssetType(val toDownstreamString: String) {

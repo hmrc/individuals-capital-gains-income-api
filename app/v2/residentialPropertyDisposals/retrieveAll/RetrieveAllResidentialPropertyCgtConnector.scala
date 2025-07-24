@@ -30,14 +30,14 @@ import scala.concurrent.{ExecutionContext, Future}
 @Singleton
 class RetrieveAllResidentialPropertyCgtConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
-  import shared.connectors.httpparsers.StandardDownstreamHttpParser._
+  import shared.connectors.httpparsers.StandardDownstreamHttpParser.*
   def retrieve(request: RetrieveAllResidentialPropertyCgtRequestData)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
       correlationId: String): Future[DownstreamOutcome[RetrieveAllResidentialPropertyCgtResponse]] = {
 
-    import request._
-    import schema._
+    import request.*
+    import schema.*
 
     val view        = source.toDesViewString
     val queryParams = Seq(("view", view))

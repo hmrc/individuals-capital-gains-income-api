@@ -16,7 +16,7 @@
 
 package v1.residentialPropertyDisposals.createAmendNonPpd
 
-import cats.syntax.either._
+import cats.syntax.either.*
 import common.errors.{RuleAcquisitionDateAfterDisposalDateError, RuleCompletionDateError, RuleDisposalDateErrorV1}
 import shared.controllers.RequestContext
 import shared.models.errors.{InternalError, MtdError, NinoFormatError, RuleTaxYearNotSupportedError, TaxYearFormatError}

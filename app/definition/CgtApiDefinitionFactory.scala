@@ -17,7 +17,7 @@
 package definition
 
 import shared.config.SharedAppConfig
-import shared.definition.{APIDefinition, APIStatus, APIVersion, ApiDefinitionFactory, Definition}
+import shared.definition.*
 import shared.routing.{Version, Version1, Version2}
 import uk.gov.hmrc.auth.core.ConfidenceLevel
 

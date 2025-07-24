@@ -17,7 +17,7 @@
 package v1.otherCgt.retrieve.def1
 
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.CgtAppConfig
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
@@ -37,6 +37,6 @@ class Def1_RetrieveOtherCgtValidator @Inject() (nino: String, taxYear: String)(a
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(Def1_RetrieveOtherCgtRequestData)
+    ).mapN(Def1_RetrieveOtherCgtRequestData.apply)
 
 }

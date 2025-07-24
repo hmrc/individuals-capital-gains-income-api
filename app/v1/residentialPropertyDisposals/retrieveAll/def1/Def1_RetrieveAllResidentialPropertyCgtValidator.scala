@@ -18,7 +18,7 @@ package v1.residentialPropertyDisposals.retrieveAll.def1
 
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
-import cats.implicits._
+import cats.implicits.*
 import common.errors.SourceFormatError
 import config.CgtAppConfig
 import shared.controllers.validators.Validator
@@ -44,7 +44,7 @@ class Def1_RetrieveAllResidentialPropertyCgtValidator @Inject()(nino: String, ta
             ResolveNino(nino),
             resolveTaxYear(taxYear),
             resolveMtdSource(source)
-          ).mapN(Def1_RetrieveAllResidentialPropertyRequestData)
+          ).mapN(Def1_RetrieveAllResidentialPropertyRequestData.apply)
 
   private def resolveMtdSource(maybeSource: Option[String]): Validated[Seq[MtdError], MtdSourceEnum] = {
     maybeSource

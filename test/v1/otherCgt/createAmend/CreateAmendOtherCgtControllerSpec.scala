@@ -27,7 +27,7 @@ import shared.models.errors.{ErrorWrapper, NinoFormatError, RuleTaxYearNotSuppor
 import shared.models.outcomes.ResponseWrapper
 import shared.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
 import shared.utils.MockIdGenerator
-import v1.otherCgt.createAmend.def1.model.request._
+import v1.otherCgt.createAmend.def1.model.request.*
 import v1.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 import v1.residentialPropertyDisposals.MockNrsProxyService
 

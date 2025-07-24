@@ -98,7 +98,7 @@ class RetrieveAllResidentialPropertyCgtServiceSpec extends ServiceSpec {
           ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError)
         )
 
-        errors.foreach(args => (serviceError _).tupled(args))
+        errors.foreach(args => (serviceError).tupled(args))
       }
     }
   }

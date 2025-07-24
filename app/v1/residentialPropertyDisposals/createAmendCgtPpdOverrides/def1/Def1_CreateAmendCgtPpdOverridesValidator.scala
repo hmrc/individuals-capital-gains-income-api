@@ -17,7 +17,7 @@
 package v1.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1
 
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.CgtAppConfig
 import play.api.libs.json.JsValue
 import shared.controllers.validators.Validator
@@ -38,6 +38,6 @@ class Def1_CreateAmendCgtPpdOverridesValidator(nino: String, taxYear: String, bo
       ResolveNino(nino),
       resolveTaxYear(taxYear),
       resolveJson(body)
-    ).mapN(Def1_CreateAmendCgtPpdOverridesRequestData) andThen validateBusinessRules
+    ).mapN(Def1_CreateAmendCgtPpdOverridesRequestData.apply) andThen validateBusinessRules
 
 }

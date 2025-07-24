@@ -16,7 +16,7 @@
 
 package common.errors
 
-import play.api.http.Status._
+import play.api.http.Status.*
 import shared.models.errors.MtdError
 
 object PpdSubmissionIdFormatError  extends MtdError("FORMAT_PPD_SUBMISSION_ID", "The provided ppdSubmissionId is invalid", BAD_REQUEST)

@@ -16,8 +16,8 @@
 
 package v2.residentialPropertyDisposals.createAmendNonPpd.def1.model.request
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 case class Disposal(customerReference: Option[String],
                     disposalDate: String,

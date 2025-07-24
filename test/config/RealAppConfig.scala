@@ -31,15 +31,9 @@ trait RealAppConfig {
       .getOrElse(fail("Couldn't find an enabled API version in the config"))
 
   protected lazy val emaEndpoints: Map[String, Boolean] =
-    realAppConfig match {
-      case impl: CgtAppConfig =>
-        impl.configuration
-          .getOptional[Map[String, Boolean]]("api.supporting-agent-endpoints")
-          .getOrElse(Map.empty)
-
-      case _ =>
-        Map.empty
-    }
+    realAppConfig.configuration
+      .getOptional[Map[String, Boolean]]("api.supporting-agent-endpoints")
+      .getOrElse(Map.empty)
 
   protected lazy val realAppConfig: CgtAppConfig = {
     val conf           = ConfigFactory.load()

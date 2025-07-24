@@ -17,7 +17,7 @@
 package v1.residentialPropertyDisposals.deleteCgtPpdOverrides.def1
 
 import cats.data.Validated
-import cats.implicits._
+import cats.implicits.*
 import config.CgtAppConfig
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
@@ -36,6 +36,6 @@ class Def1_DeleteCgtPpdOverridesValidator @Inject()(nino: String, taxYear: Strin
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(Def1_DeleteCgtPpdOverridesRequestData)
+    ).mapN(Def1_DeleteCgtPpdOverridesRequestData.apply)
 
 }

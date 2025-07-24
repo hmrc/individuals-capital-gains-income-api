@@ -16,13 +16,12 @@
 
 package v1.residentialPropertyDisposals.createAmendNonPpd.def1
 
-import shared.controllers.validators.RulesValidator
-import shared.controllers.validators.resolvers.ResolveStringPattern
 import cats.data.Validated
 import cats.data.Validated.Invalid
-import cats.implicits._
+import cats.implicits.*
 import common.errors.{CustomerRefFormatError, RuleGainLossError}
-import shared.controllers.validators.resolvers.{ResolveIsoDate, ResolveParsedNumber}
+import shared.controllers.validators.RulesValidator
+import shared.controllers.validators.resolvers.{ResolveIsoDate, ResolveParsedNumber, ResolveStringPattern}
 import shared.models.errors.{DateFormatError, MtdError}
 import v1.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.{Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData, Disposal}
 object Def1_CreateAmendCgtResidentialPropertyDisposalsRulesValidator extends RulesValidator[Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData] {
@@ -33,7 +32,7 @@ object Def1_CreateAmendCgtResidentialPropertyDisposalsRulesValidator extends Rul
   def validateBusinessRules(parsed: Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData)
       : Validated[Seq[MtdError], Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData] = {
 
-    import parsed.body._
+    import parsed.body.*
 
     combine(
       disposals.zipWithIndex.traverse_ { case (disposal, index) =>
@@ -43,7 +42,7 @@ object Def1_CreateAmendCgtResidentialPropertyDisposalsRulesValidator extends Rul
   }
 
   private def validateDisposal(disposal: Disposal, index: Int): Validated[Seq[MtdError], Unit] = {
-    import disposal._
+    import disposal.*
 
     val validatedMandatoryDecimalNumbers = List(
       (disposalProceeds, s"/disposals/$index/disposalProceeds"),

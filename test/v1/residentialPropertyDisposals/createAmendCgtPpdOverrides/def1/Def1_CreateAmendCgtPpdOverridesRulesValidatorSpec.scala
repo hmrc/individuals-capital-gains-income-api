@@ -20,7 +20,7 @@ import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError}
 import config.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{RuleDateRangeInvalidError, RuleIncorrectOrEmptyBodyError, RuleTaxYearRangeInvalidError, ValueFormatError, _}
+import shared.models.errors.*
 import support.UnitSpec
 import v1.residentialPropertyDisposals.createAmendCgtPpdOverrides.CreateAmendCgtPpdOverridesValidatorFactory
 import v1.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.model.request.{Def1_CreateAmendCgtPpdOverridesRequestBody, Def1_CreateAmendCgtPpdOverridesRequestData}

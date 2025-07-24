@@ -21,6 +21,7 @@ import shared.controllers.validators.resolvers.UnexpectedJsonFieldsValidator.Sch
 import shared.models.domain.TaxYear
 import shared.models.errors.RuleIncorrectOrEmptyBodyError
 import shared.utils.Logging
+
 import scala.compiletime.{constValue, erasedValue, summonInline}
 import scala.deriving.Mirror
 

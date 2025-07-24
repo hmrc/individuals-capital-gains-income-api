@@ -16,13 +16,13 @@
 
 package v2.residentialPropertyDisposals.deleteNonPpd.def1
 
+import cats.data.Validated
+import cats.implicits.*
+import config.CgtAppConfig
 import shared.controllers.validators.Validator
 import shared.controllers.validators.resolvers.{ResolveNino, ResolveTaxYearMinimum}
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
-import cats.data.Validated
-import cats.implicits._
-import config.CgtAppConfig
 import v2.residentialPropertyDisposals.deleteNonPpd.def1.model.request.Def1_DeleteCgtNonPpdRequestData
 import v2.residentialPropertyDisposals.deleteNonPpd.model.request.DeleteCgtNonPpdRequestData
 
@@ -37,6 +37,6 @@ class Def1_DeleteCgtNonPpdValidator @Inject()(nino: String, taxYear: String)(app
     (
       ResolveNino(nino),
       resolveTaxYear(taxYear)
-    ).mapN(Def1_DeleteCgtNonPpdRequestData)
+    ).mapN(Def1_DeleteCgtNonPpdRequestData.apply)
 
 }

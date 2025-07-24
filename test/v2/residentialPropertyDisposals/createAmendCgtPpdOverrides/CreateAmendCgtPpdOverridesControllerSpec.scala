@@ -28,7 +28,7 @@ import shared.models.outcomes.ResponseWrapper
 import shared.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
 import shared.utils.MockIdGenerator
 import v2.residentialPropertyDisposals.MockNrsProxyService
-import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.model.request._
+import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.model.request.*
 import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.model.request.CreateAmendCgtPpdOverridesRequestData
 
 import scala.concurrent.ExecutionContext.Implicits.global

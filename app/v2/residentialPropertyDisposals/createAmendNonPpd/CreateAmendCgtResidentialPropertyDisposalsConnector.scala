@@ -35,8 +35,8 @@ class CreateAmendCgtResidentialPropertyDisposalsConnector @Inject() (val http: H
                                                                                           ec: ExecutionContext,
                                                                                           correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import request._
-    import shared.connectors.httpparsers.StandardDownstreamHttpParser._
+    import request.*
+    import shared.connectors.httpparsers.StandardDownstreamHttpParser.*
 
     val uri = if (taxYear.useTaxYearSpecificApi) {
       IfsUri[Unit](s"income-tax/income/disposals/residential-property/${taxYear.asTysDownstream}/${nino.nino}")

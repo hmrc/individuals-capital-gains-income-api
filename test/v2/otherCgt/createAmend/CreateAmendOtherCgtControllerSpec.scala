@@ -27,9 +27,9 @@ import shared.models.errors.{ErrorWrapper, NinoFormatError, RuleTaxYearNotSuppor
 import shared.models.outcomes.ResponseWrapper
 import shared.services.{MockAuditService, MockEnrolmentsAuthService, MockMtdIdLookupService}
 import shared.utils.MockIdGenerator
-import v2.residentialPropertyDisposals.MockNrsProxyService
-import v2.otherCgt.createAmend.def1.model.request._
+import v2.otherCgt.createAmend.def1.model.request.*
 import v2.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
+import v2.residentialPropertyDisposals.MockNrsProxyService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

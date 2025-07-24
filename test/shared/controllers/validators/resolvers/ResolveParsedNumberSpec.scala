@@ -107,7 +107,7 @@ class ResolveParsedNumberSpec extends UnitSpec with ScalaCheckDrivenPropertyChec
       "min and max are not specified" must {
         val error = ValueFormatError.copy(
           paths = Some(Seq(path)),
-          message = "The value must be between -99999999999.99 and 99999999999.99 (but cannot be 0 or 0.00)")
+          message = "The value must be between -99999999999.99 and 99999999999.99")
 
         "allow -99999999999.99" in {
           val value  = BigDecimal(-99999999999.99)

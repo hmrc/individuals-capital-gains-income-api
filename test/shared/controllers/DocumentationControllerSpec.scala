@@ -21,8 +21,8 @@ import controllers.{AssetsConfiguration, DefaultAssetsMetadata, RewriteableAsset
 import play.api.http.{DefaultFileMimeTypes, DefaultHttpErrorHandler, FileMimeTypesConfiguration, HttpConfiguration}
 import play.api.mvc.Result
 import play.api.{Configuration, Environment}
-import shared.config.rewriters.DocumentationRewriters.CheckAndRewrite
 import shared.config.rewriters.*
+import shared.config.rewriters.DocumentationRewriters.CheckAndRewrite
 import shared.config.{MockSharedAppConfig, RealAppConfig, SharedAppConfig}
 import shared.definition.*
 import shared.routing.{Version, Versions}

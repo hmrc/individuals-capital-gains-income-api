@@ -26,9 +26,9 @@ lazy val microservice = Project(appName, file("."))
   .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
-    retrieveManaged                 := true,
+    retrieveManaged := true,
     scalacOptions ++= List(
-      "-nowarn",
+      "-Wconf:msg=Flag.*repeatedly:s",
       "-Wconf:src=routes/.*:silent",
       "-feature"
     )
@@ -49,5 +49,8 @@ lazy val it = project
     Test / javaOptions += "-Dlogger.resource=logback-test.xml")
   .settings(libraryDependencies ++= AppDependencies.itDependencies)
   .settings(
-    scalacOptions ++= Seq("-Xfatal-warnings")
+    scalacOptions ++= Seq(
+      "-Xfatal-warnings",
+      "-Wconf:msg=Flag.*repeatedly:s"
+    )
   )

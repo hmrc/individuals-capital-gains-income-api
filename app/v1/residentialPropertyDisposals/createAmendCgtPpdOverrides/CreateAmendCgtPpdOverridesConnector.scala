@@ -35,8 +35,8 @@ class CreateAmendCgtPpdOverridesConnector @Inject() (val http: HttpClientV2, val
                                                                        ec: ExecutionContext,
                                                                        correlationId: String): Future[DownstreamOutcome[Unit]] = {
 
-    import request._
-    import shared.connectors.httpparsers.StandardDownstreamHttpParser._
+    import request.*
+    import shared.connectors.httpparsers.StandardDownstreamHttpParser.*
 
     val downstreamUri =
       if (taxYear.useTaxYearSpecificApi) {

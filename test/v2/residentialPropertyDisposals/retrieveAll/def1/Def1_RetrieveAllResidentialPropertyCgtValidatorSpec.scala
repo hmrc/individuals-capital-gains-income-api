@@ -19,7 +19,7 @@ package v2.residentialPropertyDisposals.retrieveAll.def1
 import common.errors.SourceFormatError
 import config.MockAppConfig
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors._
+import shared.models.errors.*
 import support.UnitSpec
 import v2.residentialPropertyDisposals.retrieveAll.RetrieveAllResidentialPropertyCgtValidatorFactory
 import v2.residentialPropertyDisposals.retrieveAll.def1.model.MtdSourceEnum

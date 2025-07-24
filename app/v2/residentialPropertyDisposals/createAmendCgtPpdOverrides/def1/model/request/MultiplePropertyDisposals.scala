@@ -16,8 +16,8 @@
 
 package v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.model.request
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.*
+import play.api.libs.json.*
 
 case class MultiplePropertyDisposals(ppdSubmissionId: String, amountOfNetGain: Option[BigDecimal], amountOfNetLoss: Option[BigDecimal]) {
 
