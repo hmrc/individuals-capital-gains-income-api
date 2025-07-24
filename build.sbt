@@ -18,6 +18,11 @@ import uk.gov.hmrc.DefaultBuildSettings
 
 ThisBuild / scalaVersion := "3.5.2"
 ThisBuild / majorVersion := 0
+ThisBuild / scalacOptions ++= Seq(
+  "-Werror",
+  "-Wconf:msg=Flag.*repeatedly:s"
+)
+ThisBuild / scalafmtOnCompile := true
 
 val appName = "individuals-capital-gains-income-api"
 
@@ -26,11 +31,9 @@ lazy val microservice = Project(appName, file("."))
   .disablePlugins(JUnitXmlReportPlugin) // Required to prevent https://github.com/scalatest/scalatest/issues/1427
   .settings(
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test,
-    retrieveManaged := true,
     scalacOptions ++= List(
-      "-Wconf:msg=Flag.*repeatedly:s",
-      "-Wconf:src=routes/.*:silent",
-      "-feature"
+      "-feature",
+      "-Wconf:src=routes/.*:silent"
     )
   )
   .settings(
@@ -43,14 +46,8 @@ lazy val microservice = Project(appName, file("."))
 lazy val it = project
   .enablePlugins(PlayScala)
   .dependsOn(microservice % "test->test")
-  .settings(DefaultBuildSettings.itSettings() ++ ScalafmtPlugin.scalafmtConfigSettings)
+  .settings(DefaultBuildSettings.itSettings())
   .settings(
     Test / fork := true,
     Test / javaOptions += "-Dlogger.resource=logback-test.xml")
   .settings(libraryDependencies ++= AppDependencies.itDependencies)
-  .settings(
-    scalacOptions ++= Seq(
-      "-Xfatal-warnings",
-      "-Wconf:msg=Flag.*repeatedly:s"
-    )
-  )
