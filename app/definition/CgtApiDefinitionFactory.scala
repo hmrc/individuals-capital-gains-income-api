@@ -24,7 +24,7 @@ import uk.gov.hmrc.auth.core.ConfidenceLevel
 import javax.inject.{Inject, Singleton}
 
 @Singleton
-class CgtApiDefinitionFactory @Inject()(sharedAppConfig: SharedAppConfig) extends ApiDefinitionFactory {
+class CgtApiDefinitionFactory @Inject() (sharedAppConfig: SharedAppConfig) extends ApiDefinitionFactory {
 
   override protected val appConfig: SharedAppConfig = sharedAppConfig
 
@@ -65,4 +65,5 @@ class CgtApiDefinitionFactory @Inject()(sharedAppConfig: SharedAppConfig) extend
         APIStatus.ALPHA
       }
   }
+
 }

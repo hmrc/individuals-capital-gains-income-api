@@ -22,7 +22,8 @@ import utils.JsonUtils
 import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.model.request.CreateAmendCgtPpdOverridesRequestBody
 
 case class Def1_CreateAmendCgtPpdOverridesRequestBody(multiplePropertyDisposals: Option[Seq[MultiplePropertyDisposals]],
-                                                 singlePropertyDisposals: Option[Seq[SinglePropertyDisposals]]) extends CreateAmendCgtPpdOverridesRequestBody
+                                                      singlePropertyDisposals: Option[Seq[SinglePropertyDisposals]])
+    extends CreateAmendCgtPpdOverridesRequestBody
 
 object Def1_CreateAmendCgtPpdOverridesRequestBody extends JsonUtils {
   val empty: Def1_CreateAmendCgtPpdOverridesRequestBody = Def1_CreateAmendCgtPpdOverridesRequestBody(None, None)

@@ -34,9 +34,9 @@ class CgtApiDefinitionFactorySpec extends UnitSpec with MockSharedAppConfig {
           MockedSharedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
           MockedSharedAppConfig.apiStatus(version) returns "BETA"
           MockedSharedAppConfig.endpointsEnabled(version) returns true
-          MockedSharedAppConfig.confidenceLevelConfig.returns(ConfidenceLevelConfig(confidenceLevel = confidenceLevel,
-            definitionEnabled = true,
-            authValidationEnabled = true)).anyNumberOfTimes()
+          MockedSharedAppConfig.confidenceLevelConfig
+            .returns(ConfidenceLevelConfig(confidenceLevel = confidenceLevel, definitionEnabled = true, authValidationEnabled = true))
+            .anyNumberOfTimes()
         }
 
         val apiDefinitionFactory: CgtApiDefinitionFactory = new CgtApiDefinitionFactory(mockSharedAppConfig)
@@ -80,10 +80,9 @@ class CgtApiDefinitionFactorySpec extends UnitSpec with MockSharedAppConfig {
           MockedSharedAppConfig.apiStatus(Version2).returns("BETA").anyNumberOfTimes()
           MockedSharedAppConfig.endpointsEnabled(Version1).returns(true).anyNumberOfTimes()
           MockedSharedAppConfig.endpointsEnabled(Version2).returns(true).anyNumberOfTimes()
-          MockedSharedAppConfig.confidenceLevelConfig.returns(ConfidenceLevelConfig(
-            confidenceLevel = configCL,
-            definitionEnabled = definitionEnabled,
-            authValidationEnabled = true)).anyNumberOfTimes()
+          MockedSharedAppConfig.confidenceLevelConfig
+            .returns(ConfidenceLevelConfig(confidenceLevel = configCL, definitionEnabled = definitionEnabled, authValidationEnabled = true))
+            .anyNumberOfTimes()
 
           val apiDefinitionFactory: CgtApiDefinitionFactory = new CgtApiDefinitionFactory(mockSharedAppConfig)
 
@@ -115,7 +114,7 @@ class CgtApiDefinitionFactorySpec extends UnitSpec with MockSharedAppConfig {
         MockedSharedAppConfig.apiStatus(Version2).returns("ALPHO").anyNumberOfTimes()
         MockedSharedAppConfig.endpointsEnabled(Version1).returns(true).anyNumberOfTimes()
         MockedSharedAppConfig.endpointsEnabled(Version2).returns(true).anyNumberOfTimes()
-        
+
         val apiDefinitionFactory: CgtApiDefinitionFactory = new CgtApiDefinitionFactory(mockSharedAppConfig)
 
         apiDefinitionFactory.buildAPIStatus(Version1) shouldBe ALPHA

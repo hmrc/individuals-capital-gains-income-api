@@ -27,6 +27,6 @@ enum MtdSourceEnum(val toDesViewString: String) {
 
 object MtdSourceEnum {
 
-  given Format[MtdSourceEnum] = Enums.format(values)
+  given Format[MtdSourceEnum]                        = Enums.format(values)
   val parser: PartialFunction[String, MtdSourceEnum] = Enums.parser[MtdSourceEnum](values)
 }

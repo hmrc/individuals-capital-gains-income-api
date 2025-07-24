@@ -83,6 +83,7 @@ class ApiDefinitionFactorySpec extends UnitSpec {
           List(APIVersion(Version1, APIStatus.BETA, endpointsEnabled = true)),
           None)
       )
+
     }
 
     def checkBuildApiStatus(version: Version): APIStatus = apiDefinitionFactory.buildAPIStatus(version)
@@ -93,6 +94,7 @@ class ApiDefinitionFactorySpec extends UnitSpec {
         .returns(NotDeprecated.valid)
         .anyNumberOfTimes()
     }
+
   }
 
 }

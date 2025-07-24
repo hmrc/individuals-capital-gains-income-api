@@ -25,8 +25,12 @@ import shared.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJson
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v2.residentialPropertyDisposals.createAmendNonPpd.def1.Def1_CreateAmendCgtResidentialPropertyDisposalsRulesValidator.validateBusinessRules
-import v2.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.{Def1_CreateAmendCgtResidentialPropertyDisposalsRequestBody, Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData}
+import v2.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.{
+  Def1_CreateAmendCgtResidentialPropertyDisposalsRequestBody,
+  Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData
+}
 import v2.residentialPropertyDisposals.createAmendNonPpd.model.request.CreateAmendCgtResidentialPropertyDisposalsRequestData
+
 class Def1_CreateAmendCgtResidentialPropertyDisposalsValidator(nino: String, taxYear: String, body: JsValue)(appConfig: CgtAppConfig)
     extends Validator[CreateAmendCgtResidentialPropertyDisposalsRequestData] {
 

@@ -43,8 +43,8 @@ trait RealAppConfig {
   }
 
   protected lazy val sharedRealAppConfig: SharedAppConfig = {
-    val conf = ConfigFactory.load()
-    val configuration = Configuration(conf)
+    val conf           = ConfigFactory.load()
+    val configuration  = Configuration(conf)
     val servicesConfig = new ServicesConfig(configuration)
     new SharedAppConfig(servicesConfig, configuration)
 

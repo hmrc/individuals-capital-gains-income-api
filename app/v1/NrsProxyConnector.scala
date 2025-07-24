@@ -27,10 +27,9 @@ import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class NrsProxyConnector @Inject()(http: HttpClientV2, appConfig: CgtAppConfig)(implicit ec: ExecutionContext) {
+class NrsProxyConnector @Inject() (http: HttpClientV2, appConfig: CgtAppConfig)(implicit ec: ExecutionContext) {
 
-  def submit(nino: String, notableEvent: String, body: JsValue)
-            (implicit hc: HeaderCarrier): Future[Either[UpstreamErrorResponse, Unit]] = {
+  def submit(nino: String, notableEvent: String, body: JsValue)(implicit hc: HeaderCarrier): Future[Either[UpstreamErrorResponse, Unit]] = {
 
     val url = s"${appConfig.mtdNrsProxyBaseUrl}/mtd-api-nrs-proxy/$nino/$notableEvent"
 

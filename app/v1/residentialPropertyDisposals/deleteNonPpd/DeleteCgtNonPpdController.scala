@@ -30,6 +30,7 @@ import uk.gov.hmrc.play.audit.http.connector.AuditResult
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
+
 @Singleton
 class DeleteCgtNonPpdController @Inject() (val authService: EnrolmentsAuthService,
                                            val lookupService: MtdIdLookupService,

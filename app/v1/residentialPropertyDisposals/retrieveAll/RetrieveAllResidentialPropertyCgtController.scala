@@ -31,8 +31,7 @@ class RetrieveAllResidentialPropertyCgtController @Inject() (val authService: En
                                                              validatorFactory: RetrieveAllResidentialPropertyCgtValidatorFactory,
                                                              service: RetrieveAllResidentialPropertyCgtService,
                                                              cc: ControllerComponents,
-                                                             val idGenerator: IdGenerator)
-                                                            (implicit ec: ExecutionContext, appConfig: SharedAppConfig)
+                                                             val idGenerator: IdGenerator)(implicit ec: ExecutionContext, appConfig: SharedAppConfig)
     extends AuthorisedController(cc) {
 
   val endpointName = "retrieve-all-residential-property-cgt"

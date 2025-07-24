@@ -79,7 +79,8 @@ object Def1_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def1_Create
       resolveDate(value)
     }
 
-    val validatedAssetDescription: Validated[Seq[MtdError], String] = ResolveAssetDescription(assetDescription, regex, AssetDescriptionFormatError.withPath(s"/disposals/$index/assetDescription"))
+    val validatedAssetDescription: Validated[Seq[MtdError], String] =
+      ResolveAssetDescription(assetDescription, regex, AssetDescriptionFormatError.withPath(s"/disposals/$index/assetDescription"))
 
     val validatedAssetType = ResolveAssetType(assetType, AssetTypeFormatError.withPath(s"/disposals/$index/assetType"))
 

@@ -23,7 +23,12 @@ import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError}
 import shared.controllers.validators.RulesValidator
 import shared.controllers.validators.resolvers.{ResolveIsoDate, ResolveParsedNumber}
 import shared.models.errors.{DateFormatError, MtdError, RuleDateRangeInvalidError}
-import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.model.request.{Def1_CreateAmendCgtPpdOverridesRequestBody, Def1_CreateAmendCgtPpdOverridesRequestData, MultiplePropertyDisposals, SinglePropertyDisposals}
+import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.model.request.{
+  Def1_CreateAmendCgtPpdOverridesRequestBody,
+  Def1_CreateAmendCgtPpdOverridesRequestData,
+  MultiplePropertyDisposals,
+  SinglePropertyDisposals
+}
 
 object Def1_CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[Def1_CreateAmendCgtPpdOverridesRequestData] {
 

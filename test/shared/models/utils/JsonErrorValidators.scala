@@ -68,10 +68,11 @@ trait JsonErrorValidators extends UnitSpec {
 
     def replaceWithEmptyObject(path: String): JsValue =
       removeProperty(path).update(path, JsObject.empty)
+
   }
 
-  def testJsonFields[A](json: JsValue)(mandatoryFields: Seq[String], optionalFields: Seq[String], modelName: Option[String] = None)
-                       (implicit rds: Reads[A]): Unit = {
+  def testJsonFields[A](json: JsValue)(mandatoryFields: Seq[String], optionalFields: Seq[String], modelName: Option[String] = None)(implicit
+      rds: Reads[A]): Unit = {
     s"For data model ${modelName.fold("")(modelName => s"- $modelName")}" when {
       mandatoryFields.foreach(property => testMandatoryFields(json)(property))
       optionalFields.foreach(property => testOptionalFields(json)(property))

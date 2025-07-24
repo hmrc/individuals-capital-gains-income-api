@@ -16,26 +16,25 @@
 
 package v1.otherCgt.createAmend.def1.fixture
 
-
 import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
 enum ClaimOrElectionCodes {
-  case PRR  extends ClaimOrElectionCodes
-  case LET  extends ClaimOrElectionCodes
-  case GHO  extends ClaimOrElectionCodes
-  case ROR  extends ClaimOrElectionCodes
-  case PRO  extends ClaimOrElectionCodes
-  case ESH  extends ClaimOrElectionCodes
-  case NVC  extends ClaimOrElectionCodes
-  case SIR  extends ClaimOrElectionCodes
-  case OTH  extends ClaimOrElectionCodes
-  case BAD  extends ClaimOrElectionCodes
-  case INV  extends ClaimOrElectionCodes
+  case PRR extends ClaimOrElectionCodes
+  case LET extends ClaimOrElectionCodes
+  case GHO extends ClaimOrElectionCodes
+  case ROR extends ClaimOrElectionCodes
+  case PRO extends ClaimOrElectionCodes
+  case ESH extends ClaimOrElectionCodes
+  case NVC extends ClaimOrElectionCodes
+  case SIR extends ClaimOrElectionCodes
+  case OTH extends ClaimOrElectionCodes
+  case BAD extends ClaimOrElectionCodes
+  case INV extends ClaimOrElectionCodes
 }
 
 object ClaimOrElectionCodes {
 
-  given Format[ClaimOrElectionCodes] = Enums.format(values)
+  given Format[ClaimOrElectionCodes]                        = Enums.format(values)
   val parser: PartialFunction[String, ClaimOrElectionCodes] = Enums.parser[ClaimOrElectionCodes](values)
 }

@@ -33,8 +33,8 @@ object NonStandardGains {
   implicit val emptinessChecker: EmptinessChecker[NonStandardGains] = EmptinessChecker.use { body =>
     List(
       field("carriedInterestGain", body.carriedInterestGain),
-      field("attributedGains",     body.attributedGains),
-      field("otherGains",          body.otherGains)
+      field("attributedGains", body.attributedGains),
+      field("otherGains", body.otherGains)
     )
   }
 

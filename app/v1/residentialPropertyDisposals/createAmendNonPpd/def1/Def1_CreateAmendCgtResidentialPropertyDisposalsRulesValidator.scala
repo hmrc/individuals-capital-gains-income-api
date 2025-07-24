@@ -24,7 +24,9 @@ import shared.controllers.validators.RulesValidator
 import shared.controllers.validators.resolvers.{ResolveIsoDate, ResolveParsedNumber, ResolveStringPattern}
 import shared.models.errors.{DateFormatError, MtdError}
 import v1.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.{Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData, Disposal}
-object Def1_CreateAmendCgtResidentialPropertyDisposalsRulesValidator extends RulesValidator[Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData] {
+
+object Def1_CreateAmendCgtResidentialPropertyDisposalsRulesValidator
+    extends RulesValidator[Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData] {
 
   private val resolveNonNegativeParsedNumber = ResolveParsedNumber()
   private val regex                          = "^[0-9a-zA-Z{À-˿'}\\- _&`():.'^]{1,90}$".r

@@ -28,7 +28,7 @@ object EmptyPathsResult {
 }
 
 /** Type class to locate paths to empty objects or arrays within an instance of an object.
- */
+  */
 trait EmptinessChecker[A] {
   import EmptinessChecker.*
 
@@ -157,4 +157,5 @@ object EmptinessChecker {
       case _: (h *: t)   => summonInline[Lazy[EmptinessChecker[h]]].asInstanceOf[Lazy[EmptinessChecker[Any]]] :: summonAllInstances[t]
       case _: EmptyTuple => Nil
     }
+
 }

@@ -28,6 +28,6 @@ enum AssetType(val toDownstreamString: String) {
 
 object AssetType {
 
-  given Format[AssetType] = Enums.format(values)
+  given Format[AssetType]                        = Enums.format(values)
   val parser: PartialFunction[String, AssetType] = Enums.parser[AssetType](values)
 }

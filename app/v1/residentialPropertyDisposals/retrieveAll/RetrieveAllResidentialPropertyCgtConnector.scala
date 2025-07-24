@@ -31,6 +31,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class RetrieveAllResidentialPropertyCgtConnector @Inject() (val http: HttpClientV2, val appConfig: SharedAppConfig) extends BaseDownstreamConnector {
 
   import shared.connectors.httpparsers.StandardDownstreamHttpParser.*
+
   def retrieve(request: RetrieveAllResidentialPropertyCgtRequestData)(implicit
       hc: HeaderCarrier,
       ec: ExecutionContext,
@@ -41,8 +42,6 @@ class RetrieveAllResidentialPropertyCgtConnector @Inject() (val http: HttpClient
 
     val view        = source.toDesViewString
     val queryParams = Seq(("view", view))
-
-
 
     val downstreamUri: DownstreamUri[DownstreamResp] = taxYear match {
       case ty if ty.useTaxYearSpecificApi =>

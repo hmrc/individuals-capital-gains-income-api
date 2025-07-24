@@ -18,13 +18,24 @@ package v2.otherCgt.retrieve
 
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear, Timestamp}
-import shared.models.errors.{DownstreamErrorCode, DownstreamErrors, ErrorWrapper, InternalError, MtdError, NinoFormatError, NotFoundError, RuleTaxYearNotSupportedError, TaxYearFormatError}
+import shared.models.errors.{
+  DownstreamErrorCode,
+  DownstreamErrors,
+  ErrorWrapper,
+  InternalError,
+  MtdError,
+  NinoFormatError,
+  NotFoundError,
+  RuleTaxYearNotSupportedError,
+  TaxYearFormatError
+}
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import v2.otherCgt.retrieve.def1.model.request.Def1_RetrieveOtherCgtRequestData
 import v2.otherCgt.retrieve.def1.model.response.Def1_RetrieveOtherCgtResponse
 
 import scala.concurrent.Future
+
 class RetrieveOtherCgtServiceSpec extends ServiceSpec {
 
   "RetrieveOtherCgtServiceSpec" should {

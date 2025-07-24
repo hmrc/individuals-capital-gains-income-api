@@ -28,7 +28,7 @@ import v2.residentialPropertyDisposals.deleteNonPpd.model.request.DeleteCgtNonPp
 
 import javax.inject.Inject
 
-class Def1_DeleteCgtNonPpdValidator @Inject()(nino: String, taxYear: String)(appConfig: CgtAppConfig) extends Validator[DeleteCgtNonPpdRequestData] {
+class Def1_DeleteCgtNonPpdValidator @Inject() (nino: String, taxYear: String)(appConfig: CgtAppConfig) extends Validator[DeleteCgtNonPpdRequestData] {
 
   private lazy val minimumTaxYear = appConfig.minimumPermittedTaxYear
   private lazy val resolveTaxYear = ResolveTaxYearMinimum(TaxYear.fromDownstreamInt(minimumTaxYear))

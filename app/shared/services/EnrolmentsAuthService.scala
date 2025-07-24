@@ -20,7 +20,12 @@ import shared.config.SharedAppConfig
 import shared.models.auth.UserDetails
 import shared.models.errors.{InternalError, *}
 import shared.models.outcomes.AuthOutcome
-import shared.services.EnrolmentsAuthService.{authorisationDisabledPredicate, authorisationEnabledPredicate, mtdEnrolmentPredicate, supportingAgentAuthPredicate}
+import shared.services.EnrolmentsAuthService.{
+  authorisationDisabledPredicate,
+  authorisationEnabledPredicate,
+  mtdEnrolmentPredicate,
+  supportingAgentAuthPredicate
+}
 import shared.utils.Logging
 import uk.gov.hmrc.auth.core.*
 import uk.gov.hmrc.auth.core.AffinityGroup.{Agent, Individual, Organisation}

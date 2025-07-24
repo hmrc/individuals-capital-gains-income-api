@@ -27,6 +27,7 @@ import shared.models.errors.MtdError
 import v1.otherCgt.createAmend.def1.Def1_CreateAmendOtherCgtRulesValidator.validateBusinessRules
 import v1.otherCgt.createAmend.def1.model.request.{Def1_CreateAmendOtherCgtRequestBody, Def1_CreateAmendOtherCgtRequestData}
 import v1.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
+
 class Def1_CreateAmendOtherCgtValidator(nino: String, taxYear: String, body: JsValue)(appConfig: CgtAppConfig)
     extends Validator[CreateAmendOtherCgtRequestData] {
 

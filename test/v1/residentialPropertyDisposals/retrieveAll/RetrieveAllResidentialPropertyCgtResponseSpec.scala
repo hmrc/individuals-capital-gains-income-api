@@ -15,6 +15,7 @@
  */
 
 package v1.residentialPropertyDisposals.retrieveAll
+
 import play.api.libs.json.{JsValue, Json}
 import shared.models.domain.Timestamp
 import support.UnitSpec

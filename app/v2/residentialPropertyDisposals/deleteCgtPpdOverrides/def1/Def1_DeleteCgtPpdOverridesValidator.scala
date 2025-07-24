@@ -27,7 +27,9 @@ import v2.residentialPropertyDisposals.deleteCgtPpdOverrides.def1.model.request.
 import v2.residentialPropertyDisposals.deleteCgtPpdOverrides.model.request.DeleteCgtPpdOverridesRequestData
 
 import javax.inject.Inject
-class Def1_DeleteCgtPpdOverridesValidator @Inject()(nino: String, taxYear: String)(appConfig: CgtAppConfig) extends Validator[DeleteCgtPpdOverridesRequestData] {
+
+class Def1_DeleteCgtPpdOverridesValidator @Inject() (nino: String, taxYear: String)(appConfig: CgtAppConfig)
+    extends Validator[DeleteCgtPpdOverridesRequestData] {
 
   private lazy val minimumTaxYear = appConfig.minimumPermittedTaxYear
   private lazy val resolveTaxYear = ResolveTaxYearMinimum(TaxYear.fromDownstreamInt(minimumTaxYear))

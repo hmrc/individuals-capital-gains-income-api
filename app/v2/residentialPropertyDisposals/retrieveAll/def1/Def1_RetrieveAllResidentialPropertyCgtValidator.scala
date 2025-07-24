@@ -33,18 +33,18 @@ import javax.inject.{Inject, Singleton}
 import scala.util.{Failure, Success, Try}
 
 @Singleton
-class Def1_RetrieveAllResidentialPropertyCgtValidator @Inject()(nino: String, taxYear: String, source: Option[String])(appConfig: CgtAppConfig)
-  extends Validator[RetrieveAllResidentialPropertyCgtRequestData] {
+class Def1_RetrieveAllResidentialPropertyCgtValidator @Inject() (nino: String, taxYear: String, source: Option[String])(appConfig: CgtAppConfig)
+    extends Validator[RetrieveAllResidentialPropertyCgtRequestData] {
 
   private lazy val minimumTaxYear = appConfig.minimumPermittedTaxYear
   private lazy val resolveTaxYear = ResolveTaxYearMinimum(TaxYear.fromDownstreamInt(minimumTaxYear))
 
   def validate: Validated[Seq[MtdError], RetrieveAllResidentialPropertyCgtRequestData] =
-          (
-            ResolveNino(nino),
-            resolveTaxYear(taxYear),
-            resolveMtdSource(source)
-          ).mapN(Def1_RetrieveAllResidentialPropertyRequestData.apply)
+    (
+      ResolveNino(nino),
+      resolveTaxYear(taxYear),
+      resolveMtdSource(source)
+    ).mapN(Def1_RetrieveAllResidentialPropertyRequestData.apply)
 
   private def resolveMtdSource(maybeSource: Option[String]): Validated[Seq[MtdError], MtdSourceEnum] = {
     maybeSource
@@ -58,4 +58,5 @@ class Def1_RetrieveAllResidentialPropertyCgtValidator @Inject()(nino: String, ta
       }
       .getOrElse(Valid(MtdSourceEnum.latest))
   }
+
 }
