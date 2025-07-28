@@ -20,10 +20,7 @@ import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
 enum Method {
-  case GET    extends Method
-  case POST   extends Method
-  case DELETE extends Method
-  case PUT    extends Method
+  case GET, POST, DELETE, PUT
 }
 
 object Method {

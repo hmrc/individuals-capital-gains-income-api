@@ -20,9 +20,7 @@ import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
 enum Status {
-  case valid      extends Status
-  case invalid    extends Status
-  case superseded extends Status
+  case valid, invalid, superseded
 }
 
 object Status {
