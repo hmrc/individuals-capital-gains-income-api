@@ -35,7 +35,6 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidator(nino: String, tax
     extends Validator[CreateAmendCgtResidentialPropertyDisposalsRequestData] {
 
   private lazy val minimumTaxYear = appConfig.minimumPermittedTaxYear
-  // private lazy val resolveTaxYear = ResolveTaxYearMinimum(TaxYear.fromDownstreamInt(minimumTaxYear))
 
   private lazy val resolveTaxYear = ResolveTaxYearMinMax(
     (TaxYear.fromDownstreamInt(minimumTaxYear), TaxYear.fromMtd("2024-25")),
