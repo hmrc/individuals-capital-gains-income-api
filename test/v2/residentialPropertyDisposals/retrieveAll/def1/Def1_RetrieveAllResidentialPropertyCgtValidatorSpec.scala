@@ -99,6 +99,15 @@ class Def1_RetrieveAllResidentialPropertyCgtValidatorSpec extends UnitSpec with 
       }
     }
 
+    "return RuleTaxYearForVersionNotSupportedError error" when {
+      "a tax year that is above the maximum is supplied" in new Test {
+        val result: Either[ErrorWrapper, RetrieveAllResidentialPropertyCgtRequestData] =
+          validator(validNino, "2025-26", validSource).validateAndWrapResult()
+
+        result shouldBe Left(ErrorWrapper(correlationId, RuleTaxYearForVersionNotSupportedError))
+      }
+    }
+
     "return NinoFormatError and TaxYearFormatError errors" when {
       "request supplied has invalid nino and tax year" in new Test {
         val result: Either[ErrorWrapper, RetrieveAllResidentialPropertyCgtRequestData] =
