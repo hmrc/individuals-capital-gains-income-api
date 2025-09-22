@@ -28,26 +28,14 @@ import shared.models.errors.*
 import shared.services.*
 import shared.support.IntegrationBaseSpec
 
-class DeleteOtherCgtControllerISpec extends IntegrationBaseSpec {
+class DeleteOtherCgtControllerHipISpec extends IntegrationBaseSpec {
+
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1953.enabled" -> true) ++ super.servicesConfig
 
   "Calling the 'delete other capital gains and disposals' endpoint" should {
     "return a 204 status code" when {
-      "any valid request is made" in new NonTysTest with Test {
-
-        override def setupStubs(): StubMapping = {
-          AuthStub.authorised()
-          MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.DELETE, downstreamUri, NO_CONTENT)
-        }
-
-        val response: WSResponse = await(request().delete())
-        response.status shouldBe NO_CONTENT
-        response.body shouldBe ""
-        response.header("Content-Type") shouldBe None
-        response.header("X-CorrelationId").nonEmpty shouldBe true
-      }
-
-      "any valid request with a Tax Year Specific (TYS) tax year is made" in new TysIfsTest with Test {
+      "any valid request is made using HIP" in new Test {
 
         override def setupStubs(): StubMapping = {
           AuthStub.authorised()
@@ -67,7 +55,7 @@ class DeleteOtherCgtControllerISpec extends IntegrationBaseSpec {
 
       "validation error" when {
         def validationErrorTest(requestNino: String, requestTaxYear: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"validation fails with ${expectedBody.code} error" in new NonTysTest with Test {
+          s"validation fails with ${expectedBody.code} error" in new Test {
 
             override val nino: String    = requestNino
             override val taxYear: String = requestTaxYear
@@ -88,14 +76,15 @@ class DeleteOtherCgtControllerISpec extends IntegrationBaseSpec {
           ("AA1123A", "2019-20", BAD_REQUEST, NinoFormatError),
           ("AA123456A", "20199", BAD_REQUEST, TaxYearFormatError),
           ("AA123456A", "2018-19", BAD_REQUEST, RuleTaxYearNotSupportedError),
-          ("AA123456A", "2019-21", BAD_REQUEST, RuleTaxYearRangeInvalidError)
+          ("AA123456A", "2019-21", BAD_REQUEST, RuleTaxYearRangeInvalidError),
+          ("AA123456A", "2025-26", BAD_REQUEST, RuleTaxYearForVersionNotSupportedError)
         )
         input.foreach(args => (validationErrorTest).tupled(args))
       }
 
       "downstream service error" when {
         def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new NonTysTest with Test {
+          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new Test {
 
             override def setupStubs(): StubMapping = {
               AuthStub.authorised()
@@ -110,13 +99,20 @@ class DeleteOtherCgtControllerISpec extends IntegrationBaseSpec {
           }
         }
 
-        def errorBody(code: String): String =
+        def errorBody(`type`: String): String =
           s"""
              |{
-             |   "code": "$code",
-             |   "reason": "downstream message"
+             |  "origin": "HoD",
+             |  "response": {
+             |    "failures": [
+             |      {
+             |        "type": "${`type`}",
+             |        "reason": "downstream message"
+             |      }
+             |    ]
+             |  }
              |}
-            """.stripMargin
+               """.stripMargin
 
         val errors = Seq(
           (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
@@ -143,9 +139,11 @@ class DeleteOtherCgtControllerISpec extends IntegrationBaseSpec {
 
     val nino: String = "AA123456A"
 
-    def taxYear: String
-    def mtdUri: String = s"/other-gains/$nino/$taxYear"
-    def downstreamUri: String
+    def taxYear: String                   = "2023-24"
+    private def taxYearDownstream: String = "23-24"
+
+    private def mtdUri: String = s"/other-gains/$nino/$taxYear"
+    def downstreamUri: String  = s"/itsa/income-tax/v1/$taxYearDownstream/income/disposals/other-gains/$nino"
 
     def setupStubs(): StubMapping
 
@@ -158,16 +156,6 @@ class DeleteOtherCgtControllerISpec extends IntegrationBaseSpec {
         )
     }
 
-  }
-
-  private trait NonTysTest extends Test {
-    def taxYear: String       = "2019-20"
-    def downstreamUri: String = s"/income-tax/income/disposals/other-gains/$nino/2019-20"
-  }
-
-  private trait TysIfsTest extends Test {
-    def taxYear: String       = "2023-24"
-    def downstreamUri: String = s"/income-tax/income/disposals/other-gains/23-24/$nino"
   }
 
 }
