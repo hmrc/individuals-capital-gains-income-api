@@ -99,13 +99,20 @@ class DeleteOtherCgtControllerHipISpec extends IntegrationBaseSpec {
           }
         }
 
-        def errorBody(code: String): String =
+        def errorBody(`type`: String): String =
           s"""
              |{
-             |   "code": "$code",
-             |   "reason": "downstream message"
+             |  "origin": "HoD",
+             |  "response": {
+             |    "failures": [
+             |      {
+             |        "type": "${`type`}",
+             |        "reason": "downstream message"
+             |      }
+             |    ]
+             |  }
              |}
-            """.stripMargin
+               """.stripMargin
 
         val errors = Seq(
           (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
