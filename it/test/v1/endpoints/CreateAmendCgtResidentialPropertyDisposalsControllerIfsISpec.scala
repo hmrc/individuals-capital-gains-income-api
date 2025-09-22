@@ -388,6 +388,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
           ("AA123456A", "20177", validRequestJson, BAD_REQUEST, TaxYearFormatError, None, None),
           ("AA123456A", "2015-17", validRequestJson, BAD_REQUEST, RuleTaxYearRangeInvalidError, None, None),
           ("AA123456A", "2018-19", validRequestJson, BAD_REQUEST, RuleTaxYearNotSupportedError, None, None),
+          ("AA123456A", "2025-26", validRequestJson, BAD_REQUEST, RuleTaxYearForVersionNotSupportedError, None, None),
 
           // Body errors
           ("AA123456A", "2019-20", JsObject.empty, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None, Some("emptyBody")),
