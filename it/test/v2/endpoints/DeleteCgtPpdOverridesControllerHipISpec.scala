@@ -28,7 +28,10 @@ import shared.models.errors.*
 import shared.services.*
 import shared.support.IntegrationBaseSpec
 
-class DeleteCgtPpdOverridesControllerISpec extends IntegrationBaseSpec {
+class DeleteCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec {
+
+  override def servicesConfig: Map[String, Any] =
+    Map("feature-switch.ifs_hip_migration_1947.enabled" -> true) ++ super.servicesConfig
 
   private trait Test {
 
@@ -57,9 +60,9 @@ class DeleteCgtPpdOverridesControllerISpec extends IntegrationBaseSpec {
     def downstreamUri: String = s"/income-tax/income/disposals/residential-property/ppd/$nino/$taxYear"
   }
 
-  private trait TysIfsTest extends Test {
+  private trait TysHipTest extends Test {
     def taxYear: String       = "2023-24"
-    def downstreamUri: String = s"/income-tax/income/disposals/residential-property/ppd/23-24/$nino"
+    def downstreamUri: String = s"/itsa/income-tax/v1/23-24/income/disposals/residential-property/ppd/$nino"
   }
 
   "Calling the 'delete cgt ppd overrides' endpoint" should {
@@ -79,7 +82,7 @@ class DeleteCgtPpdOverridesControllerISpec extends IntegrationBaseSpec {
         response.header("X-CorrelationId").nonEmpty shouldBe true
       }
 
-      "any valid request is made for a Tax Year Specific (TYS) tax year" in new TysIfsTest {
+      "any valid request is made for a Tax Year Specific (TYS) tax year" in new TysHipTest {
 
         override def setupStubs(): StubMapping = {
           AuthStub.authorised()
@@ -120,6 +123,7 @@ class DeleteCgtPpdOverridesControllerISpec extends IntegrationBaseSpec {
           ("AA1123A", "2019-20", BAD_REQUEST, NinoFormatError),
           ("AA123456A", "20199", BAD_REQUEST, TaxYearFormatError),
           ("AA123456A", "2018-19", BAD_REQUEST, RuleTaxYearNotSupportedError),
+          ("AA123456A", "2025-26", BAD_REQUEST, RuleTaxYearForVersionNotSupportedError),
           ("AA123456A", "2019-21", BAD_REQUEST, RuleTaxYearRangeInvalidError)
         )
         input.foreach(args => (validationErrorTest).tupled(args))
@@ -145,8 +149,15 @@ class DeleteCgtPpdOverridesControllerISpec extends IntegrationBaseSpec {
         def errorBody(code: String): String =
           s"""
              |{
-             |   "code": "$code",
-             |   "reason": "downstream message"
+             |  "origin": "HoD",
+             |  "response": {
+             |    "failures": [
+             |      {
+             |        "type": "$code",
+             |        "reason": "message"
+             |      }
+             |    ]
+             |  }
              |}
             """.stripMargin
 
