@@ -26,7 +26,7 @@ import shared.models.errors.*
 import shared.services.*
 import shared.support.IntegrationBaseSpec
 
-class RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
+class Def1_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
 
   "Calling the 'retrieve other CGT' endpoint" should {
     "return a 200 status code" when {
@@ -36,7 +36,7 @@ class RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponseDef1)
         }
 
         val response: WSResponse = await(request.get())
@@ -45,13 +45,13 @@ class RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         response.header("Content-Type") shouldBe Some("application/json")
       }
 
-      "any valid request with a Tax Year Specific (TYS) tax year is made" in new TysHipTest {
+      "any valid request with a Tax Year Specific (TYS) tax year is made for Def1" in new TysHipTest {
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponseDef1)
         }
 
         val response: WSResponse = await(request.get())
@@ -149,7 +149,7 @@ class RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
     def taxYear: String
     def downstreamUri: String
 
-    val downstreamResponse: JsValue = Json.parse(
+    val downstreamResponseDef1: JsValue = Json.parse(
       """
         |{
         |   "submittedOn":"2021-05-07T16:18:44.403Z",

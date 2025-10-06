@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def1.model.response
+package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, GainExcludedIndexedSecurities}
 
-class NonStandardGainsSpec extends UnitSpec {
+class GainExcludedIndexedSecuritiesSpec extends UnitSpec {
 
   val validResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "carriedInterestGain":19999999999.99,
-      |   "carriedInterestRttTaxPaid":19999999999.99,
-      |   "attributedGains":19999999999.99,
-      |   "attributedGainsRttTaxPaid":19999999999.99,
-      |   "otherGains":19999999999.99,
-      |   "otherGainsRttTaxPaid":19999999999.99
+      |   "gainsFromExcludedSecurities": 29999999999.99
       |}
-     """.stripMargin
+       """.stripMargin
   )
 
   val minimumValidResponseJson: JsValue = JsObject.empty
@@ -39,45 +35,35 @@ class NonStandardGainsSpec extends UnitSpec {
   val invalidJson: JsValue = Json.parse(
     """
       |{
-      |   "carriedInterestGain":true
+      |   "gainsFromExcludedSecurities": true
       |}
-     """.stripMargin
+       """.stripMargin
   )
 
-  val responseModel: NonStandardGains = NonStandardGains(
-    carriedInterestGain = Some(19999999999.99),
-    carriedInterestRttTaxPaid = Some(19999999999.99),
-    attributedGains = Some(19999999999.99),
-    attributedGainsRttTaxPaid = Some(19999999999.99),
-    otherGains = Some(19999999999.99),
-    otherGainsRttTaxPaid = Some(19999999999.99)
+  val responseModel: GainExcludedIndexedSecurities = GainExcludedIndexedSecurities(
+    gainsFromExcludedSecurities = Some(29999999999.99)
   )
 
-  val minimumResponseModel: NonStandardGains = NonStandardGains(
-    carriedInterestGain = None,
-    carriedInterestRttTaxPaid = None,
-    attributedGains = None,
-    attributedGainsRttTaxPaid = None,
-    otherGains = None,
-    otherGainsRttTaxPaid = None
+  val minimumResponseModel: GainExcludedIndexedSecurities = GainExcludedIndexedSecurities(
+    gainsFromExcludedSecurities = None
   )
 
-  "NonStandardGains" when {
+  "GainExcludedIndexedSecurities" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        validResponseJson.as[NonStandardGains] shouldBe responseModel
+        validResponseJson.as[GainExcludedIndexedSecurities] shouldBe responseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[NonStandardGains] shouldBe minimumResponseModel
+        minimumValidResponseJson.as[GainExcludedIndexedSecurities] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        invalidJson.validate[NonStandardGains] shouldBe a[JsError]
+        invalidJson.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
       }
     }
 
