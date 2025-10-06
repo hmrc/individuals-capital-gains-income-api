@@ -360,9 +360,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
 
   private def validator(nino: String, taxYear: String, body: JsValue) =
     validatorFactory.validator(nino, taxYear, body)
-
-//  private val MINIMUM_YEAR = 2020
-//  MockedAppConfig.minimumPermittedTaxYear returns MINIMUM_YEAR
+  
   class Test {
 
     MockedAppConfig.minimumPermittedTaxYear
