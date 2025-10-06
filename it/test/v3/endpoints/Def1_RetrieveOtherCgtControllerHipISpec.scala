@@ -36,7 +36,7 @@ class Def1_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponseDef1)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
         }
 
         val response: WSResponse = await(request.get())
@@ -45,13 +45,13 @@ class Def1_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         response.header("Content-Type") shouldBe Some("application/json")
       }
 
-      "any valid request with a Tax Year Specific (TYS) tax year is made for Def1" in new TysHipTest {
+      "any valid request with a Tax Year Specific (TYS) tax year is made" in new TysHipTest {
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponseDef1)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
         }
 
         val response: WSResponse = await(request.get())
@@ -149,7 +149,7 @@ class Def1_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
     def taxYear: String
     def downstreamUri: String
 
-    val downstreamResponseDef1: JsValue = Json.parse(
+    val downstreamResponse: JsValue = Json.parse(
       """
         |{
         |   "submittedOn":"2021-05-07T16:18:44.403Z",

@@ -31,7 +31,7 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
   "Calling the 'retrieve other CGT' endpoint" should {
     "return a 200 status code" when {
 
-      "any valid request with a Tax Year Specific (TYS) tax year is made for Def2" in new TysHipTest {
+      "any valid request with a Tax Year Specific (TYS) tax year is made" in new TysHipTest {
 
         override def taxYear: String = "2025-26"
 
