@@ -29,7 +29,7 @@ import shared.models.errors.*
 import shared.services.*
 import shared.support.{IntegrationBaseSpec, WireMockMethods}
 
-class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends IntegrationBaseSpec with WireMockMethods {
+class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends IntegrationBaseSpec with WireMockMethods {
 
   val validDisposalDate: String    = "2020-03-27"
   val validCompletionDate: String  = "2020-03-29"
@@ -52,7 +52,11 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |         "otherReliefAmount": 1999.99,
       |         "lossesFromThisYear": 1999.99,
       |         "lossesFromPreviousYear": 1999.99,
-      |         "amountOfNetGain": 1999.99
+      |         "amountOfNetGain": 1999.99,
+      |         "numberOfDisposals": 3,
+      |         "gainsWithBadr": 99999999999.99,
+      |         "gainsBeforeLosses": 99999999999.99,
+      |         "claimOrElectionCodes": ["PRR"]
       |      }
       |   ]
       |}
@@ -94,8 +98,11 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
         "/disposals/0/acquisitionDate",
         "/disposals/0/completionDate",
         "/disposals/0/disposalDate",
-        "/disposals/0/disposalProceeds"
-      ))
+        "/disposals/0/disposalProceeds",
+        "/disposals/0/gainsBeforeLosses",
+        "/disposals/0/numberOfDisposals"
+      )
+    )
   )
 
   val decimalsTooBigJson: JsValue = Json.parse(
@@ -103,6 +110,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |{
       |   "disposals":[
       |      {
+      |         "numberOfDisposals": 3,
       |         "customerReference": "CGTDISPOSAL01",
       |         "disposalDate": "$validDisposalDate",
       |         "completionDate": "$validCompletionDate",
@@ -115,6 +123,8 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |         "otherReliefAmount": 100000000000.00,
       |         "lossesFromThisYear": 100000000000.00,
       |         "lossesFromPreviousYear": 100000000000.00,
+      |         "gainsWithBadr": 100000000000.00,
+      |         "gainsBeforeLosses": 100000000000.00,
       |         "amountOfNetGain": 100000000000.00
       |      }
       |   ]
@@ -127,6 +137,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |{
       |   "disposals":[
       |      {
+      |         "numberOfDisposals": 3,
       |         "customerReference": "CGTDISPOSAL01",
       |         "disposalDate": "$validDisposalDate",
       |         "completionDate": "$validCompletionDate",
@@ -139,6 +150,8 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |         "otherReliefAmount": -0.1,
       |         "lossesFromThisYear": -0.1,
       |         "lossesFromPreviousYear": -0.1,
+      |         "gainsWithBadr": -0.1,
+      |         "gainsBeforeLosses": -0.1,
       |         "amountOfNetGain": -0.1
       |      }
       |   ]
@@ -152,13 +165,15 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       Seq(
         "/disposals/0/disposalProceeds",
         "/disposals/0/acquisitionAmount",
+        "/disposals/0/gainsBeforeLosses",
         "/disposals/0/improvementCosts",
         "/disposals/0/additionalCosts",
         "/disposals/0/prfAmount",
         "/disposals/0/otherReliefAmount",
         "/disposals/0/lossesFromThisYear",
         "/disposals/0/lossesFromPreviousYear",
-        "/disposals/0/amountOfNetGain"
+        "/disposals/0/amountOfNetGain",
+        "/disposals/0/gainsWithBadr"
       ))
   )
 
@@ -167,6 +182,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |{
       |   "disposals":[
       |      {
+      |         "numberOfDisposals": 3,
       |         "customerReference": "CGTDISPOSAL01",
       |         "disposalDate": "202005-07",
       |         "completionDate": "21-05-07",
@@ -179,6 +195,8 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |         "otherReliefAmount": 1999.99,
       |         "lossesFromThisYear": 1999.99,
       |         "lossesFromPreviousYear": 1999.99,
+      |         "gainsWithBadr": 1999.99,
+      |         "gainsBeforeLosses": 1999.99,
       |         "amountOfNetGain": 1999.99
       |      }
       |   ]
@@ -201,6 +219,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |{
       |   "disposals":[
       |      {
+      |         "numberOfDisposals": 3,
       |         "customerReference": "ThisIs91CharactersLongCGTDIS000000000000000000000000000000000000000000000000000000000000001",
       |         "disposalDate": "$validDisposalDate",
       |         "completionDate": "$validCompletionDate",
@@ -213,6 +232,8 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |         "otherReliefAmount": 1999.99,
       |         "lossesFromThisYear": 1999.99,
       |         "lossesFromPreviousYear": 1999.99,
+      |         "gainsWithBadr": 1999.99,
+      |         "gainsBeforeLosses": 1999.99,
       |         "amountOfNetGain": 1999.99
       |      }
       |   ]
@@ -225,6 +246,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |{
       |   "disposals":[
       |      {
+      |         "numberOfDisposals": 3,
       |         "customerReference": "",
       |         "disposalDate": "$validDisposalDate",
       |         "completionDate": "$validCompletionDate",
@@ -237,6 +259,8 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |         "otherReliefAmount": 1999.99,
       |         "lossesFromThisYear": 1999.99,
       |         "lossesFromPreviousYear": 1999.99,
+      |         "gainsWithBadr": 1999.99,
+      |         "gainsBeforeLosses": 1999.99,
       |         "amountOfNetGain": 1999.99
       |      }
       |   ]
@@ -251,6 +275,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |{
       |   "disposals":[
       |      {
+      |         "numberOfDisposals": 3,
       |         "customerReference": "CGTDISPOSAL01",
       |         "disposalDate": "$validDisposalDate",
       |         "completionDate": "$validCompletionDate",
@@ -264,10 +289,38 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       |         "lossesFromThisYear": 1999.99,
       |         "lossesFromPreviousYear": 1999.99,
       |         "amountOfNetGain": 19999.99,
+      |         "gainsWithBadr": 1999.99,
+      |         "gainsBeforeLosses": 1999.99,
       |         "amountOfNetLoss": 19999.99
       |      }
       |   ]
       |}
+     """.stripMargin
+  )
+
+  val numberOfDisposalsJson: JsValue = Json.parse(
+    s"""
+       |{
+       |   "disposals":[
+       |      {
+       |         "numberOfDisposals": 0,
+       |         "customerReference": "CGTDISPOSAL01",
+       |         "disposalDate": "$validDisposalDate",
+       |         "completionDate": "$validCompletionDate",
+       |         "disposalProceeds": 1999.99,
+       |         "acquisitionDate": "$validAcquisitionDate",
+       |         "acquisitionAmount": 1999.99,
+       |         "improvementCosts": 1999.99,
+       |         "additionalCosts": 1999.99,
+       |         "prfAmount": 1999.99,
+       |         "otherReliefAmount": 1999.99,
+       |         "lossesFromThisYear": 1999.99,
+       |         "lossesFromPreviousYear": 1999.99,
+       |         "gainsBeforeLosses": 123.43,
+       |         "amountOfNetGain": 1999.99
+       |      }
+       |   ]
+       |}
      """.stripMargin
   )
 
@@ -279,12 +332,20 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
       ))
   )
 
+  val numberOfDisposalsError: MtdError = RuleIncorrectLossesSubmittedError.copy(
+    message = "LossesFromThisYear can not be submitted if the numberOfDisposals is less than or equal to 1",
+    paths = Some(
+      Seq(
+        "/disposals/0"
+      ))
+  )
+
   trait Test {
 
     val nino: String    = "AA123456A"
-    def taxYear: String = "2023-24"
+    def taxYear: String = "2025-26"
 
-    def downstreamUri: String = s"/itsa/income-tax/v1/23-24/income/disposals/residential-property/$nino"
+    def downstreamUri: String = s"/itsa/income-tax/v1/25-26/income/disposals/residential-property/$nino"
 
     def setupStubs(): StubMapping
 
@@ -351,21 +412,22 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends Integ
 
         val input = Seq(
           // Path errors
-          ("AA1123A", "2019-20", validRequestJson, BAD_REQUEST, NinoFormatError, None, None),
+          ("AA1123A", "2025-26", validRequestJson, BAD_REQUEST, NinoFormatError, None, None),
           ("AA123456A", "20177", validRequestJson, BAD_REQUEST, TaxYearFormatError, None, None),
           ("AA123456A", "2015-17", validRequestJson, BAD_REQUEST, RuleTaxYearRangeInvalidError, None, None),
           ("AA123456A", "2018-19", validRequestJson, BAD_REQUEST, RuleTaxYearNotSupportedError, None, None),
 
           // Body errors
-          ("AA123456A", "2019-20", JsObject.empty, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None, Some("emptyBody")),
-          ("AA123456A", "2019-20", emptyDisposalsJson, BAD_REQUEST, emptyDisposalsError, None, Some("empty disposals")),
-          ("AA123456A", "2019-20", missingFieldsJson, BAD_REQUEST, missingFieldsError, None, Some("missing all mandatory fields")),
-          ("AA123456A", "2019-20", decimalsTooBigJson, BAD_REQUEST, DecimalsOutOfRangeError, None, Some("Decimals too big")),
-          ("AA123456A", "2019-20", decimalsTooSmallJson, BAD_REQUEST, DecimalsOutOfRangeError, None, Some("Decimals too small")),
-          ("AA123456A", "2019-20", datesNotFormattedJson, BAD_REQUEST, datesNotFormattedError, None, Some("incorrect date formats")),
-          ("AA123456A", "2019-20", customerRefTooLongJson, BAD_REQUEST, customerRefError, None, Some("bad customer reference")),
-          ("AA123456A", "2019-20", customerRefTooShortJson, BAD_REQUEST, customerRefError, None, Some("empty customer reference string")),
-          ("AA123456A", "2019-20", gainLossJson, BAD_REQUEST, gainLossError, None, Some("gain and loss provided"))
+          ("AA123456A", "2025-26", JsObject.empty, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None, Some("emptyBody")),
+          ("AA123456A", "2025-26", emptyDisposalsJson, BAD_REQUEST, emptyDisposalsError, None, Some("empty disposals")),
+          ("AA123456A", "2025-26", missingFieldsJson, BAD_REQUEST, missingFieldsError, None, Some("missing all mandatory fields")),
+          ("AA123456A", "2025-26", decimalsTooBigJson, BAD_REQUEST, DecimalsOutOfRangeError, None, Some("Decimals too big")),
+          ("AA123456A", "2025-26", decimalsTooSmallJson, BAD_REQUEST, DecimalsOutOfRangeError, None, Some("Decimals too small")),
+          ("AA123456A", "2025-26", datesNotFormattedJson, BAD_REQUEST, datesNotFormattedError, None, Some("incorrect date formats")),
+          ("AA123456A", "2025-26", customerRefTooLongJson, BAD_REQUEST, customerRefError, None, Some("bad customer reference")),
+          ("AA123456A", "2025-26", customerRefTooShortJson, BAD_REQUEST, customerRefError, None, Some("empty customer reference string")),
+          ("AA123456A", "2025-26", gainLossJson, BAD_REQUEST, gainLossError, None, Some("gain and loss provided")),
+          ("AA123456A", "2025-26", numberOfDisposalsJson, BAD_REQUEST, numberOfDisposalsError, None, Some("numberOfDisposals is less than 1"))
         )
         input.foreach(args => validationErrorTest.tupled(args))
       }

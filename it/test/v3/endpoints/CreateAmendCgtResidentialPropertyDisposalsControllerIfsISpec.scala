@@ -293,7 +293,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
 
     def request: WSRequest = {
       setupStubs()
-      buildRequest(s"/residential-property/$nino/$taxYear")
+      buildRequest(s"/disposals-income/residential-property/$nino/$taxYear")
         .withHttpHeaders(
           (ACCEPT, "application/vnd.hmrc.3.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token

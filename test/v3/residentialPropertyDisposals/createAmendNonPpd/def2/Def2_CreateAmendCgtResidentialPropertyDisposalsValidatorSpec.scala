@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v3.residentialPropertyDisposals.createAmendNonPpd.def1
+package v3.residentialPropertyDisposals.createAmendNonPpd.def2
 
 import common.errors.{CustomerRefFormatError, RuleGainLossError}
 import config.MockAppConfig
@@ -23,17 +23,17 @@ import shared.models.domain.{Nino, TaxYear}
 import shared.models.errors.*
 import support.UnitSpec
 import v3.residentialPropertyDisposals.createAmendNonPpd.CreateAmendCgtResidentialPropertyDisposalsValidatorFactory
-import v3.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.{
-  Def1_CreateAmendCgtResidentialPropertyDisposalsRequestBody,
-  Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData
+import v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request.{
+  Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBody,
+  Def2_CreateAmendCgtResidentialPropertyDisposalsRequestData
 }
 import v3.residentialPropertyDisposals.createAmendNonPpd.model.request.CreateAmendCgtResidentialPropertyDisposalsRequestData
 
-class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitSpec with MockAppConfig {
+class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitSpec with MockAppConfig {
   private implicit val correlationId: String = "1234"
 
   val validNino    = "AA123456A"
-  val validTaxYear = "2019-20"
+  val validTaxYear = "2025-26"
 
   private val validCustomerReference = "CGTDISPOSAL01"
   private val validDisposalDate      = "2020-03-01"
@@ -61,7 +61,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":$validValue,
          |      "lossesFromThisYear":$validValue,
          |      "lossesFromPreviousYear":$validValue,
-         |      "amountOfNetLoss":$validValue
+         |      "amountOfNetLoss":$validValue,
+         |      "numberOfDisposals":2,
+         |      "gainsWithBadr":$validValue,
+         |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
          |}
@@ -124,7 +127,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "lossesFromThisYear":$validValue,
          |      "lossesFromPreviousYear":$validValue,
          |      "amountOfNetLoss":$validValue,
-         |      "amountOfNetGain":$validValue
+         |      "amountOfNetGain":$validValue,
+         |      "numberOfDisposals":2,
+         |      "gainsWithBadr":$validValue,
+         |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
          |}
@@ -148,7 +154,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":$validValue,
          |      "lossesFromThisYear":$validValue,
          |      "lossesFromPreviousYear":$validValue,
-         |      "amountOfNetLoss":$validValue
+         |      "amountOfNetLoss":$validValue,
+         |      "numberOfDisposals":2,
+         |      "gainsWithBadr":$validValue,
+         |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
          |}
@@ -172,7 +181,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":1000.123,
          |      "lossesFromThisYear":1000.123,
          |      "lossesFromPreviousYear":1000.123,
-         |      "amountOfNetGain":2000.243
+         |      "amountOfNetGain":2000.243,
+         |      "numberOfDisposals":1,
+         |      "gainsWithBadr":$validValue,
+         |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
          |}
@@ -196,7 +208,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":1000.123,
          |      "lossesFromThisYear":1000.123,
          |      "lossesFromPreviousYear":1000.123,
-         |      "amountOfNetLoss":2000.243
+         |      "amountOfNetLoss":2000.243,
+         |      "numberOfDisposals":2,
+         |      "gainsWithBadr":$validValue,
+         |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
          |}
@@ -220,7 +235,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":100000000000.00,
          |      "lossesFromThisYear":100000000000.00,
          |      "lossesFromPreviousYear":100000000000.00,
-         |      "amountOfNetLoss":100000000000.00
+         |      "amountOfNetLoss":100000000000.00,
+         |      "numberOfDisposals":1,
+         |      "gainsWithBadr":100000000000.00,
+         |      "gainsBeforeLosses":100000000000.00
          |    },
          |    {
          |      "customerReference":"$validCustomerReference",
@@ -235,7 +253,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":-0.01,
          |      "lossesFromThisYear":-0.01,
          |      "lossesFromPreviousYear":-0.01,
-         |      "amountOfNetLoss":-0.01
+         |      "amountOfNetLoss":-0.01,
+         |      "numberOfDisposals":1,
+         |      "gainsWithBadr":100000000000.00,
+         |      "gainsBeforeLosses":100000000000.00
          |    },
          |    {
          |      "customerReference":"$validCustomerReference",
@@ -250,7 +271,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":100000000000.00,
          |      "lossesFromThisYear":100000000000.00,
          |      "lossesFromPreviousYear":100000000000.00,
-         |      "amountOfNetGain":100000000000.00
+         |      "amountOfNetGain":100000000000.00,
+         |      "numberOfDisposals":1,
+         |      "gainsWithBadr":100000000000.00,
+         |      "gainsBeforeLosses":100000000000.00
          |    },
          |    {
          |      "customerReference":"$validCustomerReference",
@@ -265,7 +289,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":-0.01,
          |      "lossesFromThisYear":-0.01,
          |      "lossesFromPreviousYear":-0.01,
-         |      "amountOfNetGain":-0.01
+         |      "amountOfNetGain":-0.01,
+         |      "numberOfDisposals":1,
+         |      "gainsWithBadr":100000000000.00,
+         |      "gainsBeforeLosses":100000000000.00
          |    }
          |  ]
          |}
@@ -289,7 +316,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":$validValue,
          |      "lossesFromThisYear":$validValue,
          |      "lossesFromPreviousYear":$validValue,
-         |      "amountOfNetLoss":$validValue
+         |      "amountOfNetLoss":$validValue,
+         |      "numberOfDisposals":1,
+         |      "gainsWithBadr":$validValue,
+         |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
          |}
@@ -313,7 +343,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "otherReliefAmount":$validValue,
          |      "lossesFromThisYear":$validValue,
          |      "lossesFromPreviousYear":$validValue,
-         |      "amountOfNetLoss":$validValue
+         |      "amountOfNetLoss":$validValue,
+         |      "numberOfDisposals":1,
+         |      "gainsWithBadr":$validValue,
+         |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
          |}
@@ -333,7 +366,7 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
   class Test {
 
     MockedAppConfig.minimumPermittedTaxYear
-      .returns(2020)
+      .returns(2025)
       .anyNumberOfTimes()
 
   }
@@ -354,10 +387,10 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
           validator(validNino, validTaxYear, requestBodyJson).validateAndWrapResult()
 
         result shouldBe Right(
-          Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData(
+          Def2_CreateAmendCgtResidentialPropertyDisposalsRequestData(
             parsedNino,
             parsedTaxYear,
-            requestBodyJson.as[Def1_CreateAmendCgtResidentialPropertyDisposalsRequestBody]
+            requestBodyJson.as[Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBody]
           )
         )
       }
@@ -438,7 +471,9 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
               "/disposals/0/acquisitionDate",
               "/disposals/0/completionDate",
               "/disposals/0/disposalDate",
-              "/disposals/0/disposalProceeds"
+              "/disposals/0/disposalProceeds",
+              "/disposals/0/gainsBeforeLosses",
+              "/disposals/0/numberOfDisposals"
             ))
           )
         )
@@ -456,7 +491,9 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
               "/disposals/0/acquisitionDate",
               "/disposals/0/completionDate",
               "/disposals/0/disposalDate",
-              "/disposals/0/disposalProceeds"
+              "/disposals/0/disposalProceeds",
+              "/disposals/0/gainsBeforeLosses",
+              "/disposals/0/numberOfDisposals"
             ))
           )
         )
@@ -551,24 +588,29 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
               paths = Some(Seq(
                 "/disposals/0/disposalProceeds",
                 "/disposals/0/acquisitionAmount",
+                "/disposals/0/gainsBeforeLosses",
                 "/disposals/0/improvementCosts",
                 "/disposals/0/additionalCosts",
                 "/disposals/0/prfAmount",
                 "/disposals/0/otherReliefAmount",
                 "/disposals/0/lossesFromThisYear",
                 "/disposals/0/lossesFromPreviousYear",
+                "/disposals/0/gainsWithBadr",
                 "/disposals/0/amountOfNetLoss",
                 "/disposals/1/disposalProceeds",
                 "/disposals/1/acquisitionAmount",
+                "/disposals/1/gainsBeforeLosses",
                 "/disposals/1/improvementCosts",
                 "/disposals/1/additionalCosts",
                 "/disposals/1/prfAmount",
                 "/disposals/1/otherReliefAmount",
                 "/disposals/1/lossesFromThisYear",
                 "/disposals/1/lossesFromPreviousYear",
+                "/disposals/1/gainsWithBadr",
                 "/disposals/1/amountOfNetLoss",
                 "/disposals/2/disposalProceeds",
                 "/disposals/2/acquisitionAmount",
+                "/disposals/2/gainsBeforeLosses",
                 "/disposals/2/improvementCosts",
                 "/disposals/2/additionalCosts",
                 "/disposals/2/prfAmount",
@@ -576,15 +618,18 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
                 "/disposals/2/lossesFromThisYear",
                 "/disposals/2/lossesFromPreviousYear",
                 "/disposals/2/amountOfNetGain",
+                "/disposals/2/gainsWithBadr",
                 "/disposals/3/disposalProceeds",
                 "/disposals/3/acquisitionAmount",
+                "/disposals/3/gainsBeforeLosses",
                 "/disposals/3/improvementCosts",
                 "/disposals/3/additionalCosts",
                 "/disposals/3/prfAmount",
                 "/disposals/3/otherReliefAmount",
                 "/disposals/3/lossesFromThisYear",
                 "/disposals/3/lossesFromPreviousYear",
-                "/disposals/3/amountOfNetGain"
+                "/disposals/3/amountOfNetGain",
+                "/disposals/3/gainsWithBadr"
               ))
             )
           ))
