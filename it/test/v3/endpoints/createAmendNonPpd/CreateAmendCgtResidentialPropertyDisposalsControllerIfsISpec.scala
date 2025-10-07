@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v3.endpoints
+package v3.endpoints.createAmendNonPpd
 
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
@@ -29,7 +29,7 @@ import shared.models.errors.*
 import shared.services.*
 import shared.support.{IntegrationBaseSpec, WireMockMethods}
 
-class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends IntegrationBaseSpec with WireMockMethods {
+class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends IntegrationBaseSpec with WireMockMethods {
 
   override def servicesConfig: Map[String, Any] =
     Map("feature-switch.ifs_hip_migration_1952.enabled" -> false) ++ super.servicesConfig
@@ -55,10 +55,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends 
       |         "otherReliefAmount": 1999.99,
       |         "lossesFromThisYear": 1999.99,
       |         "lossesFromPreviousYear": 1999.99,
-      |         "amountOfNetGain": 1999.99,
-      |         "numberOfDisposals": 3,
-      |         "gainsWithBadr": 99999999999.99,
-      |         "gainsBeforeLosses": 99999999999.99
+      |         "amountOfNetGain": 1999.99
       |      }
       |   ]
       |}
@@ -296,7 +293,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends 
 
     def request: WSRequest = {
       setupStubs()
-      buildRequest(s"/disposals-income/residential-property/$nino/$taxYear")
+      buildRequest(s"/residential-property/$nino/$taxYear")
         .withHttpHeaders(
           (ACCEPT, "application/vnd.hmrc.3.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
@@ -317,12 +314,12 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends 
   }
 
   trait TysTest extends Test {
-    def taxYear: String = "2025-26"
+    def taxYear: String = "2023-24"
 
     override def request: WSRequest =
       super.request.addHttpHeaders("suspend-temporal-validations" -> "true")
 
-    def downstreamUri: String = s"/income-tax/income/disposals/residential-property/25-26/$nino"
+    def downstreamUri: String = s"/income-tax/income/disposals/residential-property/23-24/$nino"
   }
 
   "Calling the 'create and amend other CGT' endpoint" should {
