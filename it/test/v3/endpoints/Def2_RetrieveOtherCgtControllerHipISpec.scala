@@ -150,7 +150,7 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         |            "disposalDate": "2025-09-04",
         |            "disposalProceeds": 99999999999.99,
         |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBadr": 99999999999.99,
+        |            "gainsWithBADR": 99999999999.99,
         |            "gainsBeforeLosses": 99999999999.99,
         |            "losses": 99999999999.99,
         |            "claimOrElectionCodes": [
@@ -171,8 +171,8 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         |            "disposalDate": "2025-07-10",
         |            "disposalProceeds": 99999999999.99,
         |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBadr": 99999999999.99,
-        |            "gainsWithInv": 99999999999.99,
+        |            "gainsWithBADR": 99999999999.99,
+        |            "gainsWithINV": 99999999999.99,
         |            "gainsBeforeLosses": 99999999999.99,
         |            "losses": 99999999999.99,
         |            "claimOrElectionCodes": [
@@ -192,8 +192,8 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         |            "disposalDate": "2025-04-12",
         |            "disposalProceeds": 99999999999.99,
         |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBadr": 99999999999.99,
-        |            "gainsWithInv": 99999999999.99,
+        |            "gainsWithBADR": 99999999999.99,
+        |            "gainsWithINV": 99999999999.99,
         |            "gainsBeforeLosses": 99999999999.99,
         |            "losses": 99999999999.99,
         |            "claimOrElectionCodes": [
@@ -201,7 +201,7 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         |            ],
         |            "gainsReportedOnRtt": 99999999999.99,
         |            "gainsExceedingLifetimeLimit": 99999999999.99,
-        |            "gainsUnderSeis": 99999999999.99,
+        |            "gainsUnderSEIS": 99999999999.99,
         |            "lossUsedAgainstGeneralIncome": 99999999999.99,
         |            "eisOrSeisReliefDueCurrentYear": 99999999999.99,
         |            "lossesUsedAgainstGeneralIncomePreviousYear": 99999999999.99,
@@ -213,8 +213,8 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         |        "gainsFromExcludedSecurities": 99999999999.99
         |    },
         |    "qualifyingAssetHoldingCompany": {
-        |        "gainsFromQahcBeforeLosses": 99999999999.99,
-        |        "lossesFromQahc": 99999999999.99
+        |        "gainsFromQAHCBeforeLosses": 99999999999.99,
+        |        "lossesFromQAHC": 99999999999.99
         |    },
         |    "nonStandardGains": {
         |        "attributedGains": 99999999999.99,
@@ -231,9 +231,9 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         |    "adjustments": {
         |        "adjustmentAmount": 99999999999.99
         |    },
-        |    "lifetimeAllowance": {
-        |        "lifetimeAllowanceBadr": 99999999999.99,
-        |        "lifetimeAllowanceInv": 99999999999.99
+        |    "lifeTimeAllowance": {
+        |        "lifetimeAllowanceBADR": 99999999999.99,
+        |        "lifetimeAllowanceINV": 99999999999.99
         |    }
         |}
         |""".stripMargin

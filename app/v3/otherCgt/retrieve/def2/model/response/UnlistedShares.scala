@@ -16,7 +16,8 @@
 
 package v3.otherCgt.retrieve.def2.model.response
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class UnlistedShares(numberOfDisposals: Int,
                           assetDescription: String,
@@ -30,7 +31,7 @@ case class UnlistedShares(numberOfDisposals: Int,
                           gainsWithInv: Option[BigDecimal],
                           gainsBeforeLosses: BigDecimal,
                           losses: Option[BigDecimal],
-                          claimOrElectionCodes: Option[Seq[String]],
+                          claimOrElectionCodes: Option[Seq[UnlistedSharesClaimOrElectionCodes]],
                           gainsReportedOnRtt: Option[BigDecimal],
                           gainsExceedingLifetimeLimit: Option[BigDecimal],
                           gainsUnderSeis: Option[BigDecimal],
@@ -41,5 +42,30 @@ case class UnlistedShares(numberOfDisposals: Int,
                           rttTaxPaid: Option[BigDecimal])
 
 object UnlistedShares {
-  implicit val format: OFormat[UnlistedShares] = Json.format[UnlistedShares]
+
+  implicit val reads: Reads[UnlistedShares] = (
+    (JsPath \ "numberOfDisposals").read[Int] and
+      (JsPath \ "assetDescription").read[String] and
+      (JsPath \ "companyName").read[String] and
+      (JsPath \ "companyRegistrationNumber").readNullable[String] and
+      (JsPath \ "acquisitionDate").read[String] and
+      (JsPath \ "disposalDate").read[String] and
+      (JsPath \ "disposalProceeds").read[BigDecimal] and
+      (JsPath \ "allowableCosts").read[BigDecimal] and
+      (JsPath \ "gainsWithBADR").readNullable[BigDecimal] and
+      (JsPath \ "gainsWithINV").readNullable[BigDecimal] and
+      (JsPath \ "gainsBeforeLosses").read[BigDecimal] and
+      (JsPath \ "losses").readNullable[BigDecimal] and
+      (JsPath \ "claimOrElectionCodes").readNullable[Seq[UnlistedSharesClaimOrElectionCodes]] and
+      (JsPath \ "gainsReportedOnRtt").readNullable[BigDecimal] and
+      (JsPath \ "gainsExceedingLifetimeLimit").readNullable[BigDecimal] and
+      (JsPath \ "gainsUnderSEIS").readNullable[BigDecimal] and
+      (JsPath \ "lossUsedAgainstGeneralIncome").readNullable[BigDecimal] and
+      (JsPath \ "eisOrSeisReliefDueCurrentYear").readNullable[BigDecimal] and
+      (JsPath \ "lossesUsedAgainstGeneralIncomePreviousYear").readNullable[BigDecimal] and
+      (JsPath \ "eisOrSeisReliefDuePreviousYear").readNullable[BigDecimal] and
+      (JsPath \ "rttTaxPaid").readNullable[BigDecimal]
+  )(UnlistedShares.apply)
+
+  implicit val writes: OWrites[UnlistedShares] = Json.writes[UnlistedShares]
 }

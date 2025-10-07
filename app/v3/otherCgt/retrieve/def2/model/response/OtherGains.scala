@@ -16,10 +16,11 @@
 
 package v3.otherCgt.retrieve.def2.model.response
 
-import play.api.libs.json.{Json, OFormat, Reads}
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class OtherGains(assetType: AssetType,
-                      numberOfDisposals: Int,
+                      numberOfDisposals: BigInt,
                       assetDescription: String,
                       companyName: Option[String],
                       companyRegistrationNumber: Option[String],
@@ -31,16 +32,32 @@ case class OtherGains(assetType: AssetType,
                       gainsWithInv: Option[BigDecimal],
                       gainsBeforeLosses: BigDecimal,
                       losses: Option[BigDecimal],
-                      claimOrElectionCodes: Option[Seq[String]],
+                      claimOrElectionCodes: Option[Seq[OtherGainsClaimOrElectionCodes]],
                       amountOfNetGain: Option[BigDecimal],
                       amountOfNetLoss: Option[BigDecimal],
                       rttTaxPaid: Option[BigDecimal])
 
 object OtherGains {
 
-  implicit val format: OFormat[OtherGains] = {
-    implicit val assetTypeReads: Reads[AssetType] = implicitly[Reads[DownstreamAssetType]].map(_.toMtd)
-    Json.format[OtherGains]
-  }
+  implicit val reads: Reads[OtherGains] = (
+    (JsPath \ "assetType").read[DownstreamAssetType].map(_.toMtd) and
+      (JsPath \ "numberOfDisposals").read[BigInt] and
+      (JsPath \ "assetDescription").read[String] and
+      (JsPath \ "companyName").readNullable[String] and
+      (JsPath \ "companyRegistrationNumber").readNullable[String] and
+      (JsPath \ "acquisitionDate").read[String] and
+      (JsPath \ "disposalDate").read[String] and
+      (JsPath \ "disposalProceeds").read[BigDecimal] and
+      (JsPath \ "allowableCosts").read[BigDecimal] and
+      (JsPath \ "gainsWithBADR").readNullable[BigDecimal] and
+      (JsPath \ "gainsWithINV").readNullable[BigDecimal] and
+      (JsPath \ "gainsBeforeLosses").read[BigDecimal] and
+      (JsPath \ "losses").readNullable[BigDecimal] and
+      (JsPath \ "claimOrElectionCodes").readNullable[Seq[OtherGainsClaimOrElectionCodes]] and
+      (JsPath \ "amountOfNetGain").readNullable[BigDecimal] and
+      (JsPath \ "amountOfNetLoss").readNullable[BigDecimal] and
+      (JsPath \ "rttTaxPaid").readNullable[BigDecimal]
+  )(OtherGains.apply)
 
+  implicit val writes: OWrites[OtherGains] = Json.writes[OtherGains]
 }

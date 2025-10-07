@@ -18,6 +18,7 @@ package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.model.response.CryptoassetsClaimOrElectionCodes.GHO
 import v3.otherCgt.retrieve.def2.model.response.{Cryptoassets, Def2_RetrieveOtherCgtResponse}
 
 class CryptoassetsSpec extends UnitSpec {
@@ -32,7 +33,7 @@ class CryptoassetsSpec extends UnitSpec {
       |     "disposalDate": "2025-09-04",
       |     "disposalProceeds": 99999999999.99,
       |     "allowableCosts": 99999999999.99,
-      |     "gainsWithBadr": 99999999999.99,
+      |     "gainsWithBADR": 99999999999.99,
       |     "gainsBeforeLosses": 99999999999.99,
       |     "losses": 99999999999.99,
       |     "claimOrElectionCodes": [
@@ -68,6 +69,29 @@ class CryptoassetsSpec extends UnitSpec {
        """.stripMargin
   )
 
+  val validMtdResponseJson: JsValue = Json.parse(
+    """
+      |{
+      |     "numberOfDisposals": 1,
+      |     "assetDescription": "description string",
+      |     "tokenName": "Name of token",
+      |     "acquisitionDate": "2025-08-04",
+      |     "disposalDate": "2025-09-04",
+      |     "disposalProceeds": 99999999999.99,
+      |     "allowableCosts": 99999999999.99,
+      |     "gainsWithBadr": 99999999999.99,
+      |     "gainsBeforeLosses": 99999999999.99,
+      |     "losses": 99999999999.99,
+      |     "claimOrElectionCodes": [
+      |          "GHO"
+      |     ],
+      |     "amountOfNetGain": 99999999999.99,
+      |     "amountOfNetLoss": 99999999999.99,
+      |     "rttTaxPaid": 99999999999.99
+      |}
+      """.stripMargin
+  )
+
   val responseModel: Cryptoassets = Cryptoassets(
     numberOfDisposals = 1,
     assetDescription = "description string",
@@ -79,7 +103,7 @@ class CryptoassetsSpec extends UnitSpec {
     gainsWithBadr = Some(99999999999.99),
     gainsBeforeLosses = 99999999999.99,
     losses = Some(99999999999.99),
-    claimOrElectionCodes = Some(Seq("GHO")),
+    claimOrElectionCodes = Some(Seq(GHO)),
     amountOfNetGain = Some(99999999999.99),
     amountOfNetLoss = Some(99999999999.99),
     rttTaxPaid = Some(99999999999.99)
@@ -123,7 +147,7 @@ class CryptoassetsSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(responseModel) shouldBe validMtdResponseJson
       }
     }
   }

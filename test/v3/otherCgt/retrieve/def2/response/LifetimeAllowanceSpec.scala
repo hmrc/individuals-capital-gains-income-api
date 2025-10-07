@@ -25,8 +25,8 @@ class LifetimeAllowanceSpec extends UnitSpec {
   val validResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "lifetimeAllowanceBadr": 99999999999.99,
-      |   "lifetimeAllowanceInv": 99999999999.99
+      |   "lifetimeAllowanceBADR": 99999999999.99,
+      |   "lifetimeAllowanceINV": 99999999999.99
       |}
       """.stripMargin
   )
@@ -36,7 +36,16 @@ class LifetimeAllowanceSpec extends UnitSpec {
   val invalidJson: JsValue = Json.parse(
     """
       |{
-      |   "lifetimeAllowanceBadr":true
+      |   "lifetimeAllowanceBADR":true
+      |}
+      """.stripMargin
+  )
+
+  val validMtdResponseJson: JsValue = Json.parse(
+    """
+      |{
+      |   "lifetimeAllowanceBadr": 99999999999.99,
+      |   "lifetimeAllowanceInv": 99999999999.99
       |}
       """.stripMargin
   )
@@ -72,7 +81,7 @@ class LifetimeAllowanceSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(responseModel) shouldBe validMtdResponseJson
       }
     }
   }

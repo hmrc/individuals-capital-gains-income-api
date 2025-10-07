@@ -19,6 +19,7 @@ package v3.otherCgt.retrieve.def2.response
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.model.response.UnlistedShares
+import v3.otherCgt.retrieve.def2.model.response.UnlistedSharesClaimOrElectionCodes.GHO
 
 class UnlistedSharesSpec extends UnitSpec {
 
@@ -33,8 +34,8 @@ class UnlistedSharesSpec extends UnitSpec {
       |     "disposalDate": "2025-04-12",
       |     "disposalProceeds": 99999999999.99,
       |     "allowableCosts": 99999999999.99,
-      |     "gainsWithBadr": 99999999999.99,
-      |     "gainsWithInv": 99999999999.99,
+      |     "gainsWithBADR": 99999999999.99,
+      |     "gainsWithINV": 99999999999.99,
       |     "gainsBeforeLosses": 99999999999.99,
       |     "losses": 99999999999.99,
       |     "claimOrElectionCodes": [
@@ -42,7 +43,7 @@ class UnlistedSharesSpec extends UnitSpec {
       |     ],
       |     "gainsReportedOnRtt": 99999999999.99,
       |     "gainsExceedingLifetimeLimit": 99999999999.99,
-      |     "gainsUnderSeis": 99999999999.99,
+      |     "gainsUnderSEIS": 99999999999.99,
       |     "lossUsedAgainstGeneralIncome": 99999999999.99,
       |     "eisOrSeisReliefDueCurrentYear": 99999999999.99,
       |     "lossesUsedAgainstGeneralIncomePreviousYear": 99999999999.99,
@@ -112,7 +113,7 @@ class UnlistedSharesSpec extends UnitSpec {
     gainsWithInv = Some(99999999999.99),
     gainsBeforeLosses = 99999999999.99,
     losses = Some(99999999999.99),
-    claimOrElectionCodes = Some(Seq("GHO")),
+    claimOrElectionCodes = Some(Seq(GHO)),
     gainsReportedOnRtt = Some(99999999999.99),
     gainsExceedingLifetimeLimit = Some(99999999999.99),
     gainsUnderSeis = Some(99999999999.99),
@@ -160,7 +161,7 @@ class UnlistedSharesSpec extends UnitSpec {
     gainsWithInv = Some(99999999999.99),
     gainsBeforeLosses = 99999999999.99,
     losses = Some(99999999999.99),
-    claimOrElectionCodes = Some(Seq("GHO")),
+    claimOrElectionCodes = Some(Seq(GHO)),
     gainsReportedOnRtt = Some(99999999999.99),
     gainsExceedingLifetimeLimit = Some(99999999999.99),
     gainsUnderSeis = Some(99999999999.99),

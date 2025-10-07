@@ -25,8 +25,8 @@ class QualifyingAssetHoldingCompanySpec extends UnitSpec {
   val validResponseJson: JsValue = Json.parse(
     """
       |{
-      |     "gainsFromQahcBeforeLosses": 99999999999.99,
-      |     "lossesFromQahc": 99999999999.99
+      |     "gainsFromQAHCBeforeLosses": 99999999999.99,
+      |     "lossesFromQAHC": 99999999999.99
       |}
      """.stripMargin
   )
@@ -36,7 +36,16 @@ class QualifyingAssetHoldingCompanySpec extends UnitSpec {
   val invalidJson: JsValue = Json.parse(
     """
       |{
-      |   "gainsFromQahcBeforeLosses":true
+      |   "gainsFromQAHCBeforeLosses":true
+      |}
+     """.stripMargin
+  )
+
+  val validMtdResponseJson: JsValue = Json.parse(
+    """
+      |{
+      |     "gainsFromQahcBeforeLosses": 99999999999.99,
+      |     "lossesFromQahc": 99999999999.99
       |}
      """.stripMargin
   )
@@ -72,7 +81,7 @@ class QualifyingAssetHoldingCompanySpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(responseModel) shouldBe validMtdResponseJson
       }
     }
   }

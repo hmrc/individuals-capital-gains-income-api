@@ -16,7 +16,8 @@
 
 package v3.otherCgt.retrieve.def2.model.response
 
-import play.api.libs.json.{Json, OWrites, Reads}
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 import shared.models.domain.Timestamp
 import v3.otherCgt.retrieve.model.response.RetrieveOtherCgtResponse
 
@@ -33,7 +34,19 @@ case class Def2_RetrieveOtherCgtResponse(submittedOn: Timestamp,
     extends RetrieveOtherCgtResponse
 
 object Def2_RetrieveOtherCgtResponse {
-  implicit val reads: Reads[Def2_RetrieveOtherCgtResponse] = Json.reads[Def2_RetrieveOtherCgtResponse]
+
+  implicit val reads: Reads[Def2_RetrieveOtherCgtResponse] = (
+    (JsPath \ "submittedOn").read[Timestamp] and
+      (JsPath \ "cryptoassets").readNullable[Seq[Cryptoassets]] and
+      (JsPath \ "otherGains").readNullable[Seq[OtherGains]] and
+      (JsPath \ "unlistedShares").readNullable[Seq[UnlistedShares]] and
+      (JsPath \ "gainExcludedIndexedSecurities").readNullable[GainExcludedIndexedSecurities] and
+      (JsPath \ "qualifyingAssetHoldingCompany").readNullable[QualifyingAssetHoldingCompany] and
+      (JsPath \ "nonStandardGains").readNullable[NonStandardGains] and
+      (JsPath \ "losses").readNullable[Losses] and
+      (JsPath \ "adjustments").readNullable[Adjustments] and
+      (JsPath \ "lifeTimeAllowance").readNullable[LifetimeAllowance]
+  )(Def2_RetrieveOtherCgtResponse.apply)
 
   implicit val writes: OWrites[Def2_RetrieveOtherCgtResponse] = Json.writes[Def2_RetrieveOtherCgtResponse]
 }

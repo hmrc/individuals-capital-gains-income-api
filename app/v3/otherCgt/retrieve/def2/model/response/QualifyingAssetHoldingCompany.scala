@@ -16,10 +16,17 @@
 
 package v3.otherCgt.retrieve.def2.model.response
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
 case class QualifyingAssetHoldingCompany(gainsFromQahcBeforeLosses: Option[BigDecimal], lossesFromQahc: Option[BigDecimal])
 
 object QualifyingAssetHoldingCompany {
-  implicit val format: OFormat[QualifyingAssetHoldingCompany] = Json.format[QualifyingAssetHoldingCompany]
+
+  implicit val reads: Reads[QualifyingAssetHoldingCompany] = (
+    (JsPath \ "gainsFromQAHCBeforeLosses").readNullable[BigDecimal] and
+      (JsPath \ "lossesFromQAHC").readNullable[BigDecimal]
+  )(QualifyingAssetHoldingCompany.apply)
+
+  implicit val writes: OWrites[QualifyingAssetHoldingCompany] = Json.writes[QualifyingAssetHoldingCompany]
 }

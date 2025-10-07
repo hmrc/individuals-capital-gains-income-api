@@ -16,9 +16,10 @@
 
 package v3.otherCgt.retrieve.def2.model.response
 
-import play.api.libs.json.{Json, OFormat}
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
-case class Cryptoassets(numberOfDisposals: Int,
+case class Cryptoassets(numberOfDisposals: BigInt,
                         assetDescription: String,
                         tokenName: String,
                         acquisitionDate: String,
@@ -28,13 +29,29 @@ case class Cryptoassets(numberOfDisposals: Int,
                         gainsWithBadr: Option[BigDecimal],
                         gainsBeforeLosses: BigDecimal,
                         losses: Option[BigDecimal],
-                        claimOrElectionCodes: Option[Seq[String]],
+                        claimOrElectionCodes: Option[Seq[CryptoassetsClaimOrElectionCodes]],
                         amountOfNetGain: Option[BigDecimal],
                         amountOfNetLoss: Option[BigDecimal],
                         rttTaxPaid: Option[BigDecimal])
 
 object Cryptoassets {
 
-  implicit val format: OFormat[Cryptoassets] = Json.format[Cryptoassets]
+  implicit val reads: Reads[Cryptoassets] = (
+    (JsPath \ "numberOfDisposals").read[BigInt] and
+      (JsPath \ "assetDescription").read[String] and
+      (JsPath \ "tokenName").read[String] and
+      (JsPath \ "acquisitionDate").read[String] and
+      (JsPath \ "disposalDate").read[String] and
+      (JsPath \ "disposalProceeds").read[BigDecimal] and
+      (JsPath \ "allowableCosts").read[BigDecimal] and
+      (JsPath \ "gainsWithBADR").readNullable[BigDecimal] and
+      (JsPath \ "gainsBeforeLosses").read[BigDecimal] and
+      (JsPath \ "losses").readNullable[BigDecimal] and
+      (JsPath \ "claimOrElectionCodes").readNullable[Seq[CryptoassetsClaimOrElectionCodes]] and
+      (JsPath \ "amountOfNetGain").readNullable[BigDecimal] and
+      (JsPath \ "amountOfNetLoss").readNullable[BigDecimal] and
+      (JsPath \ "rttTaxPaid").readNullable[BigDecimal]
+  )(Cryptoassets.apply)
 
+  implicit val writes: OWrites[Cryptoassets] = Json.writes[Cryptoassets]
 }

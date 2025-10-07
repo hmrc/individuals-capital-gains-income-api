@@ -16,17 +16,13 @@
 
 package v3.otherCgt.retrieve.def2.model.response
 
-import play.api.libs.functional.syntax.toFunctionalBuilderOps
-import play.api.libs.json.{JsPath, Json, OWrites, Reads}
+import play.api.libs.json.Format
+import shared.utils.enums.Enums
 
-case class LifetimeAllowance(lifetimeAllowanceBadr: Option[BigDecimal], lifetimeAllowanceInv: Option[BigDecimal])
+enum OtherGainsClaimOrElectionCodes {
+  case GHO, ROR, PRO, ESH, NVC, OTH, BAD, INV, EOT, PRR, LET, POP
+}
 
-object LifetimeAllowance {
-
-  implicit val reads: Reads[LifetimeAllowance] = (
-    (JsPath \ "lifetimeAllowanceBADR").readNullable[BigDecimal] and
-      (JsPath \ "lifetimeAllowanceINV").readNullable[BigDecimal]
-  )(LifetimeAllowance.apply)
-
-  implicit val writes: OWrites[LifetimeAllowance] = Json.writes[LifetimeAllowance]
+object OtherGainsClaimOrElectionCodes {
+  given Format[OtherGainsClaimOrElectionCodes] = Enums.format(values)
 }

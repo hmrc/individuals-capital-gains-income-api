@@ -19,8 +19,8 @@ package v3.otherCgt.retrieve.def2.response
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.model.response.AssetType.`other-property`
-import v3.otherCgt.retrieve.def2.model.response.DownstreamAssetType.`otherProperty`
 import v3.otherCgt.retrieve.def2.model.response.OtherGains
+import v3.otherCgt.retrieve.def2.model.response.OtherGainsClaimOrElectionCodes.GHO
 
 class OtherGainsSpec extends UnitSpec {
 
@@ -36,8 +36,8 @@ class OtherGainsSpec extends UnitSpec {
       |     "disposalDate": "2025-07-10",
       |     "disposalProceeds": 99999999999.99,
       |     "allowableCosts": 99999999999.99,
-      |     "gainsWithBadr": 99999999999.99,
-      |     "gainsWithInv": 99999999999.99,
+      |     "gainsWithBADR": 99999999999.99,
+      |     "gainsWithINV": 99999999999.99,
       |     "gainsBeforeLosses": 99999999999.99,
       |     "losses": 99999999999.99,
       |     "claimOrElectionCodes": [
@@ -94,7 +94,7 @@ class OtherGainsSpec extends UnitSpec {
   val invalidJson: JsValue = JsObject.empty
 
   val responseModel: OtherGains = OtherGains(
-    assetType = `otherProperty`.toMtd,
+    assetType = `other-property`,
     numberOfDisposals = 1,
     assetDescription = "example of this asset",
     companyName = Some("Bob the Builder"),
@@ -107,14 +107,14 @@ class OtherGainsSpec extends UnitSpec {
     gainsWithInv = Some(99999999999.99),
     gainsBeforeLosses = 99999999999.99,
     losses = Some(99999999999.99),
-    claimOrElectionCodes = Some(Seq("GHO")),
+    claimOrElectionCodes = Some(Seq(GHO)),
     amountOfNetGain = Some(99999999999.99),
     amountOfNetLoss = Some(99999999999.99),
     rttTaxPaid = Some(99999999999.99)
   )
 
   val minimumResponseModel: OtherGains = OtherGains(
-    assetType = `otherProperty`.toMtd,
+    assetType = `other-property`,
     numberOfDisposals = 1,
     assetDescription = "example of this asset",
     companyName = None,
@@ -147,7 +147,7 @@ class OtherGainsSpec extends UnitSpec {
     gainsWithInv = Some(99999999999.99),
     gainsBeforeLosses = 99999999999.99,
     losses = Some(99999999999.99),
-    claimOrElectionCodes = Some(Seq("GHO")),
+    claimOrElectionCodes = Some(Seq(GHO)),
     amountOfNetGain = Some(99999999999.99),
     amountOfNetLoss = Some(99999999999.99),
     rttTaxPaid = Some(99999999999.99)

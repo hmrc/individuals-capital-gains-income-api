@@ -102,7 +102,7 @@ class RetrieveOtherCgtControllerSpec
           gainsWithBadr = Some(99999999999.99),
           gainsBeforeLosses = 99999999999.99,
           losses = Some(99999999999.99),
-          claimOrElectionCodes = Some(Seq("GHO")),
+          claimOrElectionCodes = Some(Seq(CryptoassetsClaimOrElectionCodes.GHO)),
           amountOfNetGain = Some(99999999999.99),
           amountOfNetLoss = Some(99999999999.99),
           rttTaxPaid = Some(99999999999.99)
@@ -124,7 +124,7 @@ class RetrieveOtherCgtControllerSpec
           gainsWithInv = Some(99999999999.99),
           gainsBeforeLosses = 99999999999.99,
           losses = Some(99999999999.99),
-          claimOrElectionCodes = Some(Seq("GHO")),
+          claimOrElectionCodes = Some(Seq(OtherGainsClaimOrElectionCodes.GHO)),
           amountOfNetGain = Some(99999999999.99),
           amountOfNetLoss = Some(99999999999.99),
           rttTaxPaid = Some(99999999999.99)
@@ -145,7 +145,7 @@ class RetrieveOtherCgtControllerSpec
           gainsWithInv = Some(99999999999.99),
           gainsBeforeLosses = 99999999999.99,
           losses = Some(99999999999.99),
-          claimOrElectionCodes = Some(Seq("GHO")),
+          claimOrElectionCodes = Some(Seq(UnlistedSharesClaimOrElectionCodes.GHO)),
           gainsReportedOnRtt = Some(99999999999.99),
           gainsExceedingLifetimeLimit = Some(99999999999.99),
           gainsUnderSeis = Some(99999999999.99),
