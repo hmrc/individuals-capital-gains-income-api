@@ -323,7 +323,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
   }
 
   "Calling the 'create and amend other CGT' endpoint" should {
-    "return a 200 status code" when {
+    "return a 204 status code" when {
       "any valid request is made" in new NonTysTest {
 
         override def setupStubs(): StubMapping = {
@@ -334,7 +334,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
         }
 
         val response: WSResponse = await(request.put(validRequestJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
 
         verifyNrs(validRequestJson)
       }
@@ -349,7 +349,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
         }
 
         val response: WSResponse = await(request.put(validRequestJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
 
         verifyNrs(validRequestJson)
       }

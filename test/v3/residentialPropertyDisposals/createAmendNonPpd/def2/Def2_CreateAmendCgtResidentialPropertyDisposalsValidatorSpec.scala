@@ -16,7 +16,7 @@
 
 package v3.residentialPropertyDisposals.createAmendNonPpd.def2
 
-import common.errors.{CustomerRefFormatError, RuleGainLossError}
+import common.errors.{CustomerRefFormatError, RuleGainLossError, RuleIncorrectLossesSubmittedError}
 import config.MockAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
@@ -343,6 +343,56 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |""".stripMargin
   )
 
+  private val badNumberOfDisposalsJson: JsValue = Json.parse(
+    s"""
+       |{
+       |  "disposals":[
+       |    {
+       |      "customerReference":"$validCustomerReference",
+       |      "disposalDate":"$validDisposalDate",
+       |      "completionDate":"$validCompletionDate",
+       |      "disposalProceeds":$validValue,
+       |      "acquisitionDate":"$validAcquisitionDate",
+       |      "acquisitionAmount":$validValue,
+       |      "improvementCosts":$validValue,
+       |      "additionalCosts":$validValue,
+       |      "prfAmount":$validValue,
+       |      "otherReliefAmount":$validValue,
+       |      "amountOfNetLoss":$validValue,
+       |      "numberOfDisposals":-1,
+       |      "gainsWithBadr":$validValue,
+       |      "gainsBeforeLosses":1000.12
+       |    }
+       |  ]
+       |}
+       |""".stripMargin
+  )
+
+  val numberOfDisposalsJson: JsValue = Json.parse(
+    s"""
+       |{
+       |   "disposals":[
+       |      {
+       |         "numberOfDisposals": 1,
+       |         "customerReference": "CGTDISPOSAL01",
+       |         "disposalDate": "$validDisposalDate",
+       |         "completionDate": "$validCompletionDate",
+       |         "disposalProceeds": 1999.99,
+       |         "acquisitionDate": "$validAcquisitionDate",
+       |         "acquisitionAmount": 1999.99,
+       |         "improvementCosts": 1999.99,
+       |         "additionalCosts": 1999.99,
+       |         "prfAmount": 1999.99,
+       |         "otherReliefAmount": 1999.99,
+       |         "gainsBeforeLosses": 123.43,
+       |         "lossesFromThisYear": 1999.99,
+       |         "amountOfNetGain": 1999.99
+       |      }
+       |   ]
+       |}
+      """.stripMargin
+  )
+
   private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
@@ -616,6 +666,20 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
             )
           ))
       }
+
+      "numberOfDisposals field fails value validation" in new Test {
+        val result: Either[ErrorWrapper, CreateAmendCgtResidentialPropertyDisposalsRequestData] =
+          validator(validNino, validTaxYear, badNumberOfDisposalsJson).validateAndWrapResult()
+
+        result shouldBe Left(
+          ErrorWrapper(
+            correlationId,
+            ValueFormatError.copy(
+              message = "The value must be an integer between 1 and 9999",
+              paths = Some(Seq("/disposals/0/numberOfDisposals"))
+            )
+          ))
+      }
     }
 
     "return DateFormatError error" when {
@@ -659,6 +723,16 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
 
         result shouldBe Left(
           ErrorWrapper(correlationId, RuleGainLossError.withPath("/disposals/0"))
+        )
+      }
+    }
+    "return RuleIncorrectLossesSubmittedError error" when {
+      "numberOfDisposals and lossesFromThisYear fields are both supplied" in new Test {
+        val result: Either[ErrorWrapper, CreateAmendCgtResidentialPropertyDisposalsRequestData] =
+          validator(validNino, validTaxYear, numberOfDisposalsJson).validateAndWrapResult()
+
+        result shouldBe Left(
+          ErrorWrapper(correlationId, RuleIncorrectLossesSubmittedError.withPath("/disposals/0"))
         )
       }
     }

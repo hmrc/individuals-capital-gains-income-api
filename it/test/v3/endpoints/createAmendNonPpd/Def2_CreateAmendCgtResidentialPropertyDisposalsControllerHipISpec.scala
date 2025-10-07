@@ -357,7 +357,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
   }
 
   "Calling the 'create and amend other CGT' endpoint" should {
-    "return a 200 status code" when {
+    "return a 204 status code" when {
       "any valid request is made for a TYS tax year" in new Test {
 
         override def setupStubs(): StubMapping = {
@@ -368,7 +368,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
         }
 
         val response: WSResponse = await(request.put(validRequestJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
 
         verifyNrs(validRequestJson)
       }
