@@ -19,7 +19,8 @@ package v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request
 import play.api.libs.functional.syntax.*
 import play.api.libs.json.*
 
-case class Disposal(customerReference: Option[String],
+case class Disposal(numberOfDisposals: Int,
+                    customerReference: Option[String],
                     disposalDate: String,
                     completionDate: String,
                     disposalProceeds: BigDecimal,
@@ -29,14 +30,12 @@ case class Disposal(customerReference: Option[String],
                     additionalCosts: Option[BigDecimal],
                     prfAmount: Option[BigDecimal],
                     otherReliefAmount: Option[BigDecimal],
-                    lossesFromThisYear: Option[BigDecimal],
-                    lossesFromPreviousYear: Option[BigDecimal],
-                    amountOfNetGain: Option[BigDecimal],
-                    amountOfNetLoss: Option[BigDecimal],
-                    numberOfDisposals: BigInt,
                     gainsWithBadr: Option[BigDecimal],
                     gainsBeforeLosses: BigDecimal,
-                    claimOrElectionCodes: Option[Seq[String]]) {
+                    lossesFromThisYear: Option[BigDecimal],
+                    claimOrElectionCodes: Option[Seq[String]],
+                    amountOfNetGain: Option[BigDecimal],
+                    amountOfNetLoss: Option[BigDecimal]) {
   def gainAndLossAreBothSupplied: Boolean = amountOfNetLoss.isDefined && amountOfNetGain.isDefined
 }
 
@@ -44,7 +43,8 @@ object Disposal {
   implicit val reads: Reads[Disposal] = Json.reads[Disposal]
 
   implicit val writes: OWrites[Disposal] = (
-    (__ \ "customerRef").writeNullable[String] and
+    (__ \ "numberOfDisposals").write[Int] and
+      (__ \ "customerRef").writeNullable[String] and
       (__ \ "disposalDate").write[String] and
       (__ \ "completionDate").write[String] and
       (__ \ "disposalProceeds").write[BigDecimal] and
@@ -54,14 +54,12 @@ object Disposal {
       (__ \ "additionalCosts").writeNullable[BigDecimal] and
       (__ \ "prfAmount").writeNullable[BigDecimal] and
       (__ \ "otherReliefAmount").writeNullable[BigDecimal] and
-      (__ \ "lossesFromThisYear").writeNullable[BigDecimal] and
-      (__ \ "lossesFromPreviousYear").writeNullable[BigDecimal] and
-      (__ \ "amountOfNetGain").writeNullable[BigDecimal] and
-      (__ \ "amountOfLoss").writeNullable[BigDecimal] and
-      (__ \ "numberOfDisposals").write[BigInt] and
       (__ \ "gainsWithBADR").writeNullable[BigDecimal] and
       (__ \ "gainsBeforeLosses").write[BigDecimal] and
-      (__ \ "claimOrElectionCodes").writeNullable[Seq[String]]
+      (__ \ "lossesFromThisYear").writeNullable[BigDecimal] and
+      (__ \ "claimOrElectionCodes").writeNullable[Seq[String]] and
+      (__ \ "amountOfNetGain").writeNullable[BigDecimal] and
+      (__ \ "amountOfNetLoss").writeNullable[BigDecimal]
   )(o => Tuple.fromProductTyped(o))
 
 }

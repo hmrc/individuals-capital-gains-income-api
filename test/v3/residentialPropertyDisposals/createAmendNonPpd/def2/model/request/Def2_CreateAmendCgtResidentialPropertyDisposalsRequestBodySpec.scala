@@ -18,7 +18,6 @@ package v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request
 
 import play.api.libs.json.Json
 import support.UnitSpec
-import v3.residentialPropertyDisposals.createAmendNonPpd.def2.fixture.ClaimOrElectionCodes
 
 class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends UnitSpec {
 
@@ -27,6 +26,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       |{
       |  "disposals" : [
       |    {
+      |      "numberOfDisposals": 3,
       |      "customerReference" : "ABC-2345",
       |      "disposalDate" : "2021-01-29",
       |      "completionDate" : "2021-04-25",
@@ -37,15 +37,15 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       |      "additionalCosts" : 234.89,
       |      "prfAmount" : 67.9,
       |      "otherReliefAmount" : 123.89,
-      |      "lossesFromThisYear" : 456.89,
-      |      "lossesFromPreviousYear" : 124.87,
-      |      "amountOfNetGain" : 567.9,
-      |      "numberOfDisposals": 3,
       |      "gainsWithBadr": 123.89,
       |      "gainsBeforeLosses": 123.89,
-      |      "claimOrElectionCodes": ["PRR"]
+      |      "lossesFromThisYear" : 456.89,
+      |      "claimOrElectionCodes": ["PRR"],
+      |      "amountOfNetGain" : 567.9,
+      |      "amountOfNetLoss" : 567.9
       |    },
-      |    {
+      |    { 
+      |      "numberOfDisposals": 3,
       |      "customerReference" : "AB3456789012",
       |      "disposalDate" : "2021-01-21",
       |      "completionDate" : "2021-03-20",
@@ -56,13 +56,12 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       |      "additionalCosts" : 234.34,
       |      "prfAmount" : 238.34,
       |      "otherReliefAmount" : 267.12,
-      |      "lossesFromThisYear" : 361.89,
-      |      "lossesFromPreviousYear" : 123.89,
-      |      "amountOfNetLoss" : 345.89,
-      |      "numberOfDisposals": 3,
       |      "gainsWithBadr": 123.89,
       |      "gainsBeforeLosses": 123.89,
-      |      "claimOrElectionCodes": ["PRR"]
+      |      "lossesFromThisYear" : 456.89,   
+      |      "claimOrElectionCodes": ["PRR"],
+      |      "amountOfNetGain" : 567.9,
+      |      "amountOfNetLoss" : 567.9
       |    }
       |  ]
       |}
@@ -74,6 +73,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       |{
       |  "disposals" : [
       |    {
+      |      "numberOfDisposals": 3,
       |      "customerRef" : "ABC-2345",
       |      "disposalDate" : "2021-01-29",
       |      "completionDate" : "2021-04-25",
@@ -84,15 +84,15 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       |      "additionalCosts" : 234.89,
       |      "prfAmount" : 67.9,
       |      "otherReliefAmount" : 123.89,
-      |      "lossesFromThisYear" : 456.89,
-      |      "lossesFromPreviousYear" : 124.87,
-      |      "amountOfNetGain" : 567.9,
-      |      "numberOfDisposals": 3,
       |      "gainsWithBADR": 123.89,
       |      "gainsBeforeLosses": 123.89,
-      |      "claimOrElectionCodes": ["PRR"]
+      |      "lossesFromThisYear" : 456.89,
+      |      "claimOrElectionCodes": ["PRR"],
+      |      "amountOfNetGain" : 567.9,
+      |      "amountOfNetLoss" : 567.9
       |    },
       |    {
+      |      "numberOfDisposals": 3,
       |      "customerRef" : "AB3456789012",
       |      "disposalDate" : "2021-01-21",
       |      "completionDate" : "2021-03-20",
@@ -103,13 +103,12 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       |      "additionalCosts" : 234.34,
       |      "prfAmount" : 238.34,
       |      "otherReliefAmount" : 267.12,
-      |      "lossesFromThisYear" : 361.89,
-      |      "lossesFromPreviousYear" : 123.89,
-      |      "amountOfLoss" : 345.89,
-      |      "numberOfDisposals": 3,
       |      "gainsWithBADR": 123.89,
       |      "gainsBeforeLosses": 123.89,
-      |      "claimOrElectionCodes": ["PRR"]
+      |      "lossesFromThisYear" : 456.89,
+      |      "claimOrElectionCodes": ["PRR"],
+      |      "amountOfNetGain" : 567.9,
+      |      "amountOfNetLoss" : 567.9
       |    }
       |  ]
       |}
@@ -118,6 +117,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
 
   private val validModel = Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBody(disposals = Seq(
     Disposal(
+      numberOfDisposals = 3,
       customerReference = Some("ABC-2345"),
       disposalDate = "2021-01-29",
       completionDate = "2021-04-25",
@@ -128,16 +128,15 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       additionalCosts = Some(234.89),
       prfAmount = Some(67.9),
       otherReliefAmount = Some(123.89),
-      lossesFromThisYear = Some(456.89),
-      lossesFromPreviousYear = Some(124.87),
-      amountOfNetGain = Some(567.9),
-      amountOfNetLoss = None,
-      numberOfDisposals = 3,
       gainsWithBadr = Some(123.89),
       gainsBeforeLosses = 123.89,
-      claimOrElectionCodes = Some(Seq(ClaimOrElectionCodes.PRR.toString))
+      lossesFromThisYear = Some(456.89),
+      claimOrElectionCodes = Some(Seq("PRR")),
+      amountOfNetGain = Some(567.9),
+      amountOfNetLoss = Some(567.9)
     ),
     Disposal(
+      numberOfDisposals = 3,
       customerReference = Some("AB3456789012"),
       disposalDate = "2021-01-21",
       completionDate = "2021-03-20",
@@ -148,14 +147,12 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsRequestBodySpec extends Uni
       additionalCosts = Some(234.34),
       prfAmount = Some(238.34),
       otherReliefAmount = Some(267.12),
-      lossesFromThisYear = Some(361.89),
-      lossesFromPreviousYear = Some(123.89),
-      amountOfNetGain = None,
-      amountOfNetLoss = Some(345.89),
-      numberOfDisposals = 3,
       gainsWithBadr = Some(123.89),
       gainsBeforeLosses = 123.89,
-      claimOrElectionCodes = Some(Seq(ClaimOrElectionCodes.PRR.toString))
+      lossesFromThisYear = Some(456.89),
+      claimOrElectionCodes = Some(Seq("PRR")),
+      amountOfNetGain = Some(567.9),
+      amountOfNetLoss = Some(567.9)
     )
   ))
 

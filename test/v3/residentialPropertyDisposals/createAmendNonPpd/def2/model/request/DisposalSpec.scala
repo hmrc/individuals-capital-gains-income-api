@@ -18,13 +18,13 @@ package v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request
 
 import play.api.libs.json.Json
 import support.UnitSpec
-import v3.residentialPropertyDisposals.createAmendNonPpd.def2.fixture.ClaimOrElectionCodes
 
 class DisposalSpec extends UnitSpec {
 
   private val mtdJson = Json.parse(
     """
       |{
+      |  "numberOfDisposals" : 2,
       |  "customerReference" : "ABC-2345",
       |  "disposalDate" : "2021-01-29",
       |  "completionDate" : "2021-04-25",
@@ -35,14 +35,11 @@ class DisposalSpec extends UnitSpec {
       |  "additionalCosts" : 234.89,
       |  "prfAmount" : 67.9,
       |  "otherReliefAmount" : 123.89,
-      |  "lossesFromThisYear" : 456.89,
-      |  "lossesFromPreviousYear" : 124.87,
-      |  "amountOfNetGain" : 566.9,
-      |  "amountOfNetLoss" : 567.9,
-      |  "numberOfDisposals" : 2,
       |  "gainsWithBadr" : 566.9,
       |  "gainsBeforeLosses" : 567.9,
-      |  "claimOrElectionCodes": ["PRR"]
+      |  "lossesFromThisYear" : 456.89,
+      |  "claimOrElectionCodes": ["PRR"],
+      |  "amountOfNetGain" : 566.9
       |}
       |""".stripMargin
   )
@@ -50,6 +47,7 @@ class DisposalSpec extends UnitSpec {
   private val downstreamJson = Json.parse(
     """
       |{
+      |  "numberOfDisposals" : 2,
       |  "customerRef" : "ABC-2345",
       |  "disposalDate" : "2021-01-29",
       |  "completionDate" : "2021-04-25",
@@ -60,20 +58,17 @@ class DisposalSpec extends UnitSpec {
       |  "additionalCosts" : 234.89,
       |  "prfAmount" : 67.9,
       |  "otherReliefAmount" : 123.89,
-      |  "lossesFromThisYear" : 456.89,
-      |  "lossesFromPreviousYear" : 124.87,
-      |  "amountOfNetGain": 566.9,
-      |  "amountOfLoss" : 567.9,
-      |  "numberOfDisposals" : 2,
       |  "gainsWithBADR" : 566.9,
       |  "gainsBeforeLosses" : 567.9,
-      |  "claimOrElectionCodes": ["PRR"]
-      |
+      |  "lossesFromThisYear" : 456.89,
+      |  "claimOrElectionCodes": ["PRR"],
+      |  "amountOfNetGain": 566.9
       |}
       |""".stripMargin
   )
 
   private val model = Disposal(
+    numberOfDisposals = 2,
     customerReference = Some("ABC-2345"),
     disposalDate = "2021-01-29",
     completionDate = "2021-04-25",
@@ -84,14 +79,12 @@ class DisposalSpec extends UnitSpec {
     additionalCosts = Some(234.89),
     prfAmount = Some(67.9),
     otherReliefAmount = Some(123.89),
-    lossesFromThisYear = Some(456.89),
-    lossesFromPreviousYear = Some(124.87),
-    amountOfNetGain = Some(566.9),
-    amountOfNetLoss = Some(567.9),
-    numberOfDisposals = 2,
     gainsWithBadr = Some(566.9),
     gainsBeforeLosses = 567.9,
-    claimOrElectionCodes = Some(Seq(ClaimOrElectionCodes.PRR.toString))
+    lossesFromThisYear = Some(456.89),
+    claimOrElectionCodes = Some(Seq("PRR")),
+    amountOfNetGain = Some(566.9),
+    amountOfNetLoss = None
   )
 
   "reads" should {

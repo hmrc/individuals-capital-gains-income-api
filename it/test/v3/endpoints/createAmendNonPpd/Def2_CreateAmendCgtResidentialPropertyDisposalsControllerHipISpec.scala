@@ -40,6 +40,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |{
       |   "disposals":[
       |      {
+      |         "numberOfDisposals": 3,
       |         "customerReference": "CGTDISPOSAL01",
       |         "disposalDate": "$validDisposalDate",
       |         "completionDate": "$validCompletionDate",
@@ -50,13 +51,11 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |         "additionalCosts": 1999.99,
       |         "prfAmount": 1999.99,
       |         "otherReliefAmount": 1999.99,
-      |         "lossesFromThisYear": 1999.99,
-      |         "lossesFromPreviousYear": 1999.99,
-      |         "amountOfNetGain": 1999.99,
-      |         "numberOfDisposals": 3,
       |         "gainsWithBadr": 99999999999.99,
       |         "gainsBeforeLosses": 99999999999.99,
-      |         "claimOrElectionCodes": ["PRR"]
+      |         "lossesFromThisYear": 1999.99,  
+      |         "claimOrElectionCodes": ["PRR"],
+      |         "amountOfNetGain": 1999.99
       |      }
       |   ]
       |}
@@ -121,10 +120,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |         "additionalCosts": 100000000000.00,
       |         "prfAmount": 100000000000.00,
       |         "otherReliefAmount": 100000000000.00,
-      |         "lossesFromThisYear": 100000000000.00,
-      |         "lossesFromPreviousYear": 100000000000.00,
       |         "gainsWithBadr": 100000000000.00,
       |         "gainsBeforeLosses": 100000000000.00,
+      |         "lossesFromThisYear": 100000000000.00,
       |         "amountOfNetGain": 100000000000.00
       |      }
       |   ]
@@ -148,10 +146,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |         "additionalCosts": -0.1,
       |         "prfAmount": -0.1,
       |         "otherReliefAmount": -0.1,
-      |         "lossesFromThisYear": -0.1,
-      |         "lossesFromPreviousYear": -0.1,
       |         "gainsWithBadr": -0.1,
       |         "gainsBeforeLosses": -0.1,
+      |         "lossesFromThisYear": -0.1,
       |         "amountOfNetGain": -0.1
       |      }
       |   ]
@@ -170,10 +167,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
         "/disposals/0/additionalCosts",
         "/disposals/0/prfAmount",
         "/disposals/0/otherReliefAmount",
+        "/disposals/0/gainsWithBadr",
         "/disposals/0/lossesFromThisYear",
-        "/disposals/0/lossesFromPreviousYear",
-        "/disposals/0/amountOfNetGain",
-        "/disposals/0/gainsWithBadr"
+        "/disposals/0/amountOfNetGain"
       ))
   )
 
@@ -193,10 +189,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |         "additionalCosts": 1999.99,
       |         "prfAmount": 1999.99,
       |         "otherReliefAmount": 1999.99,
-      |         "lossesFromThisYear": 1999.99,
-      |         "lossesFromPreviousYear": 1999.99,
       |         "gainsWithBadr": 1999.99,
       |         "gainsBeforeLosses": 1999.99,
+      |         "lossesFromThisYear": 1999.99,
       |         "amountOfNetGain": 1999.99
       |      }
       |   ]
@@ -230,10 +225,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |         "additionalCosts": 1999.99,
       |         "prfAmount": 1999.99,
       |         "otherReliefAmount": 1999.99,
-      |         "lossesFromThisYear": 1999.99,
-      |         "lossesFromPreviousYear": 1999.99,
       |         "gainsWithBadr": 1999.99,
       |         "gainsBeforeLosses": 1999.99,
+      |         "lossesFromThisYear": 1999.99,
       |         "amountOfNetGain": 1999.99
       |      }
       |   ]
@@ -257,10 +251,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |         "additionalCosts": 1999.99,
       |         "prfAmount": 1999.99,
       |         "otherReliefAmount": 1999.99,
-      |         "lossesFromThisYear": 1999.99,
-      |         "lossesFromPreviousYear": 1999.99,
       |         "gainsWithBadr": 1999.99,
       |         "gainsBeforeLosses": 1999.99,
+      |         "lossesFromThisYear": 1999.99,
       |         "amountOfNetGain": 1999.99
       |      }
       |   ]
@@ -286,11 +279,10 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       |         "additionalCosts": 1999.99,
       |         "prfAmount": 1999.99,
       |         "otherReliefAmount": 1999.99,
-      |         "lossesFromThisYear": 1999.99,
-      |         "lossesFromPreviousYear": 1999.99,
-      |         "amountOfNetGain": 19999.99,
       |         "gainsWithBadr": 1999.99,
       |         "gainsBeforeLosses": 1999.99,
+      |         "lossesFromThisYear": 1999.99,
+      |         "amountOfNetGain": 19999.99,
       |         "amountOfNetLoss": 19999.99
       |      }
       |   ]
@@ -303,7 +295,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
        |{
        |   "disposals":[
        |      {
-       |         "numberOfDisposals": 0,
+       |         "numberOfDisposals": 1,
        |         "customerReference": "CGTDISPOSAL01",
        |         "disposalDate": "$validDisposalDate",
        |         "completionDate": "$validCompletionDate",
@@ -314,9 +306,8 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
        |         "additionalCosts": 1999.99,
        |         "prfAmount": 1999.99,
        |         "otherReliefAmount": 1999.99,
-       |         "lossesFromThisYear": 1999.99,
-       |         "lossesFromPreviousYear": 1999.99,
        |         "gainsBeforeLosses": 123.43,
+       |         "lossesFromThisYear": 1999.99,
        |         "amountOfNetGain": 1999.99
        |      }
        |   ]
@@ -332,7 +323,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       ))
   )
 
-  val numberOfDisposalsError: MtdError = RuleIncorrectLossesSubmittedError.copy(
+  val lossesFromThisYearRuleError: MtdError = RuleIncorrectLossesSubmittedError.copy(
     message = "LossesFromThisYear can not be submitted if the numberOfDisposals is less than or equal to 1",
     paths = Some(
       Seq(
@@ -427,7 +418,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
           ("AA123456A", "2025-26", customerRefTooLongJson, BAD_REQUEST, customerRefError, None, Some("bad customer reference")),
           ("AA123456A", "2025-26", customerRefTooShortJson, BAD_REQUEST, customerRefError, None, Some("empty customer reference string")),
           ("AA123456A", "2025-26", gainLossJson, BAD_REQUEST, gainLossError, None, Some("gain and loss provided")),
-          ("AA123456A", "2025-26", numberOfDisposalsJson, BAD_REQUEST, numberOfDisposalsError, None, Some("numberOfDisposals is less than 1"))
+          ("AA123456A", "2025-26", numberOfDisposalsJson, BAD_REQUEST, lossesFromThisYearRuleError, None, Some("numberOfDisposals is less than 1"))
         )
         input.foreach(args => validationErrorTest.tupled(args))
       }

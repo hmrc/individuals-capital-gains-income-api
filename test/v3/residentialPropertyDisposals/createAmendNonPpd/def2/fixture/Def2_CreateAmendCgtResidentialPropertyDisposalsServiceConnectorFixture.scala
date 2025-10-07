@@ -24,6 +24,7 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsServiceConnectorFixture {
   val disposalsModels: Seq[Disposal] =
     Seq(
       Disposal(
+        3,
         Some("ABC-2345"),
         "2021-01-29",
         "2021-04-25",
@@ -35,15 +36,14 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsServiceConnectorFixture {
         Some(67.9),
         Some(123.89),
         Some(456.89),
-        Some(124.87),
-        Some(243.99),
+        243.99,
         None,
-        3,
+        Some(Seq("PRR")),
         Some(234.89),
-        234.89,
-        Some(Seq(ClaimOrElectionCodes.PRR.toString))
+        Some(234.89)
       ),
       Disposal(
+        3,
         Some("ABC-2345"),
         "2021-02-12",
         "2021-03-42",
@@ -55,13 +55,11 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsServiceConnectorFixture {
         Some(67.9),
         Some(123.89),
         Some(456.89),
-        Some(124.87),
+        243.99,
         None,
-        Some(243.99),
-        3,
+        Some(Seq("PRR")),
         Some(124.87),
-        2341.45,
-        Some(Seq(ClaimOrElectionCodes.PRR.toString))
+        Some(124.87)
       )
     )
 

@@ -21,7 +21,7 @@ import cats.data.Validated.Invalid
 import cats.implicits.*
 import common.errors.*
 import shared.controllers.validators.RulesValidator
-import shared.controllers.validators.resolvers.{ResolveIsoDate, ResolveParsedNumber, ResolveStringPattern}
+import shared.controllers.validators.resolvers.{ResolveIsoDate, ResolveParsedNumber, ResolveStringPattern, ResolveInteger}
 import shared.models.errors.{DateFormatError, MtdError}
 import v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request.{Def2_CreateAmendCgtResidentialPropertyDisposalsRequestData, Disposal}
 
@@ -29,6 +29,7 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsRulesValidator
     extends RulesValidator[Def2_CreateAmendCgtResidentialPropertyDisposalsRequestData] {
 
   private val resolveNonNegativeParsedNumber = ResolveParsedNumber()
+  private val resolveInteger                 = ResolveInteger(1, 9999)
   private val regex                          = "^[0-9a-zA-Z{À-˿'}\\- _&`():.'^]{1,90}$".r
 
   def validateBusinessRules(parsed: Def2_CreateAmendCgtResidentialPropertyDisposalsRequestData)
@@ -59,10 +60,9 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsRulesValidator
       (additionalCosts, s"/disposals/$index/additionalCosts"),
       (prfAmount, s"/disposals/$index/prfAmount"),
       (otherReliefAmount, s"/disposals/$index/otherReliefAmount"),
-      (lossesFromThisYear, s"/disposals/$index/lossesFromThisYear"),
-      (lossesFromPreviousYear, s"/disposals/$index/lossesFromPreviousYear"),
-      (amountOfNetGain, s"/disposals/$index/amountOfNetGain"),
       (gainsWithBadr, s"/disposals/$index/gainsWithBadr"),
+      (lossesFromThisYear, s"/disposals/$index/lossesFromThisYear"),
+      (amountOfNetGain, s"/disposals/$index/amountOfNetGain"),
       (amountOfNetLoss, s"/disposals/$index/amountOfNetLoss")
     ).traverse_ { case (value, path) =>
       resolveNonNegativeParsedNumber(value, path)
@@ -90,11 +90,7 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsRulesValidator
       valid
     }
 
-    val validatedNumberOfDisposals = if (numberOfDisposals >= 1 && numberOfDisposals <= 9999) {
-      valid
-    } else {
-      Invalid(List(RuleIncorrectLossesSubmittedError.copy(paths = Some(Seq(s"/disposals/$index")))))
-    }
+    val validatedNumberOfDisposals = resolveInteger(numberOfDisposals, s"/disposals/$index/numberOfDisposals")
 
     val validatedClaimOrElectionCodes = claimOrElectionCodes match {
       case Some(values: Seq[String]) =>
@@ -106,14 +102,21 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsRulesValidator
       case None => valid
     }
 
+    val validatedLossesFromThisYearRule = if (numberOfDisposals <= 1 && lossesFromThisYear.isDefined) {
+      Invalid(List(RuleIncorrectLossesSubmittedError.copy(paths = Some(Seq(s"/disposals/$index")))))
+    } else {
+      valid
+    }
+
     combine(
+      validatedNumberOfDisposals,
       validatedMandatoryDecimalNumbers,
       validatedOptionalDecimalNumbers,
       validatedDates,
       validatedCustomerRef,
+      validatedClaimOrElectionCodes,
       validatedLossOrGains,
-      validatedNumberOfDisposals,
-      validatedClaimOrElectionCodes
+      validatedLossesFromThisYearRule
     )
   }
 
