@@ -261,6 +261,14 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
      """.stripMargin
   )
 
+  val numberOfDisposalsError: MtdError = ValueFormatError.copy(
+    message = "The value must be an integer between 1 and 9999",
+    paths = Some(
+      Seq(
+        "/disposals/0/numberOfDisposals"
+      ))
+  )
+
   val customerRefError: MtdError = CustomerRefFormatError.withPath("/disposals/0/customerReference")
 
   val gainLossJson: JsValue = Json.parse(
@@ -290,7 +298,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
      """.stripMargin
   )
 
-  val numberOfDisposalsJson: JsValue = Json.parse(
+  val lossesFromThisYearJson: JsValue = Json.parse(
     s"""
        |{
        |   "disposals":[
@@ -313,6 +321,30 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
        |   ]
        |}
      """.stripMargin
+  )
+
+  val numberOfDisposalsJson: JsValue = Json.parse(
+    s"""
+       |{
+       |   "disposals":[
+       |      {
+       |         "numberOfDisposals": -1,
+       |         "customerReference": "CGTDISPOSAL01",
+       |         "disposalDate": "$validDisposalDate",
+       |         "completionDate": "$validCompletionDate",
+       |         "disposalProceeds": 1999.99,
+       |         "acquisitionDate": "$validAcquisitionDate",
+       |         "acquisitionAmount": 1999.99,
+       |         "improvementCosts": 1999.99,
+       |         "additionalCosts": 1999.99,
+       |         "prfAmount": 1999.99,
+       |         "otherReliefAmount": 1999.99,
+       |         "gainsBeforeLosses": 123.43,
+       |         "amountOfNetGain": 1999.99
+       |      }
+       |   ]
+       |}
+       """.stripMargin
   )
 
   val gainLossError: MtdError = RuleGainLossError.copy(
@@ -418,7 +450,15 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
           ("AA123456A", "2025-26", customerRefTooLongJson, BAD_REQUEST, customerRefError, None, Some("bad customer reference")),
           ("AA123456A", "2025-26", customerRefTooShortJson, BAD_REQUEST, customerRefError, None, Some("empty customer reference string")),
           ("AA123456A", "2025-26", gainLossJson, BAD_REQUEST, gainLossError, None, Some("gain and loss provided")),
-          ("AA123456A", "2025-26", numberOfDisposalsJson, BAD_REQUEST, lossesFromThisYearRuleError, None, Some("numberOfDisposals is less than 1"))
+          (
+            "AA123456A",
+            "2025-26",
+            lossesFromThisYearJson,
+            BAD_REQUEST,
+            lossesFromThisYearRuleError,
+            None,
+            Some("numberOfDisposals and lossesFromThisYear provided")),
+          ("AA123456A", "2025-26", numberOfDisposalsJson, BAD_REQUEST, numberOfDisposalsError, None, Some("numberOfDisposals is less than 1"))
         )
         input.foreach(args => validationErrorTest.tupled(args))
       }
