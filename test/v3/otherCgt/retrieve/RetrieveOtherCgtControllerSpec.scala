@@ -30,7 +30,6 @@ import v3.otherCgt.retrieve.def1.model.request.Def1_RetrieveOtherCgtRequestData
 import v3.otherCgt.retrieve.def1.model.response.DownstreamAssetType.`otherProperty`
 import v3.otherCgt.retrieve.def1.model.response.{Def1_RetrieveOtherCgtResponse, Disposal, Losses, NonStandardGains}
 import v3.otherCgt.retrieve.def2.model.response.*
-import v3.otherCgt.retrieve.def2.model.response.AssetType.`other-property`
 import v3.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData
 import v3.otherCgt.retrieve.model.response.RetrieveOtherCgtResponse
 
@@ -111,7 +110,7 @@ class RetrieveOtherCgtControllerSpec
     otherGains = Some(
       Seq(
         OtherGains(
-          assetType = `other-property`,
+          assetType = "other-property",
           numberOfDisposals = 1,
           assetDescription = "example of this asset",
           companyName = Some("Bob the Builder"),

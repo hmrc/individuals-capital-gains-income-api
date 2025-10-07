@@ -19,11 +19,11 @@ package v3.otherCgt.retrieve.def2.model.response
 import play.api.libs.json.Format
 import shared.utils.enums.Enums
 
-enum DownstreamAssetType(val toMtd: AssetType) {
-  case `otherProperty`            extends DownstreamAssetType(AssetType.`other-property`)
-  case `listedShares`             extends DownstreamAssetType(AssetType.`listed-shares`)
-  case `otherAsset`               extends DownstreamAssetType(AssetType.`other-asset`)
-  case `nonUkResidentialProperty` extends DownstreamAssetType(AssetType.`non-uk-residential-property`)
+enum DownstreamAssetType(val toMtd: String) {
+  case `otherProperty`            extends DownstreamAssetType("other-property")
+  case `listedShares`             extends DownstreamAssetType("listed-shares")
+  case `otherAsset`               extends DownstreamAssetType("other-asset")
+  case `nonUkResidentialProperty` extends DownstreamAssetType("non-uk-residential-property")
 }
 
 object DownstreamAssetType {

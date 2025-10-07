@@ -20,7 +20,6 @@ import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import shared.models.domain.Timestamp
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.model.response.*
-import v3.otherCgt.retrieve.def2.model.response.AssetType.`other-property`
 
 class Def2_RetrieveOtherCgtResponseSpec extends UnitSpec {
 
@@ -266,7 +265,7 @@ class Def2_RetrieveOtherCgtResponseSpec extends UnitSpec {
     otherGains = Some(
       Seq(
         OtherGains(
-          assetType = `other-property`,
+          assetType = "other-property",
           numberOfDisposals = 1,
           assetDescription = "example of this asset",
           companyName = Some("Bob the Builder"),
@@ -375,7 +374,7 @@ class Def2_RetrieveOtherCgtResponseSpec extends UnitSpec {
     otherGains = Some(
       Seq(
         OtherGains(
-          assetType = `other-property`,
+          assetType = "other-property",
           numberOfDisposals = 1,
           assetDescription = "example of this asset",
           companyName = Some("Bob the Builder"),

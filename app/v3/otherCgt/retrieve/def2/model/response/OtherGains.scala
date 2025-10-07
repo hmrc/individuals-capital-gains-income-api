@@ -19,7 +19,7 @@ package v3.otherCgt.retrieve.def2.model.response
 import play.api.libs.functional.syntax.toFunctionalBuilderOps
 import play.api.libs.json.{JsPath, Json, OWrites, Reads}
 
-case class OtherGains(assetType: AssetType,
+case class OtherGains(assetType: String,
                       numberOfDisposals: BigInt,
                       assetDescription: String,
                       companyName: Option[String],
