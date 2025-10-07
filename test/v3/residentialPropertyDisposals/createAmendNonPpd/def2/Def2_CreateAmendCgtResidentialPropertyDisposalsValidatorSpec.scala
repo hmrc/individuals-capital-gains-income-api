@@ -49,6 +49,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |{
          |  "disposals":[
          |    {
+         |      "numberOfDisposals":2,
          |      "customerReference":"$validCustomerReference",
          |      "disposalDate":"$validDisposalDate",
          |      "completionDate":"$validCompletionDate",
@@ -59,10 +60,10 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "additionalCosts":$validValue,
          |      "prfAmount":$validValue,
          |      "otherReliefAmount":$validValue,
+         |       "gainsWithBadr":$validValue,
          |      "lossesFromThisYear":$validValue,
+         |      "claimOrElectionCodes": ["PRR"],
          |      "amountOfNetLoss":$validValue,
-         |      "numberOfDisposals":2,
-         |      "gainsWithBadr":$validValue,
          |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
@@ -113,6 +114,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |{
          |  "disposals": [
          |    {
+         |      "numberOfDisposals":2,
          |      "customerReference":"$validCustomerReference",
          |      "disposalDate":"$validDisposalDate",
          |      "completionDate":"$validCompletionDate",
@@ -123,11 +125,10 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "additionalCosts":$validValue,
          |      "prfAmount":$validValue,
          |      "otherReliefAmount":$validValue,
+         |      "gainsWithBadr":$validValue,
          |      "lossesFromThisYear":$validValue,
          |      "amountOfNetLoss":$validValue,
          |      "amountOfNetGain":$validValue,
-         |      "numberOfDisposals":2,
-         |      "gainsWithBadr":$validValue,
          |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
@@ -140,6 +141,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |{
          |  "disposals": [
          |    {
+         |      "numberOfDisposals":2,
          |      "customerReference":"$validCustomerReference",
          |      "disposalDate":"$validDisposalDate",
          |      "completionDate":"$validCompletionDate",
@@ -150,10 +152,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "additionalCosts":$validValue,
          |      "prfAmount":$validValue,
          |      "otherReliefAmount":$validValue,
-         |      "lossesFromThisYear":$validValue,
-         |      "amountOfNetLoss":$validValue,
-         |      "numberOfDisposals":2,
          |      "gainsWithBadr":$validValue,
+         |      "lossesFromThisYear":$validValue,
+         |      "amountOfNetLoss":$validValue,  
          |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
@@ -166,6 +167,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |{
          |  "disposals":[
          |    {
+         |      "numberOfDisposals":2,
          |      "customerReference":"$validCustomerReference",
          |      "disposalDate":"$validDisposalDate",
          |      "completionDate":"$validCompletionDate",
@@ -176,10 +178,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "additionalCosts":100045678987654345678987654567898765456789.12,
          |      "prfAmount":-1000.12,
          |      "otherReliefAmount":1000.123,
+         |      "gainsWithBadr":$validValue,
          |      "lossesFromThisYear":1000.123,
          |      "amountOfNetGain":2000.243,
-         |      "numberOfDisposals":2,
-         |      "gainsWithBadr":$validValue,
          |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
@@ -192,6 +193,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |{
          |  "disposals":[
          |    {
+         |      "numberOfDisposals":2,
          |      "customerReference":"$validCustomerReference",
          |      "disposalDate":"$validDisposalDate",
          |      "completionDate":"$validCompletionDate",
@@ -202,10 +204,9 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
          |      "additionalCosts":100000000000.00,
          |      "prfAmount":-0.01,
          |      "otherReliefAmount":1000.123,
+         |      "gainsWithBadr":$validValue,
          |      "lossesFromThisYear":1000.123,
          |      "amountOfNetLoss":2000.243,
-         |      "numberOfDisposals":2,
-         |      "gainsWithBadr":$validValue,
          |      "gainsBeforeLosses":$validValue
          |    }
          |  ]
