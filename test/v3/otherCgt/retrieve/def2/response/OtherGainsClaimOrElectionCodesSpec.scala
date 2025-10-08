@@ -34,8 +34,7 @@ class OtherGainsClaimOrElectionCodesSpec extends UnitSpec with EnumJsonSpecSuppo
     ("INV", INV),
     ("EOT", EOT),
     ("PRR", PRR),
-    ("LET", LET),
-    ("POP", POP)
+    ("LET", LET)
   )
 
 }

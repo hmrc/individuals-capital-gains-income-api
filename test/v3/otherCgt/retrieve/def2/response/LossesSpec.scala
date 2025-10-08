@@ -18,22 +18,10 @@ package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{lossesResponseModel, lossesValidResponseJson}
 import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, Losses}
 
 class LossesSpec extends UnitSpec {
-
-  val validResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |   "broughtForwardLossesUsedInCurrentYear":29999999999.99,
-      |   "setAgainstInYearGains":29999999999.99,
-      |   "setAgainstEarlierYear":29999999999.99,
-      |   "lossesToCarryForward":29999999999.99
-      |}
-     """.stripMargin
-  )
-
-  val minimumValidResponseJson: JsValue = JsObject.empty
 
   val invalidJson: JsValue = Json.parse(
     """
@@ -41,13 +29,6 @@ class LossesSpec extends UnitSpec {
       |   "broughtForwardLossesUsedInCurrentYear":true
       |}
      """.stripMargin
-  )
-
-  val responseModel: Losses = Losses(
-    broughtForwardLossesUsedInCurrentYear = Some(29999999999.99),
-    setAgainstInYearGains = Some(29999999999.99),
-    setAgainstEarlierYear = Some(29999999999.99),
-    lossesToCarryForward = Some(29999999999.99)
   )
 
   val minimumResponseModel: Losses = Losses(
@@ -60,13 +41,13 @@ class LossesSpec extends UnitSpec {
   "Losses" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        validResponseJson.as[Losses] shouldBe responseModel
+        lossesValidResponseJson.as[Losses] shouldBe lossesResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[Losses] shouldBe minimumResponseModel
+        JsObject.empty.as[Losses] shouldBe minimumResponseModel
       }
     }
 
@@ -78,7 +59,7 @@ class LossesSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(lossesResponseModel) shouldBe lossesValidResponseJson
       }
     }
   }

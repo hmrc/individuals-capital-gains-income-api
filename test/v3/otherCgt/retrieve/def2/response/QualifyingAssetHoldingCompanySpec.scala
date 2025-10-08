@@ -18,20 +18,14 @@ package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{
+  qualifyingAssetHoldingCompanyResponseModel,
+  qualifyingAssetHoldingCompanyValidDownstreamResponseJson,
+  qualifyingAssetHoldingCompanyValidMtdResponseJson
+}
 import v3.otherCgt.retrieve.def2.model.response.QualifyingAssetHoldingCompany
 
 class QualifyingAssetHoldingCompanySpec extends UnitSpec {
-
-  val validResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |     "gainsFromQAHCBeforeLosses": 99999999999.99,
-      |     "lossesFromQAHC": 99999999999.99
-      |}
-     """.stripMargin
-  )
-
-  val minimumValidResponseJson: JsValue = JsObject.empty
 
   val invalidJson: JsValue = Json.parse(
     """
@@ -39,20 +33,6 @@ class QualifyingAssetHoldingCompanySpec extends UnitSpec {
       |   "gainsFromQAHCBeforeLosses":true
       |}
      """.stripMargin
-  )
-
-  val validMtdResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |     "gainsFromQahcBeforeLosses": 99999999999.99,
-      |     "lossesFromQahc": 99999999999.99
-      |}
-     """.stripMargin
-  )
-
-  val responseModel: QualifyingAssetHoldingCompany = QualifyingAssetHoldingCompany(
-    gainsFromQahcBeforeLosses = Some(99999999999.99),
-    lossesFromQahc = Some(99999999999.99)
   )
 
   val minimumResponseModel: QualifyingAssetHoldingCompany = QualifyingAssetHoldingCompany(
@@ -63,13 +43,14 @@ class QualifyingAssetHoldingCompanySpec extends UnitSpec {
   "QualifyingAssetHoldingCompany" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        validResponseJson.as[QualifyingAssetHoldingCompany] shouldBe responseModel
+        qualifyingAssetHoldingCompanyValidDownstreamResponseJson.as[QualifyingAssetHoldingCompany] shouldBe
+          qualifyingAssetHoldingCompanyResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[QualifyingAssetHoldingCompany] shouldBe minimumResponseModel
+        JsObject.empty.as[QualifyingAssetHoldingCompany] shouldBe minimumResponseModel
       }
     }
 
@@ -81,7 +62,8 @@ class QualifyingAssetHoldingCompanySpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validMtdResponseJson
+        Json.toJson(qualifyingAssetHoldingCompanyResponseModel) shouldBe
+          qualifyingAssetHoldingCompanyValidMtdResponseJson
       }
     }
   }

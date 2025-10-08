@@ -18,20 +18,14 @@ package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{
+  lifetimeAllowanceResponseModel,
+  lifetimeAllowanceValidDownstreamResponseJson,
+  lifetimeAllowanceValidMtdResponseJson
+}
 import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, LifetimeAllowance}
 
 class LifetimeAllowanceSpec extends UnitSpec {
-
-  val validResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |   "lifetimeAllowanceBADR": 99999999999.99,
-      |   "lifetimeAllowanceINV": 99999999999.99
-      |}
-      """.stripMargin
-  )
-
-  val minimumValidResponseJson: JsValue = JsObject.empty
 
   val invalidJson: JsValue = Json.parse(
     """
@@ -39,20 +33,6 @@ class LifetimeAllowanceSpec extends UnitSpec {
       |   "lifetimeAllowanceBADR":true
       |}
       """.stripMargin
-  )
-
-  val validMtdResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |   "lifetimeAllowanceBadr": 99999999999.99,
-      |   "lifetimeAllowanceInv": 99999999999.99
-      |}
-      """.stripMargin
-  )
-
-  val responseModel: LifetimeAllowance = LifetimeAllowance(
-    lifetimeAllowanceBadr = Some(99999999999.99),
-    lifetimeAllowanceInv = Some(99999999999.99)
   )
 
   val minimumResponseModel: LifetimeAllowance = LifetimeAllowance(
@@ -63,13 +43,13 @@ class LifetimeAllowanceSpec extends UnitSpec {
   "LifetimeAllowance" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        validResponseJson.as[LifetimeAllowance] shouldBe responseModel
+        lifetimeAllowanceValidDownstreamResponseJson.as[LifetimeAllowance] shouldBe lifetimeAllowanceResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[LifetimeAllowance] shouldBe minimumResponseModel
+        JsObject.empty.as[LifetimeAllowance] shouldBe minimumResponseModel
       }
     }
 
@@ -81,7 +61,7 @@ class LifetimeAllowanceSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validMtdResponseJson
+        Json.toJson(lifetimeAllowanceResponseModel) shouldBe lifetimeAllowanceValidMtdResponseJson
       }
     }
   }

@@ -18,19 +18,13 @@ package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{
+  gainExcludedIndexedSecuritiesResponseModel,
+  gainExcludedIndexedSecuritiesValidResponseJson
+}
 import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, GainExcludedIndexedSecurities}
 
 class GainExcludedIndexedSecuritiesSpec extends UnitSpec {
-
-  val validResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |   "gainsFromExcludedSecurities": 29999999999.99
-      |}
-       """.stripMargin
-  )
-
-  val minimumValidResponseJson: JsValue = JsObject.empty
 
   val invalidJson: JsValue = Json.parse(
     """
@@ -40,10 +34,6 @@ class GainExcludedIndexedSecuritiesSpec extends UnitSpec {
        """.stripMargin
   )
 
-  val responseModel: GainExcludedIndexedSecurities = GainExcludedIndexedSecurities(
-    gainsFromExcludedSecurities = Some(29999999999.99)
-  )
-
   val minimumResponseModel: GainExcludedIndexedSecurities = GainExcludedIndexedSecurities(
     gainsFromExcludedSecurities = None
   )
@@ -51,13 +41,13 @@ class GainExcludedIndexedSecuritiesSpec extends UnitSpec {
   "GainExcludedIndexedSecurities" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        validResponseJson.as[GainExcludedIndexedSecurities] shouldBe responseModel
+        gainExcludedIndexedSecuritiesValidResponseJson.as[GainExcludedIndexedSecurities] shouldBe gainExcludedIndexedSecuritiesResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[GainExcludedIndexedSecurities] shouldBe minimumResponseModel
+        JsObject.empty.as[GainExcludedIndexedSecurities] shouldBe minimumResponseModel
       }
     }
 
@@ -69,7 +59,7 @@ class GainExcludedIndexedSecuritiesSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(gainExcludedIndexedSecuritiesResponseModel) shouldBe gainExcludedIndexedSecuritiesValidResponseJson
       }
     }
   }

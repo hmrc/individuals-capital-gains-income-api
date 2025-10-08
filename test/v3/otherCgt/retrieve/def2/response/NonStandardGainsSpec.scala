@@ -18,20 +18,10 @@ package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{nonStandardGainsResponseModel, nonStandardGainsValidResponseJson}
 import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, NonStandardGains}
 
 class NonStandardGainsSpec extends UnitSpec {
-
-  val validResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |     "attributedGains": 99999999999.99,
-      |     "attributedGainsRttTaxPaid": 99999999999.99,
-      |     "otherGains": 99999999999.99,
-      |     "otherGainsRttTaxPaid": 99999999999.99
-      |}
-     """.stripMargin
-  )
 
   val minimumValidResponseJson: JsValue = JsObject.empty
 
@@ -41,13 +31,6 @@ class NonStandardGainsSpec extends UnitSpec {
       |     "attributedGains":true
       |}
      """.stripMargin
-  )
-
-  val responseModel: NonStandardGains = NonStandardGains(
-    attributedGains = Some(99999999999.99),
-    attributedGainsRttTaxPaid = Some(99999999999.99),
-    otherGains = Some(99999999999.99),
-    otherGainsRttTaxPaid = Some(99999999999.99)
   )
 
   val minimumResponseModel: NonStandardGains = NonStandardGains(
@@ -60,7 +43,7 @@ class NonStandardGainsSpec extends UnitSpec {
   "NonStandardGains" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        validResponseJson.as[NonStandardGains] shouldBe responseModel
+        nonStandardGainsValidResponseJson.as[NonStandardGains] shouldBe nonStandardGainsResponseModel
       }
     }
 
@@ -78,7 +61,7 @@ class NonStandardGainsSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(nonStandardGainsValidResponseJson) shouldBe nonStandardGainsValidResponseJson
       }
     }
   }

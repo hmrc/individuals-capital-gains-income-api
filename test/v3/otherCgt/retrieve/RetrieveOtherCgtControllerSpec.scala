@@ -29,7 +29,6 @@ import shared.utils.MockIdGenerator
 import v3.otherCgt.retrieve.def1.model.request.Def1_RetrieveOtherCgtRequestData
 import v3.otherCgt.retrieve.def1.model.response.DownstreamAssetType.`otherProperty`
 import v3.otherCgt.retrieve.def1.model.response.{Def1_RetrieveOtherCgtResponse, Disposal, Losses, NonStandardGains}
-import v3.otherCgt.retrieve.def2.model.response.*
 import v3.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData
 import v3.otherCgt.retrieve.model.response.RetrieveOtherCgtResponse
 
@@ -86,115 +85,6 @@ class RetrieveOtherCgtControllerSpec
     adjustments = Some(-39999999999.99)
   )
 
-  val def2_responseModel: RetrieveOtherCgtResponse = Def2_RetrieveOtherCgtResponse(
-    submittedOn = Timestamp("2026-02-07T16:18:44.403Z"),
-    cryptoassets = Some(
-      Seq(
-        Cryptoassets(
-          numberOfDisposals = 1,
-          assetDescription = "description string",
-          tokenName = "Name of token",
-          acquisitionDate = "2025-08-04",
-          disposalDate = "2025-09-04",
-          disposalProceeds = 99999999999.99,
-          allowableCosts = 99999999999.99,
-          gainsWithBadr = Some(99999999999.99),
-          gainsBeforeLosses = 99999999999.99,
-          losses = Some(99999999999.99),
-          claimOrElectionCodes = Some(Seq(CryptoassetsClaimOrElectionCodes.GHO)),
-          amountOfNetGain = Some(99999999999.99),
-          amountOfNetLoss = Some(99999999999.99),
-          rttTaxPaid = Some(99999999999.99)
-        )
-      )),
-    otherGains = Some(
-      Seq(
-        OtherGains(
-          assetType = "other-property",
-          numberOfDisposals = 1,
-          assetDescription = "example of this asset",
-          companyName = Some("Bob the Builder"),
-          companyRegistrationNumber = Some("11111111"),
-          acquisitionDate = "2025-04-07",
-          disposalDate = "2025-07-10",
-          disposalProceeds = 99999999999.99,
-          allowableCosts = 99999999999.99,
-          gainsWithBadr = Some(99999999999.99),
-          gainsWithInv = Some(99999999999.99),
-          gainsBeforeLosses = 99999999999.99,
-          losses = Some(99999999999.99),
-          claimOrElectionCodes = Some(Seq(OtherGainsClaimOrElectionCodes.GHO)),
-          amountOfNetGain = Some(99999999999.99),
-          amountOfNetLoss = Some(99999999999.99),
-          rttTaxPaid = Some(99999999999.99)
-        )
-      )),
-    unlistedShares = Some(
-      Seq(
-        UnlistedShares(
-          numberOfDisposals = 1,
-          assetDescription = "My asset",
-          companyName = "Bob the Builder",
-          companyRegistrationNumber = Some("11111111"),
-          acquisitionDate = "2025-04-10",
-          disposalDate = "2025-04-12",
-          disposalProceeds = 99999999999.99,
-          allowableCosts = 99999999999.99,
-          gainsWithBadr = Some(99999999999.99),
-          gainsWithInv = Some(99999999999.99),
-          gainsBeforeLosses = 99999999999.99,
-          losses = Some(99999999999.99),
-          claimOrElectionCodes = Some(Seq(UnlistedSharesClaimOrElectionCodes.GHO)),
-          gainsReportedOnRtt = Some(99999999999.99),
-          gainsExceedingLifetimeLimit = Some(99999999999.99),
-          gainsUnderSeis = Some(99999999999.99),
-          lossUsedAgainstGeneralIncome = Some(99999999999.99),
-          eisOrSeisReliefDueCurrentYear = Some(99999999999.99),
-          lossesUsedAgainstGeneralIncomePreviousYear = Some(99999999999.99),
-          eisOrSeisReliefDuePreviousYear = Some(99999999999.99),
-          rttTaxPaid = Some(99999999999.99)
-        )
-      )),
-    gainExcludedIndexedSecurities = Some(
-      GainExcludedIndexedSecurities(
-        gainsFromExcludedSecurities = Some(99999999999.99)
-      )
-    ),
-    qualifyingAssetHoldingCompany = Some(
-      QualifyingAssetHoldingCompany(
-        gainsFromQahcBeforeLosses = Some(99999999999.99),
-        lossesFromQahc = Some(99999999999.99)
-      )
-    ),
-    nonStandardGains = Some(
-      def2.model.response.NonStandardGains(
-        attributedGains = Some(99999999999.99),
-        attributedGainsRttTaxPaid = Some(99999999999.99),
-        otherGains = Some(99999999999.99),
-        otherGainsRttTaxPaid = Some(99999999999.99)
-      )
-    ),
-    losses = Some(
-      def2.model.response.Losses(
-        broughtForwardLossesUsedInCurrentYear = Some(99999999999.99),
-        setAgainstInYearGains = Some(99999999999.99),
-        setAgainstEarlierYear = Some(99999999999.99),
-        lossesToCarryForward = Some(99999999999.99)
-      )
-    ),
-    adjustments = Some(
-      Adjustments(
-        adjustmentAmount = Some(99999999999.99)
-      )
-    ),
-    lifetimeAllowance = Some(
-      LifetimeAllowance(
-        lifetimeAllowanceBadr = Some(99999999999.99),
-        lifetimeAllowanceInv = Some(99999999999.99)
-      )
-    )
-  )
-
   val def1_validResponseJson: JsValue = Json.parse(
     """
       |{
@@ -234,110 +124,6 @@ class RetrieveOtherCgtControllerSpec
      """.stripMargin
   )
 
-  val def2_validResponseJson: JsValue = Json.parse(
-    """
-      {
-      |    "submittedOn": "2026-02-07T16:18:44.403Z",
-      |    "cryptoassets": [
-      |        {
-      |            "numberOfDisposals": 1,
-      |            "assetDescription": "description string",
-      |            "tokenName": "Name of token",
-      |            "acquisitionDate": "2025-08-04",
-      |            "disposalDate": "2025-09-04",
-      |            "disposalProceeds": 99999999999.99,
-      |            "allowableCosts": 99999999999.99,
-      |            "gainsWithBadr": 99999999999.99,
-      |            "gainsBeforeLosses": 99999999999.99,
-      |            "losses": 99999999999.99,
-      |            "claimOrElectionCodes": [
-      |                "GHO"
-      |            ],
-      |            "amountOfNetGain": 99999999999.99,
-      |            "amountOfNetLoss": 99999999999.99,
-      |            "rttTaxPaid": 99999999999.99
-      |        }
-      |    ],
-      |    "otherGains": [
-      |        {
-      |            "assetType": "other-property",
-      |            "numberOfDisposals": 1,
-      |            "assetDescription": "example of this asset",
-      |            "companyName": "Bob the Builder",
-      |            "companyRegistrationNumber": "11111111",
-      |            "acquisitionDate": "2025-04-07",
-      |            "disposalDate": "2025-07-10",
-      |            "disposalProceeds": 99999999999.99,
-      |            "allowableCosts": 99999999999.99,
-      |            "gainsWithBadr": 99999999999.99,
-      |            "gainsWithInv": 99999999999.99,
-      |            "gainsBeforeLosses": 99999999999.99,
-      |            "losses": 99999999999.99,
-      |            "claimOrElectionCodes": [
-      |                "GHO"
-      |            ],
-      |            "amountOfNetGain": 99999999999.99,
-      |            "amountOfNetLoss": 99999999999.99,
-      |            "rttTaxPaid": 99999999999.99
-      |        }
-      |    ],
-      |    "unlistedShares": [
-      |        {
-      |            "numberOfDisposals": 1,
-      |            "assetDescription": "My asset",
-      |            "companyName": "Bob the Builder",
-      |            "companyRegistrationNumber": "11111111",
-      |            "acquisitionDate": "2025-04-10",
-      |            "disposalDate": "2025-04-12",
-      |            "disposalProceeds": 99999999999.99,
-      |            "allowableCosts": 99999999999.99,
-      |            "gainsWithBadr": 99999999999.99,
-      |            "gainsWithInv": 99999999999.99,
-      |            "gainsBeforeLosses": 99999999999.99,
-      |            "losses": 99999999999.99,
-      |            "claimOrElectionCodes": [
-      |                "GHO"
-      |            ],
-      |            "gainsReportedOnRtt": 99999999999.99,
-      |            "gainsExceedingLifetimeLimit": 99999999999.99,
-      |            "gainsUnderSeis": 99999999999.99,
-      |            "lossUsedAgainstGeneralIncome": 99999999999.99,
-      |            "eisOrSeisReliefDueCurrentYear": 99999999999.99,
-      |            "lossesUsedAgainstGeneralIncomePreviousYear": 99999999999.99,
-      |            "eisOrSeisReliefDuePreviousYear": 99999999999.99,
-      |            "rttTaxPaid": 99999999999.99
-      |        }
-      |    ],
-      |    "gainExcludedIndexedSecurities": {
-      |        "gainsFromExcludedSecurities": 99999999999.99
-      |    },
-      |    "qualifyingAssetHoldingCompany": {
-      |        "gainsFromQahcBeforeLosses": 99999999999.99,
-      |        "lossesFromQahc": 99999999999.99
-      |    },
-      |    "nonStandardGains": {
-      |        "attributedGains": 99999999999.99,
-      |        "attributedGainsRttTaxPaid": 99999999999.99,
-      |        "otherGains": 99999999999.99,
-      |        "otherGainsRttTaxPaid": 99999999999.99
-      |    },
-      |    "losses": {
-      |        "broughtForwardLossesUsedInCurrentYear": 99999999999.99,
-      |        "setAgainstInYearGains": 99999999999.99,
-      |        "setAgainstEarlierYear": 99999999999.99,
-      |        "lossesToCarryForward": 99999999999.99
-      |    },
-      |    "adjustments": {
-      |        "adjustmentAmount": 99999999999.99
-      |    },
-      |    "lifetimeAllowance": {
-      |        "lifetimeAllowanceBadr": 99999999999.99,
-      |        "lifetimeAllowanceInv": 99999999999.99
-      |    }
-      |}
-     """.stripMargin
-  )
-
   "RetrieveOtherCgtController" should {
     "return a successful Def1 response with status 200 (OK)" when {
       "given a valid request" in new Test {
@@ -350,22 +136,6 @@ class RetrieveOtherCgtControllerSpec
         runOkTest(
           expectedStatus = OK,
           maybeExpectedResponseBody = Some(def1_validResponseJson.as[JsObject])
-        )
-      }
-    }
-
-    "return a successful Def2 response with status 200 (OK)" when {
-      "given a valid request" in new Test {
-        override val taxYear: String = "2025-26"
-        willUseValidator(returningSuccess(requestData))
-
-        MockRetrieveOtherCgtService
-          .retrieve(requestData)
-          .returns(Future.successful(Right(ResponseWrapper(correlationId, def2_responseModel))))
-
-        runOkTest(
-          expectedStatus = OK,
-          maybeExpectedResponseBody = Some(def2_validResponseJson.as[JsObject])
         )
       }
     }

@@ -18,19 +18,10 @@ package v3.otherCgt.retrieve.def2.response
 
 import play.api.libs.json.{JsError, JsObject, JsValue, Json}
 import support.UnitSpec
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{adjustmentsResponseModel, adjustmentsValidResponseJson}
 import v3.otherCgt.retrieve.def2.model.response.{Adjustments, Def2_RetrieveOtherCgtResponse}
 
 class AdjustmentsSpec extends UnitSpec {
-
-  val validResponseJson: JsValue = Json.parse(
-    """
-      |{
-      |   "adjustmentAmount": 99999999999.99
-      |}
-      """.stripMargin
-  )
-
-  val minimumValidResponseJson: JsValue = JsObject.empty
 
   val invalidJson: JsValue = Json.parse(
     """
@@ -40,10 +31,6 @@ class AdjustmentsSpec extends UnitSpec {
       """.stripMargin
   )
 
-  val responseModel: Adjustments = Adjustments(
-    adjustmentAmount = Some(99999999999.99)
-  )
-
   val minimumResponseModel: Adjustments = Adjustments(
     adjustmentAmount = None
   )
@@ -51,13 +38,13 @@ class AdjustmentsSpec extends UnitSpec {
   "Adjustments" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        validResponseJson.as[Adjustments] shouldBe responseModel
+        adjustmentsValidResponseJson.as[Adjustments] shouldBe adjustmentsResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[Adjustments] shouldBe minimumResponseModel
+        JsObject.empty.as[Adjustments] shouldBe minimumResponseModel
       }
     }
 
@@ -69,7 +56,7 @@ class AdjustmentsSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(responseModel) shouldBe validResponseJson
+        Json.toJson(adjustmentsResponseModel) shouldBe adjustmentsValidResponseJson
       }
     }
   }
