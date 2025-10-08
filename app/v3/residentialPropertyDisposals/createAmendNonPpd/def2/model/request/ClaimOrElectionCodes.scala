@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package v3.residentialPropertyDisposals.createAmendNonPpd.def2
+package v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request
 
-import shared.controllers.validators.resolvers.ResolverSupport
-import shared.models.errors.MtdError
-import v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request.ClaimOrElectionCodes
+import play.api.libs.json.Format
+import shared.utils.enums.Enums
 
-object ResolveClaimOrElectionCodes extends ResolverSupport {
+enum ClaimOrElectionCodes {
+  case PRR, LET, GHO, ROR, PRO, BAD, NVC, OTH
+}
 
-  def resolver(error: => MtdError): Resolver[String, ClaimOrElectionCodes] = resolvePartialFunction(error)(ClaimOrElectionCodes.parser)
-
+object ClaimOrElectionCodes {
+  given Format[ClaimOrElectionCodes]                        = Enums.format(values)
+  val parser: PartialFunction[String, ClaimOrElectionCodes] = Enums.parser(values)
 }

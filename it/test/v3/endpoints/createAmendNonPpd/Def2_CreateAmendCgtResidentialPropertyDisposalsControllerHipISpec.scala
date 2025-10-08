@@ -269,7 +269,34 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
       ))
   )
 
+  val claimOrElectionCodesError: MtdError = ClaimOrElectionCodesFormatError.withPath("/disposals/0/claimOrElectionCodes/1")
+
   val customerRefError: MtdError = CustomerRefFormatError.withPath("/disposals/0/customerReference")
+
+  val badClaimOrElectionCodesJson: JsValue = Json.parse(
+    s"""
+       |{
+       |   "disposals":[
+       |      {
+       |         "numberOfDisposals": 2,
+       |         "customerReference": "CGTDISPOSAL01",
+       |         "disposalDate": "$validDisposalDate",
+       |         "completionDate": "$validCompletionDate",
+       |         "disposalProceeds": 1999.99,
+       |         "acquisitionDate": "$validAcquisitionDate",
+       |         "acquisitionAmount": 1999.99,
+       |         "improvementCosts": 1999.99,
+       |         "additionalCosts": 1999.99,
+       |         "prfAmount": 1999.99,
+       |         "otherReliefAmount": 1999.99,
+       |         "gainsBeforeLosses": 123.43,
+       |         "claimOrElectionCodes": ["PRR", "BADS"],
+       |         "amountOfNetGain": 1999.99
+       |      }
+       |   ]
+       |}
+         """.stripMargin
+  )
 
   val gainLossJson: JsValue = Json.parse(
     s"""
@@ -458,7 +485,8 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
             lossesFromThisYearRuleError,
             None,
             Some("numberOfDisposals and lossesFromThisYear provided")),
-          ("AA123456A", "2025-26", numberOfDisposalsJson, BAD_REQUEST, numberOfDisposalsError, None, Some("numberOfDisposals is less than 1"))
+          ("AA123456A", "2025-26", numberOfDisposalsJson, BAD_REQUEST, numberOfDisposalsError, None, Some("numberOfDisposals is less than 1")),
+          ("AA123456A", "2025-26", badClaimOrElectionCodesJson, BAD_REQUEST, claimOrElectionCodesError, None, Some("invalid claimOrElectionCodes"))
         )
         input.foreach(args => validationErrorTest.tupled(args))
       }

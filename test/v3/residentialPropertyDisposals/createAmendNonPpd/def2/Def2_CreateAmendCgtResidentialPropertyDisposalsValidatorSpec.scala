@@ -16,7 +16,7 @@
 
 package v3.residentialPropertyDisposals.createAmendNonPpd.def2
 
-import common.errors.{CustomerRefFormatError, RuleGainLossError, RuleIncorrectLossesSubmittedError}
+import common.errors.{ClaimOrElectionCodesFormatError, CustomerRefFormatError, RuleGainLossError, RuleIncorrectLossesSubmittedError}
 import config.MockAppConfig
 import play.api.libs.json.{JsObject, JsValue, Json}
 import shared.models.domain.{Nino, TaxYear}
@@ -368,6 +368,32 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
        |""".stripMargin
   )
 
+  private val badClaimOrElectionCodesJson: JsValue = Json.parse(
+    s"""
+       |{
+       |  "disposals":[
+       |    {
+       |      "customerReference":"$validCustomerReference",
+       |      "disposalDate":"$validDisposalDate",
+       |      "completionDate":"$validCompletionDate",
+       |      "disposalProceeds":$validValue,
+       |      "acquisitionDate":"$validAcquisitionDate",
+       |      "acquisitionAmount":$validValue,
+       |      "improvementCosts":$validValue,
+       |      "additionalCosts":$validValue,
+       |      "prfAmount":$validValue,
+       |      "otherReliefAmount":$validValue,
+       |      "amountOfNetLoss":$validValue,
+       |      "numberOfDisposals": 2,
+       |      "gainsWithBadr":$validValue,
+       |      "gainsBeforeLosses":1000.12,
+       |      "claimOrElectionCodes": ["PRR", "BADS"]
+       |    }
+       |  ]
+       |}
+       |""".stripMargin
+  )
+
   val numberOfDisposalsJson: JsValue = Json.parse(
     s"""
        |{
@@ -711,6 +737,21 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
             correlationId,
             CustomerRefFormatError.withPath(
               "/disposals/0/customerReference"
+            ))
+        )
+      }
+    }
+
+    "return ClaimOrElectionCodesFormatError error" when {
+      "claimOrElectionCodes is invalid" in new Test {
+        val result: Either[ErrorWrapper, CreateAmendCgtResidentialPropertyDisposalsRequestData] =
+          validator(validNino, validTaxYear, badClaimOrElectionCodesJson).validateAndWrapResult()
+
+        result shouldBe Left(
+          ErrorWrapper(
+            correlationId,
+            ClaimOrElectionCodesFormatError.withPath(
+              "/disposals/0/claimOrElectionCodes/1"
             ))
         )
       }

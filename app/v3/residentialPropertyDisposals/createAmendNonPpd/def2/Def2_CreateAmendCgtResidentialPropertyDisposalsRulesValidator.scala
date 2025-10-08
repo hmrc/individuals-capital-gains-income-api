@@ -96,7 +96,7 @@ object Def2_CreateAmendCgtResidentialPropertyDisposalsRulesValidator
       case Some(values: Seq[String]) =>
         combine(
           values.zipWithIndex.traverse_ { case (value, subIndex) =>
-            ResolveClaimOrElectionCodes(value, ClaimOrElectionCodesFormatError.withPath(s"/disposals/$index/claimOrElectionCodes/$subIndex"))
+            ResolveClaimOrElectionCodes.resolver(ClaimOrElectionCodesFormatError.withPath(s"/disposals/$index/claimOrElectionCodes/$subIndex"))(value)
           }
         )
       case None => valid
