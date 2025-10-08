@@ -25,26 +25,25 @@ import play.api.test.Helpers.AUTHORIZATION
 import shared.models.errors.*
 import shared.services.*
 import shared.support.IntegrationBaseSpec
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{fullValidDownstreamResponseJson, fullValidMtdResponseJson}
 
 class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
 
   "Calling the 'retrieve other CGT' endpoint" should {
     "return a 200 status code" when {
 
-      "any valid request with a Tax Year Specific (TYS) tax year is made" in new TysHipTest {
-
-        override def taxYear: String = "2025-26"
+      "any valid request with a Tax Year Specific (TYS) tax year is made" in new Test {
 
         override def setupStubs(): StubMapping = {
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, fullValidDownstreamResponseJson)
         }
 
         val response: WSResponse = await(request.get())
         response.status shouldBe OK
-        response.json shouldBe mtdResponse
+        response.json shouldBe fullValidMtdResponseJson
         response.header("Content-Type") shouldBe Some("application/json")
       }
     }
@@ -52,7 +51,7 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
     "return error according to spec" when {
       "validation error" when {
         def validationErrorTest(requestNino: String, requestTaxYear: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"validation fails with ${expectedBody.code} error" in new TysHipTest {
+          s"validation fails with ${expectedBody.code} error" in new Test {
 
             override val nino: String    = requestNino
             override val taxYear: String = requestTaxYear
@@ -81,7 +80,7 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
 
       "downstream service error" when {
         def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new TysHipTest {
+          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new Test {
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
@@ -132,213 +131,9 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
 
   private trait Test {
 
-    val nino: String = "AA123456A"
-    def taxYear: String
-    def downstreamUri: String
-
-    val downstreamResponse: JsValue = Json.parse(
-      """
-        |{
-        |    "submittedOn": "2026-02-07T16:18:44.403Z",
-        |    "cryptoassets": [
-        |        {
-        |            "numberOfDisposals": 1,
-        |            "assetDescription": "description string",
-        |            "tokenName": "Name of token",
-        |            "acquisitionDate": "2025-08-04",
-        |            "disposalDate": "2025-09-04",
-        |            "disposalProceeds": 99999999999.99,
-        |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBADR": 99999999999.99,
-        |            "gainsBeforeLosses": 99999999999.99,
-        |            "losses": 99999999999.99,
-        |            "claimOrElectionCodes": [
-        |                "GHO"
-        |            ],
-        |            "amountOfNetGain": 99999999999.99,
-        |            "rttTaxPaid": 99999999999.99
-        |        }
-        |    ],
-        |    "otherGains": [
-        |        {
-        |            "assetType": "otherProperty",
-        |            "numberOfDisposals": 1,
-        |            "assetDescription": "example of this asset",
-        |            "companyName": "Bob the Builder",
-        |            "companyRegistrationNumber": "11111111",
-        |            "acquisitionDate": "2025-04-07",
-        |            "disposalDate": "2025-07-10",
-        |            "disposalProceeds": 99999999999.99,
-        |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBADR": 99999999999.99,
-        |            "gainsWithINV": 99999999999.99,
-        |            "gainsBeforeLosses": 99999999999.99,
-        |            "losses": 99999999999.99,
-        |            "claimOrElectionCodes": [
-        |                "PRR"
-        |            ],
-        |            "amountOfNetGain": 99999999999.99,
-        |            "rttTaxPaid": 99999999999.99
-        |        }
-        |    ],
-        |    "unlistedShares": [
-        |        {
-        |            "numberOfDisposals": 1,
-        |            "assetDescription": "My asset",
-        |            "companyName": "Bob the Builder",
-        |            "companyRegistrationNumber": "11111111",
-        |            "acquisitionDate": "2025-04-10",
-        |            "disposalDate": "2025-04-12",
-        |            "disposalProceeds": 99999999999.99,
-        |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBADR": 99999999999.99,
-        |            "gainsWithINV": 99999999999.99,
-        |            "gainsBeforeLosses": 99999999999.99,
-        |            "losses": 99999999999.99,
-        |            "claimOrElectionCodes": [
-        |                "GHO"
-        |            ],
-        |            "gainsReportedOnRtt": 99999999999.99,
-        |            "gainsExceedingLifetimeLimit": 99999999999.99,
-        |            "gainsUnderSEIS": 99999999999.99,
-        |            "lossUsedAgainstGeneralIncome": 99999999999.99,
-        |            "eisOrSeisReliefDueCurrentYear": 99999999999.99,
-        |            "lossesUsedAgainstGeneralIncomePreviousYear": 99999999999.99,
-        |            "eisOrSeisReliefDuePreviousYear": 99999999999.99,
-        |            "rttTaxPaid": 99999999999.99
-        |        }
-        |    ],
-        |    "gainExcludedIndexedSecurities": {
-        |        "gainsFromExcludedSecurities": 99999999999.99
-        |    },
-        |    "qualifyingAssetHoldingCompany": {
-        |        "gainsFromQAHCBeforeLosses": 99999999999.99,
-        |        "lossesFromQAHC": 99999999999.99
-        |    },
-        |    "nonStandardGains": {
-        |        "attributedGains": 99999999999.99,
-        |        "attributedGainsRttTaxPaid": 99999999999.99,
-        |        "otherGains": 99999999999.99,
-        |        "otherGainsRttTaxPaid": 99999999999.99
-        |    },
-        |    "losses": {
-        |        "broughtForwardLossesUsedInCurrentYear": 99999999999.99,
-        |        "setAgainstInYearGains": 99999999999.99,
-        |        "setAgainstEarlierYear": 99999999999.99,
-        |        "lossesToCarryForward": 99999999999.99
-        |    },
-        |    "adjustments": {
-        |        "adjustmentAmount": 99999999999.99
-        |    },
-        |    "lifeTimeAllowance": {
-        |        "lifetimeAllowanceBADR": 99999999999.99,
-        |        "lifetimeAllowanceINV": 99999999999.99
-        |    }
-        |}
-        |""".stripMargin
-    )
-
-    val mtdResponse: JsValue = Json.parse(
-      """
-        |{
-        |    "submittedOn": "2026-02-07T16:18:44.403Z",
-        |    "cryptoassets": [
-        |        {
-        |            "numberOfDisposals": 1,
-        |            "assetDescription": "description string",
-        |            "tokenName": "Name of token",
-        |            "acquisitionDate": "2025-08-04",
-        |            "disposalDate": "2025-09-04",
-        |            "disposalProceeds": 99999999999.99,
-        |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBadr": 99999999999.99,
-        |            "gainsBeforeLosses": 99999999999.99,
-        |            "losses": 99999999999.99,
-        |            "claimOrElectionCodes": [
-        |                "GHO"
-        |            ],
-        |            "amountOfNetGain": 99999999999.99,
-        |            "rttTaxPaid": 99999999999.99
-        |        }
-        |    ],
-        |    "otherGains": [
-        |        {
-        |            "assetType": "other-property",
-        |            "numberOfDisposals": 1,
-        |            "assetDescription": "example of this asset",
-        |            "companyName": "Bob the Builder",
-        |            "companyRegistrationNumber": "11111111",
-        |            "acquisitionDate": "2025-04-07",
-        |            "disposalDate": "2025-07-10",
-        |            "disposalProceeds": 99999999999.99,
-        |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBadr": 99999999999.99,
-        |            "gainsWithInv": 99999999999.99,
-        |            "gainsBeforeLosses": 99999999999.99,
-        |            "losses": 99999999999.99,
-        |            "claimOrElectionCodes": [
-        |                "PRR"
-        |            ],
-        |            "amountOfNetGain": 99999999999.99,
-        |            "rttTaxPaid": 99999999999.99
-        |        }
-        |    ],
-        |    "unlistedShares": [
-        |        {
-        |            "numberOfDisposals": 1,
-        |            "assetDescription": "My asset",
-        |            "companyName": "Bob the Builder",
-        |            "companyRegistrationNumber": "11111111",
-        |            "acquisitionDate": "2025-04-10",
-        |            "disposalDate": "2025-04-12",
-        |            "disposalProceeds": 99999999999.99,
-        |            "allowableCosts": 99999999999.99,
-        |            "gainsWithBadr": 99999999999.99,
-        |            "gainsWithInv": 99999999999.99,
-        |            "gainsBeforeLosses": 99999999999.99,
-        |            "losses": 99999999999.99,
-        |            "claimOrElectionCodes": [
-        |                "GHO"
-        |            ],
-        |            "gainsReportedOnRtt": 99999999999.99,
-        |            "gainsExceedingLifetimeLimit": 99999999999.99,
-        |            "gainsUnderSeis": 99999999999.99,
-        |            "lossUsedAgainstGeneralIncome": 99999999999.99,
-        |            "eisOrSeisReliefDueCurrentYear": 99999999999.99,
-        |            "lossesUsedAgainstGeneralIncomePreviousYear": 99999999999.99,
-        |            "eisOrSeisReliefDuePreviousYear": 99999999999.99,
-        |            "rttTaxPaid": 99999999999.99
-        |        }
-        |    ],
-        |    "gainExcludedIndexedSecurities": {
-        |        "gainsFromExcludedSecurities": 99999999999.99
-        |    },
-        |    "qualifyingAssetHoldingCompany": {
-        |        "gainsFromQahcBeforeLosses": 99999999999.99,
-        |        "lossesFromQahc": 99999999999.99
-        |    },
-        |    "nonStandardGains": {
-        |        "attributedGains": 99999999999.99,
-        |        "attributedGainsRttTaxPaid": 99999999999.99,
-        |        "otherGains": 99999999999.99,
-        |        "otherGainsRttTaxPaid": 99999999999.99
-        |    },
-        |    "losses": {
-        |        "broughtForwardLossesUsedInCurrentYear": 99999999999.99,
-        |        "setAgainstInYearGains": 99999999999.99,
-        |        "setAgainstEarlierYear": 99999999999.99,
-        |        "lossesToCarryForward": 99999999999.99
-        |    },
-        |    "adjustments": {
-        |        "adjustmentAmount": 99999999999.99
-        |    },
-        |    "lifetimeAllowance": {
-        |        "lifetimeAllowanceBadr": 99999999999.99,
-        |        "lifetimeAllowanceInv": 99999999999.99
-        |    }
-        |}
-        |""".stripMargin
-    )
+    val nino: String          = "AA123456A"
+    def taxYear: String       = "2025-26"
+    def downstreamUri: String = s"/itsa/income-tax/v1/25-26/income/disposals/other-gains/$nino"
 
     def uri: String = s"/other-gains/$nino/$taxYear"
 
@@ -353,11 +148,6 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         )
     }
 
-  }
-
-  private trait TysHipTest extends Test {
-    def taxYear: String       = "2025-26"
-    def downstreamUri: String = s"/itsa/income-tax/v1/25-26/income/disposals/other-gains/$nino"
   }
 
 }

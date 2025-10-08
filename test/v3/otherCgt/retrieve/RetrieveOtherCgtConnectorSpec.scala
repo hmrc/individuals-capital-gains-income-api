@@ -24,7 +24,7 @@ import shared.models.outcomes.ResponseWrapper
 import uk.gov.hmrc.http.StringContextOps
 import v3.otherCgt.retrieve.def1.model.request.Def1_RetrieveOtherCgtRequestData
 import v3.otherCgt.retrieve.def1.model.response.Def1_RetrieveOtherCgtResponse
-import v3.otherCgt.retrieve.def2.model.response.Def2_RetrieveOtherCgtResponse
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.minimumResponseModel
 import v3.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData
 import v3.otherCgt.retrieve.model.response.RetrieveOtherCgtResponse
 
@@ -73,7 +73,7 @@ class RetrieveOtherCgtConnectorSpec extends CgtConnectorSpec {
     "return a success def2 response when feature switch is enabled (HIP enabled)" in new HipTest with Test {
       override def taxYear: TaxYear = TaxYear.fromMtd("2025-26")
       MockedSharedAppConfig.featureSwitchConfig.returns(Configuration("ifs_hip_migration_1951.enabled" -> true))
-      val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherCgtResponse]] = Right(ResponseWrapper(correlationId, def2_response))
+      val outcome: Right[Nothing, ResponseWrapper[RetrieveOtherCgtResponse]] = Right(ResponseWrapper(correlationId, minimumResponseModel))
 
       willGet(
         url = url"$baseUrl/itsa/income-tax/v1/${taxYear.asTysDownstream}/income/disposals/other-gains/$nino"
@@ -116,19 +116,6 @@ class RetrieveOtherCgtConnectorSpec extends CgtConnectorSpec {
       nonStandardGains = None,
       losses = None,
       adjustments = None
-    )
-
-    val def2_response: RetrieveOtherCgtResponse = Def2_RetrieveOtherCgtResponse(
-      submittedOn = Timestamp("2021-05-07T16:18:44.403Z"),
-      cryptoassets = None,
-      otherGains = None,
-      unlistedShares = None,
-      gainExcludedIndexedSecurities = None,
-      qualifyingAssetHoldingCompany = None,
-      nonStandardGains = None,
-      losses = None,
-      adjustments = None,
-      lifetimeAllowance = None
     )
 
     val connector: RetrieveOtherCgtConnector = new RetrieveOtherCgtConnector(
