@@ -25,10 +25,6 @@ import shared.models.errors.{ErrorWrapper, NinoFormatError, RuleTaxYearNotSuppor
 import shared.models.outcomes.ResponseWrapper
 import shared.services.{MockEnrolmentsAuthService, MockMtdIdLookupService}
 import shared.utils.MockIdGenerator
-import v3.residentialPropertyDisposals.retrieveAll.{
-  MockRetrieveAllResidentialPropertyCgtService,
-  MockRetrieveAllResidentialPropertyCgtValidatorFactory
-}
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.def2.fixture.Def2_RetrieveCgtPpdOverridesFixture.{mtdJson, responseModel}
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.def2.model.request.Def2_RetrieveCgtPpdOverridesRequestData
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.model.MtdSourceEnum
