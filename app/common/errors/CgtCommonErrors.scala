@@ -22,6 +22,8 @@ import shared.models.errors.MtdError
 object PpdSubmissionIdFormatError  extends MtdError("FORMAT_PPD_SUBMISSION_ID", "The provided ppdSubmissionId is invalid", BAD_REQUEST)
 object CustomerRefFormatError      extends MtdError("FORMAT_CUSTOMER_REF", "The provided customer reference is invalid", BAD_REQUEST)
 object AssetDescriptionFormatError extends MtdError("FORMAT_ASSET_DESCRIPTION", "The provided asset description is invalid", BAD_REQUEST)
+object CompanyNameFormatError      extends MtdError("FORMAT_COMPANY_NAME", "The provided companyName is invalid", BAD_REQUEST)
+object TokenNameFormatError        extends MtdError("FORMAT_TOKEN_NAME", "The provided tokenName is invalid", BAD_REQUEST)
 object AssetTypeFormatError        extends MtdError("FORMAT_ASSET_TYPE", "The format of the assetType value is invalid", BAD_REQUEST)
 object SourceFormatError           extends MtdError("FORMAT_SOURCE", "The provided source is invalid", BAD_REQUEST)
 

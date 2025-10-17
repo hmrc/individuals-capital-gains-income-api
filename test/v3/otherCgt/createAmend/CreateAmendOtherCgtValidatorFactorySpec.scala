@@ -18,14 +18,16 @@ package v3.otherCgt.createAmend
 
 import common.utils.JsonErrorValidators
 import config.MockAppConfig
+import shared.controllers.validators.{AlwaysErrorsValidator, Validator}
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
 import v3.otherCgt.createAmend.def1.Def1_CreateAmendOtherCgtValidator
+import v3.otherCgt.createAmend.def2.Def2_CreateAmendOtherCgtValidator
+import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
 class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
 
-  private val validNino    = "AA123456A"
-  private val validTaxYear = "2021-22"
+  private val validNino = "AA123456A"
 
   def requestBodyJson(): JsValue = Json.parse(
     s"""
@@ -35,16 +37,33 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorVal
      """.stripMargin
   )
 
-  private val validRequestBody = requestBodyJson()
+  private trait Test {
 
-  private val validatorFactory = new CreateAmendOtherCgtValidatorFactory(mockAppConfig)
+    MockedAppConfig.minimumPermittedTaxYear
+      .returns(2021)
+      .anyNumberOfTimes()
+
+  }
+
+  private def validatorFactory(taxYear: String): Validator[CreateAmendOtherCgtRequestData] =
+    new CreateAmendOtherCgtValidatorFactory().validator(nino = validNino, taxYear = taxYear, requestBodyJson())
 
   "running a validation" should {
     "return the Def1 validator" when {
-      "given a request handled by a Def1 schema" in {
-        val result = validatorFactory.validator(validNino, validTaxYear, validRequestBody)
-        result shouldBe a[Def1_CreateAmendOtherCgtValidator]
+      "given a request handled by a Def1 schema" in new Test {
+        validatorFactory("2024-25") shouldBe a[Def1_CreateAmendOtherCgtValidator]
+      }
+    }
 
+    "return the Def2 validator" when {
+      "given a request handled by a Def2 schema" in new Test {
+        validatorFactory("2025-26") shouldBe a[Def2_CreateAmendOtherCgtValidator]
+      }
+    }
+
+    "return no valid schema" when {
+      "given a request handled by no valid schema" in new Test {
+        validatorFactory("INVALID_TAX_YEAR") shouldBe a[AlwaysErrorsValidator]
       }
     }
 

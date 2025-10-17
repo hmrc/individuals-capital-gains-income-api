@@ -16,12 +16,30 @@
 
 package v3.otherCgt.createAmend
 
+import cats.data.Validated
+import cats.data.Validated.Valid
+import config.CgtAppConfig
+import shared.controllers.validators.resolvers.ResolveTaxYearMinimum
+import shared.models.domain.TaxYear
+import shared.models.errors.MtdError
+import scala.math.Ordering.Implicits.infixOrderingOps
+
 sealed trait CreateAmendOtherCgtSchema
 
 object CreateAmendOtherCgtSchema {
 
   case object Def1 extends CreateAmendOtherCgtSchema
+  case object Def2 extends CreateAmendOtherCgtSchema
 
-  val schema: CreateAmendOtherCgtSchema = Def1
+  def schemaFor(
+      taxYearString: String
+  )(implicit appConfig: CgtAppConfig): Validated[Seq[MtdError], CreateAmendOtherCgtSchema] =
+    ResolveTaxYearMinimum(TaxYear.ending(appConfig.minimumPermittedTaxYear))(taxYearString)
+      .andThen(schemaForValidated)
+
+  private def schemaForValidated(
+      taxYear: TaxYear
+  ): Validated[Seq[MtdError], CreateAmendOtherCgtSchema] =
+    Valid(if (taxYear >= TaxYear.fromMtd("2025-26")) Def2 else Def1)
 
 }

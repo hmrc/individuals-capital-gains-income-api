@@ -102,7 +102,7 @@ class Def1_CreateAmendOtherCgtRulesValidatorSpec extends UnitSpec with MockAppCo
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
   private def validate(nino: String = validNino, taxYear: String = validTaxYear, body: JsValue = validRequestBodyJson) =
-    new Def1_CreateAmendOtherCgtValidator(nino, taxYear, body)(mockAppConfig).validateAndWrapResult()
+    new Def1_CreateAmendOtherCgtValidator(nino, taxYear, body).validateAndWrapResult()
 
   private def error(mtdError: MtdError) = Left(ErrorWrapper(correlationId, mtdError))
 
@@ -144,24 +144,6 @@ class Def1_CreateAmendOtherCgtRulesValidatorSpec extends UnitSpec with MockAppCo
       "an invalid nino is supplied" in new Test {
         validate(nino = "A12344A") shouldBe
           Left(ErrorWrapper(correlationId, NinoFormatError))
-      }
-    }
-
-    "return TaxYearFormatError error" when {
-      "an invalid tax year is supplied" in new Test {
-        validate(taxYear = "201718") shouldBe error(TaxYearFormatError)
-      }
-    }
-
-    "return RuleTaxYearNotSupportedError error" when {
-      "an out of range tax year is supplied" in new Test {
-        validate(taxYear = "2016-17") shouldBe error(RuleTaxYearNotSupportedError)
-      }
-    }
-
-    "return RuleTaxYearRangeInvalidError error" when {
-      "an invalid tax year range is supplied" in new Test {
-        validate(taxYear = "2017-19") shouldBe error(RuleTaxYearRangeInvalidError)
       }
     }
 
@@ -226,12 +208,12 @@ class Def1_CreateAmendOtherCgtRulesValidatorSpec extends UnitSpec with MockAppCo
 
     "return multiple errors" when {
       "multiple invalid parameters are provided" in new Test {
-        validate(nino = "not-a-nino", taxYear = "2017-19") shouldBe
+        validate(nino = "not-a-nino", body = requestBodyJson(disposalJson.update("/claimOrElectionCodes", JsArray.empty))) shouldBe
           Left(
             ErrorWrapper(
               correlationId,
               BadRequestError,
-              Some(List(NinoFormatError, RuleTaxYearRangeInvalidError))
+              Some(List(NinoFormatError, RuleIncorrectOrEmptyBodyError.withPath("/disposals/0/claimOrElectionCodes")))
             )
           )
       }

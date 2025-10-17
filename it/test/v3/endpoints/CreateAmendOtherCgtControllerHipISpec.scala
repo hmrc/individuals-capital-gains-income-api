@@ -68,6 +68,110 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
      """.stripMargin
   )
 
+  private val validRequestJson2526 =
+    Json
+      .parse(
+        s"""
+           |{
+           |    "cryptoassets": [
+           |        {
+           |            "numberOfDisposals": 1,
+           |            "assetDescription": "description string",
+           |            "tokenName": "Name of token",
+           |            "acquisitionDate": "2025-08-04",
+           |            "disposalDate": "2025-09-04",
+           |            "disposalProceeds": 100.11,
+           |            "allowableCosts": 100.12,
+           |            "gainsWithBadr": 100.13,
+           |            "gainsBeforeLosses": 100.14,
+           |            "losses": 100.15,
+           |            "claimOrElectionCodes": [
+           |                "GHO"
+           |            ],
+           |            "amountOfNetGain": 100.16,
+           |            "rttTaxPaid": 100.18
+           |        }
+           |    ],
+           |    "otherGains": [
+           |        {
+           |            "assetType": "other-property",
+           |            "numberOfDisposals": 1,
+           |            "assetDescription": "example of this asset",
+           |            "companyName": "Bob the Builder",
+           |            "companyRegistrationNumber": "11111111",
+           |            "acquisitionDate": "2025-04-07",
+           |            "disposalDate": "2025-07-10",
+           |            "disposalProceeds": 100.11,
+           |            "allowableCosts": 100.12,
+           |            "gainsWithBadr": 100.13,
+           |            "gainsWithInv": 100.14,
+           |            "gainsBeforeLosses": 100.15,
+           |            "losses": 100.16,
+           |            "claimOrElectionCodes": [
+           |                "PRR"
+           |            ],
+           |            "amountOfNetGain": 100.17,
+           |            "rttTaxPaid": 100.19
+           |        }
+           |    ],
+           |    "unlistedShares": [
+           |        {
+           |            "numberOfDisposals": 1,
+           |            "assetDescription": "My asset",
+           |            "companyName": "Bob the Builder",
+           |            "companyRegistrationNumber": "11111111",
+           |            "acquisitionDate": "2025-04-10",
+           |            "disposalDate": "2025-04-12",
+           |            "disposalProceeds": 100.11,
+           |            "allowableCosts": 100.12,
+           |            "gainsWithBadr": 100.13,
+           |            "gainsWithInv": 100.14,
+           |            "gainsBeforeLosses": 100.15,
+           |            "losses": 100.16,
+           |            "claimOrElectionCodes": [
+           |                "GHO"
+           |            ],
+           |            "gainsReportedOnRtt": 100.17,
+           |            "gainsExceedingLifetimeLimit": 100.18,
+           |            "gainsUnderSeis": 100.19,
+           |            "lossUsedAgainstGeneralIncome": 100.20,
+           |            "eisOrSeisReliefDueCurrentYear": 100.21,
+           |            "lossesUsedAgainstGeneralIncomePreviousYear": 100.22,
+           |            "eisOrSeisReliefDuePreviousYear": 100.23,
+           |            "rttTaxPaid": 100.24
+           |        }
+           |    ],
+           |    "gainExcludedIndexedSecurities": {
+           |        "gainsFromExcludedSecurities": 100.11
+           |    },
+           |    "qualifyingAssetHoldingCompany": {
+           |        "gainsFromQahcBeforeLosses": 100.11,
+           |        "lossesFromQahc": 100.12
+           |    },
+           |    "nonStandardGains": {
+           |        "attributedGains": 100.11,
+           |        "attributedGainsRttTaxPaid": 100.12,
+           |        "otherGains": 100.13,
+           |        "otherGainsRttTaxPaid": 100.14
+           |    },
+           |    "losses": {
+           |        "broughtForwardLossesUsedInCurrentYear": 100.11,
+           |        "setAgainstInYearGains": 100.12,
+           |        "setAgainstEarlierYear": 100.13,
+           |        "lossesToCarryForward": 100.14
+           |    },
+           |    "adjustments": {
+           |        "adjustmentAmount": 100.11
+           |    },
+           |    "lifetimeAllowance": {
+           |        "lifetimeAllowanceBadr": 100.11,
+           |        "lifetimeAllowanceInv": 100.12
+           |    }
+           |}
+  """.stripMargin
+      )
+      .as[JsObject]
+
   val noMeaningfulDataJson: JsValue = Json.parse(
     """
       |{
@@ -405,6 +509,19 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
         }
 
         val response: WSResponse = await(request.put(validRequestJson))
+        response.status shouldBe OK
+        verifyNrs(validRequestJson)
+      }
+
+      "any valid request is made TYS 25/26" in new TysHipTest {
+        override val taxYear: String       = "2025-26"
+        override def downstreamUrl: String = s"/itsa/income-tax/v1/25-26/income/disposals/other-gains/$nino"
+        override def setupStubs(): Unit = {
+          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUrl, NO_CONTENT, JsObject.empty)
+        }
+
+        val response: WSResponse = await(request.put(validRequestJson2526))
+        println(response.body)
         response.status shouldBe OK
         verifyNrs(validRequestJson)
       }
