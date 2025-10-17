@@ -44,7 +44,7 @@ class Def1_RetrieveCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec
 
     val mtdResponse: JsValue = Def1_RetrieveCgtPpdOverridesFixture.mtdJson
 
-    def mtdQueryParams: Seq[(String, String)] =
+    private def mtdQueryParams: Seq[(String, String)] =
       Seq("source" -> source)
         .collect { case (k, Some(v)) =>
           (k, v)
@@ -73,7 +73,7 @@ class Def1_RetrieveCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, Map("view" -> "LATEST"), OK, downstreamResponse)
         }
 
         val response: WSResponse = await(mtdRequest.get())
@@ -92,7 +92,7 @@ class Def1_RetrieveCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec
           AuditStub.audit()
           AuthStub.authorised()
           MtdIdLookupStub.ninoFound(nino)
-          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, OK, downstreamResponse)
+          DownstreamStub.onSuccess(DownstreamStub.GET, downstreamUri, Map("view" -> "LATEST"), OK, downstreamResponse)
         }
 
         val response: WSResponse = await(mtdRequest.get())
@@ -105,11 +105,16 @@ class Def1_RetrieveCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec
     "return error according to spec" when {
 
       "validation error" when {
-        def validationErrorTest(requestNino: String, requestTaxYear: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
+        def validationErrorTest(requestNino: String,
+                                requestTaxYear: String,
+                                requestSource: Option[String],
+                                expectedStatus: Int,
+                                expectedBody: MtdError): Unit = {
           s"validation fails with ${expectedBody.code} error" in new Test {
 
-            override val nino: String    = requestNino
-            override val taxYear: String = requestTaxYear
+            override val nino: String           = requestNino
+            override val taxYear: String        = requestTaxYear
+            override val source: Option[String] = requestSource
 
             override def setupStubs(): StubMapping = {
               AuditStub.audit()
@@ -125,10 +130,11 @@ class Def1_RetrieveCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec
         }
 
         val input = Seq(
-          ("AA1123A", "2019-20", BAD_REQUEST, NinoFormatError),
-          ("AA123456A", "20177", BAD_REQUEST, TaxYearFormatError),
-          ("AA123456A", "2015-17", BAD_REQUEST, RuleTaxYearRangeInvalidError),
-          ("AA123456A", "2015-16", BAD_REQUEST, RuleTaxYearNotSupportedError)
+          ("AA1123A", "2019-20", None, BAD_REQUEST, NinoFormatError),
+          ("AA123456A", "20177", None, BAD_REQUEST, TaxYearFormatError),
+          ("AA123456A", "2019-20", Some("notSource"), BAD_REQUEST, SourceFormatError),
+          ("AA123456A", "2015-17", None, BAD_REQUEST, RuleTaxYearRangeInvalidError),
+          ("AA123456A", "2015-16", None, BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
         input.foreach(args => validationErrorTest.tupled(args))
       }
@@ -141,7 +147,7 @@ class Def1_RetrieveCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec
               AuditStub.audit()
               AuthStub.authorised()
               MtdIdLookupStub.ninoFound(nino)
-              DownstreamStub.onError(DownstreamStub.GET, downstreamUri, downstreamStatus, errorBody(downstreamCode))
+              DownstreamStub.onError(DownstreamStub.GET, downstreamUri, Map("view" -> "LATEST"), downstreamStatus, errorBody(downstreamCode))
             }
 
             val response: WSResponse = await(mtdRequest.get())
@@ -153,18 +159,18 @@ class Def1_RetrieveCgtPpdOverridesControllerHipISpec extends IntegrationBaseSpec
 
         def errorBody(code: String): String =
           s"""
-               |{
-               |  "origin": "HoD",
-               |  "response": {
-               |    "failures": [
-               |      {
-               |        "type": "$code",
-               |        "reason": "message"
-               |      }
-               |    ]
-               |  }
-               |}
-              """.stripMargin
+            |{
+            |  "origin": "HoD",
+            |  "response": {
+            |    "failures": [
+            |      {
+            |        "type": "$code",
+            |        "reason": "message"
+            |      }
+            |    ]
+            |  }
+            |}
+          """.stripMargin
 
         val input = Seq(
           (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),

@@ -49,7 +49,7 @@ class Def2_RetrieveCgtPpdOverridesValidatorSpec extends UnitSpec with MockAppCon
 
   "validator" should {
     "return the parsed domain object" when {
-      "a valid request is supplied" in new Test {
+      "a valid request is supplied with source" in new Test {
         val result: Either[ErrorWrapper, RetrieveCgtPpdOverridesRequestData] =
           validator(validNino, validTaxYear, validSource).validateAndWrapResult()
 

@@ -52,7 +52,7 @@ class RetrieveCgtPpdOverridesControllerSpec
     source = MtdSourceEnum.latest
   )
 
-  "retrieveAll" should {
+  "retrieveCgtPpdOverrides" should {
     "return a successful response with status 200 (OK)" when {
       "given a valid request" in new Test {
         willUseValidator(returningSuccess(requestData))

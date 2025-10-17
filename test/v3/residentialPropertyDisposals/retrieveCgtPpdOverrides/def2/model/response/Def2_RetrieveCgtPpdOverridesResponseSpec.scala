@@ -26,7 +26,7 @@ import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.def2.fixture.Def2
 
 class Def2_RetrieveCgtPpdOverridesResponseSpec extends UnitSpec {
 
-  "Def2_RetrieveCgtPpdOverridesResponseSpec" should {
+  "Def2_RetrieveCgtPpdOverridesResponse" should {
     "use reads to return a valid object" when {
       "valid json is supplied" in {
         downstreamJson.as[Def2_RetrieveCgtPpdOverridesResponse] shouldBe responseModel

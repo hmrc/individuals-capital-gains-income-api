@@ -17,11 +17,10 @@
 package v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.def1
 
 import cats.data.Validated
-import cats.data.Validated.{Invalid, Valid}
 import cats.implicits.*
 import common.errors.SourceFormatError
 import shared.controllers.validators.Validator
-import shared.controllers.validators.resolvers.ResolveNino
+import shared.controllers.validators.resolvers.{ResolveNino, ResolverSupport}
 import shared.models.domain.TaxYear
 import shared.models.errors.MtdError
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.def1.model.request.Def1_RetrieveCgtPpdOverridesRequestData
@@ -29,10 +28,10 @@ import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.model.MtdSourceEn
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.model.request.RetrieveCgtPpdOverridesRequestData
 
 import javax.inject.Inject
-import scala.util.{Failure, Success, Try}
 
 class Def1_RetrieveCgtPpdOverridesValidator @Inject() (nino: String, taxYear: String, source: Option[String])
-    extends Validator[RetrieveCgtPpdOverridesRequestData] {
+    extends Validator[RetrieveCgtPpdOverridesRequestData]
+    with ResolverSupport {
 
   def validate: Validated[Seq[MtdError], RetrieveCgtPpdOverridesRequestData] =
     (
@@ -40,17 +39,7 @@ class Def1_RetrieveCgtPpdOverridesValidator @Inject() (nino: String, taxYear: St
       resolveMtdSource(source)
     ).mapN((validNino, validSource) => Def1_RetrieveCgtPpdOverridesRequestData(validNino, TaxYear.fromMtd(taxYear), validSource))
 
-  private def resolveMtdSource(maybeSource: Option[String]): Validated[Seq[MtdError], MtdSourceEnum] = {
-    maybeSource
-      .map { source =>
-        Try {
-          MtdSourceEnum.parser(source)
-        } match {
-          case Success(mtdSource) => Valid(mtdSource)
-          case Failure(_)         => Invalid(List(SourceFormatError))
-        }
-      }
-      .getOrElse(Valid(MtdSourceEnum.latest))
-  }
+  private val resolveMtdSource: Resolver[Option[String], MtdSourceEnum] =
+    resolvePartialFunction(SourceFormatError)(MtdSourceEnum.parser).resolveOptionallyWithDefault(MtdSourceEnum.latest)
 
 }

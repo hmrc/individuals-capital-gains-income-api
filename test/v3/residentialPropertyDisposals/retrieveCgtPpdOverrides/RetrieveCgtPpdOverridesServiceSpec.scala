@@ -52,8 +52,7 @@ class RetrieveCgtPpdOverridesServiceSpec extends ServiceSpec {
 
   }
 
-  "RetrieveAllResidentialPropertyCgtService" should {
-
+  "RetrieveCgtPpdOverridesService" should {
     "return correct result for a success" when {
       "using schema Def1" in new Test {
         val response: Def1_RetrieveCgtPpdOverridesResponse = Def1_RetrieveCgtPpdOverridesResponse(Some(2000.99), None, None)
@@ -126,7 +125,7 @@ class RetrieveCgtPpdOverridesServiceSpec extends ServiceSpec {
         ("SERVICE_UNAVAILABLE", InternalError)
       )
 
-      errors.foreach(args => (serviceError).tupled(args))
+      errors.foreach(args => serviceError.tupled(args))
     }
   }
 

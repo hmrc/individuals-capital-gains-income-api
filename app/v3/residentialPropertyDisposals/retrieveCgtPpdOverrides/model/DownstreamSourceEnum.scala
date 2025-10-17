@@ -16,7 +16,7 @@
 
 package v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.model
 
-import play.api.libs.json.Format
+import play.api.libs.json.Reads
 import shared.utils.enums.Enums
 
 enum DownstreamSourceEnum(val toMtdEnum: MtdSourceEnum) {
@@ -25,5 +25,5 @@ enum DownstreamSourceEnum(val toMtdEnum: MtdSourceEnum) {
 }
 
 object DownstreamSourceEnum {
-  given Format[DownstreamSourceEnum] = Enums.format(values)
+  given Reads[DownstreamSourceEnum] = Enums.reads(values)
 }
