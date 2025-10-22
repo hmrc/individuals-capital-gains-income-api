@@ -16,26 +16,10 @@
 
 package v3.otherCgt.createAmend
 
-import common.errors.{
-  RuleAcquisitionDateError,
-  RuleDisposalDateNotFutureError,
-  RuleInvalidClaimDisposalsError,
-  RuleInvalidPropertyDisposalsError,
-  RuleMissingCompanyNameError,
-  RuleOutsideAmendmentWindowError
-}
+import common.errors.*
 import shared.controllers.EndpointLogContext
 import shared.models.domain.{Nino, TaxYear}
-import shared.models.errors.{
-  DownstreamErrorCode,
-  DownstreamErrors,
-  ErrorWrapper,
-  InternalError,
-  MtdError,
-  NinoFormatError,
-  RuleTaxYearNotSupportedError,
-  TaxYearFormatError
-}
+import shared.models.errors.*
 import shared.models.outcomes.ResponseWrapper
 import shared.services.ServiceSpec
 import v3.otherCgt.createAmend.def1.fixture.Def1_CreateAmendOtherCgtConnectorServiceFixture.mtdRequestBody
@@ -103,7 +87,7 @@ class CreateAmendOtherCgtServiceSpec extends ServiceSpec {
         ("INVALID_CORRELATION_ID", InternalError),
         ("TAX_YEAR_NOT_SUPPORTED", RuleTaxYearNotSupportedError),
         ("INVALID_CLAIM_DISPOSALS", RuleInvalidClaimDisposalsError),
-        ("INVALID_PROPERTY_DISPOSALS", RuleInvalidPropertyDisposalsError),
+        ("INVALID_PROPERTY_DISPOSALS", RuleInvalidClaimOrElectionCodesError),
         ("MISSING_COMPANY_NAME", RuleMissingCompanyNameError)
       )
 

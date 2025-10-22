@@ -273,8 +273,8 @@ class Def2_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
         "/unlistedShares/0/claimOrElectionCodes"
       )
     ),
-    RuleInvalidClaimOrElectionCodesError.withPath("/otherGains/1"),
-    RuleInvalidPropertyDisposalsError.withPath("/otherGains/0"),
+    RuleInvalidClaimOrElectionCodesError.forListedShares.withPath("/otherGains/1"),
+    RuleInvalidClaimOrElectionCodesError.withPath("/otherGains/0"),
     RuleMissingCompanyNameError.withPath("/otherGains/1")
   )
 
@@ -456,7 +456,7 @@ class Def2_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError),
           (UNPROCESSABLE_ENTITY, "OUTSIDE_AMENDMENT_WINDOW", BAD_REQUEST, RuleOutsideAmendmentWindowError),
           (UNPROCESSABLE_ENTITY, "INVALID_CLAIM_DISPOSALS", BAD_REQUEST, RuleInvalidClaimDisposalsError),
-          (UNPROCESSABLE_ENTITY, "INVALID_PROPERTY_DISPOSALS", BAD_REQUEST, RuleInvalidPropertyDisposalsError),
+          (UNPROCESSABLE_ENTITY, "INVALID_PROPERTY_DISPOSALS", BAD_REQUEST, RuleInvalidClaimOrElectionCodesError),
           (UNPROCESSABLE_ENTITY, "MISSING_COMPANY_NAME", BAD_REQUEST, RuleMissingCompanyNameError)
         )
 

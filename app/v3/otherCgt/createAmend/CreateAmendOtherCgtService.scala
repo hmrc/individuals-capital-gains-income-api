@@ -17,14 +17,7 @@
 package v3.otherCgt.createAmend
 
 import cats.implicits.toBifunctorOps
-import common.errors.{
-  RuleAcquisitionDateError,
-  RuleDisposalDateNotFutureError,
-  RuleInvalidClaimDisposalsError,
-  RuleInvalidPropertyDisposalsError,
-  RuleMissingCompanyNameError,
-  RuleOutsideAmendmentWindowError
-}
+import common.errors.*
 import shared.controllers.RequestContext
 import shared.models.errors.{InternalError, MtdError, NinoFormatError, RuleTaxYearNotSupportedError, TaxYearFormatError}
 import shared.services.{BaseService, ServiceOutcome}
@@ -57,7 +50,7 @@ class CreateAmendOtherCgtService @Inject() (connector: CreateAmendOtherCgtConnec
       "INVALID_CORRELATION_ID"     -> InternalError,
       "TAX_YEAR_NOT_SUPPORTED"     -> RuleTaxYearNotSupportedError,
       "INVALID_CLAIM_DISPOSALS"    -> RuleInvalidClaimDisposalsError,
-      "INVALID_PROPERTY_DISPOSALS" -> RuleInvalidPropertyDisposalsError,
+      "INVALID_PROPERTY_DISPOSALS" -> RuleInvalidClaimOrElectionCodesError,
       "MISSING_COMPANY_NAME"       -> RuleMissingCompanyNameError
     )
 

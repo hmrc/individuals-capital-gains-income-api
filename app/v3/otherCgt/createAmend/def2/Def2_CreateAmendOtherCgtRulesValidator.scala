@@ -200,14 +200,10 @@ object Def2_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def2_Create
           valid
         }
 
-        val validatedListedSharesCodesRule = if (otherGains.hasInvalidListedSharesCodes) {
+        val validatedClaimOrElectionCodesRule = if (otherGains.hasInvalidListedSharesCodes) {
+          Invalid(List(RuleInvalidClaimOrElectionCodesError.forListedShares.withPath(basePath)))
+        } else if (otherGains.hasInvalidNonUkCode) {
           Invalid(List(RuleInvalidClaimOrElectionCodesError.withPath(basePath)))
-        } else {
-          valid
-        }
-
-        val validatedInvNonUkRule = if (otherGains.bothInvAndNonUkSupplied) {
-          Invalid(List(RuleInvalidPropertyDisposalsError.withPath(basePath)))
         } else {
           valid
         }
@@ -235,8 +231,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def2_Create
           validatedOptionalDecimalNumbers,
           validatedClaimOrElectionCodes,
           validatedCompanyNameListedSharesRule,
-          validatedListedSharesCodesRule,
-          validatedInvNonUkRule,
+          validatedClaimOrElectionCodesRule,
           validatedBadInvRule,
           validatedLossGainsRule
         )

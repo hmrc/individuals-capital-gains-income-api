@@ -80,13 +80,13 @@ object RuleInvalidClaimDisposalsError
       "BAD and INV relief codes cannot be claimed in the same disposal. Itemise disposals separately",
       BAD_REQUEST)
 
-object RuleInvalidPropertyDisposalsError
-    extends MtdError("RULE_INVALID_PROPERTY_DISPOSALS", "INV relief code does not apply to non-UK residential property disposals", BAD_REQUEST)
-
 object RuleMissingCompanyNameError extends MtdError("RULE_MISSING_COMPANY_NAME", "companyName is required for listed shares", BAD_REQUEST)
 
 object RuleInvalidClaimOrElectionCodesError
-    extends MtdError("RULE_INVALID_CLAIM_OR_ELECTION_CODES", "PRR and LET relief codes do not apply to listed shares disposals", BAD_REQUEST)
+    extends MtdError("RULE_INVALID_CLAIM_OR_ELECTION_CODES", "INV relief code does not apply to non-UK residential property disposals", BAD_REQUEST) {
+
+  def forListedShares: MtdError = copy(message = "PRR and LET relief codes do not apply to listed shares disposals")
+}
 
 object RuleOutsideAmendmentWindowError extends MtdError("RULE_OUTSIDE_AMENDMENT_WINDOW", "You are outside the amendment window", BAD_REQUEST)
 

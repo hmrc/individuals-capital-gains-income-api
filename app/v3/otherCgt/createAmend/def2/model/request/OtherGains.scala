@@ -41,7 +41,7 @@ case class OtherGains(assetType: String,
 
   def hasInvalidListedSharesCodes: Boolean = assetType == "listed-shares" && claimOrElectionCodes.exists(_.exists(Set("PRR", "LET").contains))
 
-  def bothInvAndNonUkSupplied: Boolean = assetType == "non-uk-residential-property" && claimOrElectionCodes.exists(_.contains("INV"))
+  def hasInvalidNonUkCode: Boolean = assetType == "non-uk-residential-property" && claimOrElectionCodes.exists(_.contains("INV"))
 
   def bothBadAndInvSupplied: Boolean = claimOrElectionCodes.exists { codes =>
     codes.contains("BAD") && codes.contains("INV")

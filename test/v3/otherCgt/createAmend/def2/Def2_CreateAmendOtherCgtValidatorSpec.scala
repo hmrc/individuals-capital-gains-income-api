@@ -340,24 +340,20 @@ class Def2_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
     }
 
     "return RuleInvalidClaimOrElectionCodesError error" when {
-      Seq("PRR", "LET").foreach { code =>
-        s"passed a body with $code claimOrElectionCode supplied for otherGains asset type listed-shares" in {
-          val invalidJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr(code))
+      Seq(
+        ("listed-shares", "PRR", RuleInvalidClaimOrElectionCodesError.forListedShares),
+        ("listed-shares", "LET", RuleInvalidClaimOrElectionCodesError.forListedShares),
+        ("non-uk-residential-property", "INV", RuleInvalidClaimOrElectionCodesError)
+      ).foreach { case (assetType, code, expectedError) =>
+        s"passed a body with $code claimOrElectionCode supplied for otherGains asset type $assetType" in {
+          val invalidJsonBase: JsValue = updateArrayField("otherGains", "assetType", JsString(assetType))
+
+          val invalidJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr(code), json = invalidJsonBase)
 
           val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
 
-          result shouldBe Left(ErrorWrapper(correlationId, RuleInvalidClaimOrElectionCodesError.withPath("/otherGains/0")))
+          result shouldBe Left(ErrorWrapper(correlationId, expectedError.withPath("/otherGains/0")))
         }
-      }
-    }
-
-    "return RuleInvalidPropertyDisposalsError error" when {
-      "passed a body with INV claimOrElectionCode and non-uk-residential-property asset type supplied for otherGains" in {
-        val invalidJson: JsValue = updateArrayField("otherGains", "assetType", JsString("non-uk-residential-property"))
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
-
-        result shouldBe Left(ErrorWrapper(correlationId, RuleInvalidPropertyDisposalsError.withPath("/otherGains/0")))
       }
     }
 
