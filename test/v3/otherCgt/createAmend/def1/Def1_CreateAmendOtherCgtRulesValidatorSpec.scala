@@ -219,9 +219,8 @@ class Def1_CreateAmendOtherCgtRulesValidatorSpec extends UnitSpec with MockAppCo
           .removeProperty("/nonStandardGains/carriedInterestGain")
           .removeProperty("/nonStandardGains/attributedGains")
           .removeProperty("/nonStandardGains/otherGains")) shouldBe
-          error(RuleIncorrectOrEmptyBodyError.withPath("/nonStandardGains"))
+          error(RuleIncorrectNonStandardGainsSubmittedError.withPath("/nonStandardGains"))
       }
-
     }
 
     "return multiple errors" when {

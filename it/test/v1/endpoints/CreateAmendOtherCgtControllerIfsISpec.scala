@@ -341,7 +341,7 @@ class CreateAmendOtherCgtControllerIfsISpec extends IntegrationBaseSpec with Wir
      """.stripMargin
   )
 
-  val formatNonStandardGainsError: MtdError = RuleIncorrectOrEmptyBodyError.copy(
+  val formatNonStandardGainsError: MtdError = RuleIncorrectNonStandardGainsSubmittedError.copy(
     paths = Some(Seq("/nonStandardGains"))
   )
 
