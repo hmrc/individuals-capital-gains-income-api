@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v3.endpoints
+package v3.createAmendOtherCgt
 
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import common.errors.*
@@ -389,7 +389,7 @@ class CreateAmendOtherCgtControllerIfsISpec extends IntegrationBaseSpec with Wir
   }
 
   "Calling the 'create and amend other CGT' endpoint" should {
-    "return a 200 status code" when {
+    "return a 204 status code" when {
       "any valid request is made" in new NonTysTest {
 
         override def setupStubs(): Unit = {
@@ -397,7 +397,7 @@ class CreateAmendOtherCgtControllerIfsISpec extends IntegrationBaseSpec with Wir
         }
 
         val response: WSResponse = await(request.put(validRequestJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
         verifyNrs(validRequestJson)
       }
 
@@ -408,7 +408,7 @@ class CreateAmendOtherCgtControllerIfsISpec extends IntegrationBaseSpec with Wir
         }
 
         val response: WSResponse = await(request.put(validRequestJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
         verifyNrs(validRequestJson)
       }
     }

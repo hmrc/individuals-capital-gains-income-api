@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package v3.endpoints
+package v3.createAmendOtherCgt
 
 import com.github.tomakehurst.wiremock.client.WireMock.*
 import common.errors.*
-import play.api.http.HeaderNames.ACCEPT
-import play.api.http.Status.*
 import play.api.libs.json.{JsObject, JsValue, Json}
 import play.api.libs.ws.WSBodyWritables.writeableOf_JsValue
 import play.api.libs.ws.{WSRequest, WSResponse}
-import play.api.test.Helpers.AUTHORIZATION
+import play.api.test.Helpers.*
 import shared.models.errors.*
 import shared.services.*
 import shared.support.{IntegrationBaseSpec, WireMockMethods}
 
-class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with WireMockMethods {
+class Def1_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with WireMockMethods {
 
   val validRequestJson: JsValue = Json.parse(
     """
@@ -65,7 +63,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |   },
       |   "adjustments":-39999999999.99
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val noMeaningfulDataJson: JsValue = Json.parse(
@@ -73,7 +71,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |{
       |  "aField": "aValue"
       |}
-       """.stripMargin
+    """.stripMargin
   )
 
   val emptyFieldsJson: JsValue = Json.parse(
@@ -83,7 +81,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |   "nonStandardGains": {},
       |   "losses": {}
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val emptyFieldsError: MtdError = RuleIncorrectOrEmptyBodyError.copy(
@@ -95,7 +93,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |{
       |   "disposals": [{}]
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val missingFieldsError: MtdError = RuleIncorrectOrEmptyBodyError.copy(
@@ -132,7 +130,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |     }
       |   ]
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val gainAndLossErrors: ErrorWrapper = ErrorWrapper(
@@ -189,7 +187,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |   },
       |   "adjustments": 999999999999.99
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val decimalsTooSmallJson: JsValue = Json.parse(
@@ -227,7 +225,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |   },
       |   "adjustments": -999999999999.99
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val positiveDecimalsOutOfRangeError: MtdError = ValueFormatError.copy(
@@ -289,7 +287,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |      }
       |   ]
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val formatDisposalsErrors: ErrorWrapper = ErrorWrapper(
@@ -335,7 +333,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       |      "otherGainsRttTaxPaid":19999999999.99
       |   }
       |}
-     """.stripMargin
+    """.stripMargin
   )
 
   val formatNonStandardGainsError: MtdError = RuleIncorrectNonStandardGainsSubmittedError.copy(
@@ -346,7 +344,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
     val nino: String    = "AA123456A"
     val taxYear: String = "2021-22"
 
-    def uri: String = s"/other-gains/$nino/$taxYear"
+    private def uri: String = s"/other-gains/$nino/$taxYear"
 
     def setupStubs(): Unit = ()
 
@@ -357,7 +355,7 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
       setupStubs()
       buildRequest(uri)
         .withHttpHeaders(
-          (ACCEPT, "application/vnd.hmrc.1.0+json"),
+          (ACCEPT, "application/vnd.hmrc.3.0+json"),
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
@@ -371,41 +369,39 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
 
   private trait NonTysTest extends Test {
     def downstreamUrl: String = s"/income-tax/income/disposals/other-gains/$nino/$taxYear"
-
   }
 
   private trait TysHipTest extends Test {
-
     override val taxYear: String = "2023-24"
 
-    override def request: WSRequest =
-      super.request.addHttpHeaders("suspend-temporal-validations" -> "true")
-
     def downstreamUrl: String = s"/itsa/income-tax/v1/23-24/income/disposals/other-gains/$nino"
-
   }
 
-  "Calling the 'create and amend other CGT' endpoint" should {
-    "return a 200 status code" when {
+  "Calling the 'Create and Amend Other Capital Gains and Disposals' endpoint" should {
+    "return a 204 status code" when {
       "any valid request is made" in new NonTysTest {
-
-        override def setupStubs(): Unit = {
-          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUrl, NO_CONTENT, JsObject.empty)
-        }
+        override def setupStubs(): Unit = DownstreamStub.onSuccess(
+          DownstreamStub.PUT,
+          downstreamUrl,
+          NO_CONTENT,
+          JsObject.empty
+        )
 
         val response: WSResponse = await(request.put(validRequestJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
         verifyNrs(validRequestJson)
       }
 
       "any valid request is made TYS" in new TysHipTest {
-
-        override def setupStubs(): Unit = {
-          DownstreamStub.onSuccess(DownstreamStub.PUT, downstreamUrl, NO_CONTENT, JsObject.empty)
-        }
+        override def setupStubs(): Unit = DownstreamStub.onSuccess(
+          DownstreamStub.PUT,
+          downstreamUrl,
+          NO_CONTENT,
+          JsObject.empty
+        )
 
         val response: WSResponse = await(request.put(validRequestJson))
-        response.status shouldBe OK
+        response.status shouldBe NO_CONTENT
         verifyNrs(validRequestJson)
       }
     }
@@ -449,16 +445,19 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
           ("AA123456A", "2021-22", formatDisposalsJson, BAD_REQUEST, BadRequestError, Some(formatDisposalsErrors), Some("formatDisposals")),
           ("AA123456A", "2021-22", formatNonStandardGainsJson, BAD_REQUEST, formatNonStandardGainsError, None, Some("formatNonStandardGains"))
         )
-        input.foreach(args => (validationErrorTest).tupled(args))
+
+        input.foreach(validationErrorTest.tupled)
       }
 
       "downstream service error" when {
         def serviceErrorTest(downstreamStatus: Int, downstreamCode: String, expectedStatus: Int, expectedBody: MtdError): Unit = {
-          s"downstream returns an $downstreamCode error and status $downstreamStatus" in new TysHipTest {
-
-            override def setupStubs(): Unit = {
-              DownstreamStub.onError(DownstreamStub.PUT, downstreamUrl, downstreamStatus, errorBody(downstreamCode))
-            }
+          s"downstream returns a downstream $downstreamCode error and status $downstreamStatus" in new TysHipTest {
+            override def setupStubs(): Unit = DownstreamStub.onError(
+              DownstreamStub.PUT,
+              downstreamUrl,
+              downstreamStatus,
+              errorBody(downstreamCode)
+            )
 
             val response: WSResponse = await(request.put(validRequestJson))
             response.status shouldBe expectedStatus
@@ -469,18 +468,18 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
 
         def errorBody(code: String): String =
           s"""
-             |{
-             |  "origin": "HoD",
-             |  "response": {
-             |    "failures": [
-             |      {
-             |        "type": "$code",
-             |        "reason": "message"
-             |      }
-             |    ]
-             |  }
-             |}
-                    """.stripMargin
+            |{
+            |  "origin": "HoD",
+            |  "response": {
+            |    "failures": [
+            |      {
+            |        "type": "$code",
+            |        "reason": "message"
+            |      }
+            |    ]
+            |  }
+            |}
+          """.stripMargin
 
         val errorInput = Seq(
           (BAD_REQUEST, "INVALID_TAXABLE_ENTITY_ID", BAD_REQUEST, NinoFormatError),
@@ -497,7 +496,8 @@ class CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec with Wir
           (BAD_REQUEST, "INVALID_CORRELATION_ID", INTERNAL_SERVER_ERROR, InternalError),
           (UNPROCESSABLE_ENTITY, "TAX_YEAR_NOT_SUPPORTED", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
-        (errorInput ++ tysErrorInput).foreach(args => (serviceErrorTest).tupled(args))
+
+        (errorInput ++ tysErrorInput).foreach(serviceErrorTest.tupled)
       }
     }
   }
