@@ -16,9 +16,8 @@
 
 package v3.otherCgt.createAmend.def1.model.request
 
-import play.api.libs.json.{Json, OFormat}
-import shared.utils.EmptinessChecker
-import shared.utils.EmptinessChecker.field
+import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
 case class NonStandardGains(carriedInterestGain: Option[BigDecimal],
                             carriedInterestRttTaxPaid: Option[BigDecimal],
@@ -30,13 +29,14 @@ case class NonStandardGains(carriedInterestGain: Option[BigDecimal],
 object NonStandardGains {
   val empty: NonStandardGains = NonStandardGains(None, None, None, None, None, None)
 
-  implicit val emptinessChecker: EmptinessChecker[NonStandardGains] = EmptinessChecker.use { body =>
-    List(
-      field("carriedInterestGain", body.carriedInterestGain),
-      field("attributedGains", body.attributedGains),
-      field("otherGains", body.otherGains)
-    )
-  }
+  implicit val reads: Reads[NonStandardGains] = (
+    (__ \ "carriedInterestGain").readNullable[BigDecimal] and
+      (__ \ "carriedInterestRttTaxPaid").readNullable[BigDecimal] and
+      (__ \ "attributedGains").readNullable[BigDecimal] and
+      (__ \ "attributedGainsRttTaxPaid").readNullable[BigDecimal] and
+      (__ \ "otherGains").readNullable[BigDecimal] and
+      (__ \ "otherGainsRttTaxPaid").readNullable[BigDecimal]
+  )(NonStandardGains.apply)
 
   implicit val format: OFormat[NonStandardGains] = Json.format[NonStandardGains]
 }

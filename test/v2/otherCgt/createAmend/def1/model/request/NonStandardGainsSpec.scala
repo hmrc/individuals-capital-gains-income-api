@@ -111,19 +111,6 @@ class NonStandardGainsSpec extends UnitSpec {
         }
       }
 
-      "has other fields but no carriedInterestGain,attributedGains or otherGains" should {
-        "be deemed empty" in {
-          EmptinessChecker.findEmptyPaths(NonStandardGains(
-            carriedInterestGain = None,
-            carriedInterestRttTaxPaid = Some(123),
-            attributedGains = None,
-            attributedGainsRttTaxPaid = Some(123),
-            otherGains = None,
-            otherGainsRttTaxPaid = Some(123)
-          )) shouldBe EmptyPathsResult.CompletelyEmpty
-        }
-      }
-
       "has carriedInterestGain" should {
         "be deemed non-empty" in {
           EmptinessChecker.findEmptyPaths(NonStandardGains.empty.copy(carriedInterestGain = Some(123))) shouldBe EmptyPathsResult.NoEmptyPaths
