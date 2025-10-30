@@ -54,7 +54,7 @@ requestBody:
 
 responses:
   "204":
-    description: Success
+    description: No Content
     headers:
       X-CorrelationId:
         $ref: './common/headers.yaml#/components/parameters/correlationId'
