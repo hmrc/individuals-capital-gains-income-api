@@ -53,7 +53,7 @@ requestBody:
 
 
 responses:
-  "200":
+  "204":
     description: Success
     headers:
       X-CorrelationId:
