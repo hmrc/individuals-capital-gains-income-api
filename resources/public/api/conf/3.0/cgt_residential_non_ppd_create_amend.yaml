@@ -40,12 +40,18 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: './schemas/cgt_residential_non_ppd_create_amend/def1/request.json'
+        oneOf:
+          - $ref: './schemas/cgt_residential_non_ppd_create_amend/def1/request.json'
+          - $ref: './schemas/cgt_residential_non_ppd_create_amend/def2/request.json'
       examples:
-        example-1:
-          description: Full CGT Non PPD Amendment
+        TY 2024-25 or before:
+          description: TY 2024-25 or before
           value:
             $ref: './examples/cgt_residential_non_ppd_create_amend/def1/request.json'
+        TY 2025-26 onwards:
+          description: TY 2025-26 onwards
+          value:
+            $ref: './examples/cgt_residential_non_ppd_create_amend/def2/request.json'
 
 responses:
   "200":
