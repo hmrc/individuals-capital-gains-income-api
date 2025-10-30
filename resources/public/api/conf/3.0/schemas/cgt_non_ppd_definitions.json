@@ -61,6 +61,24 @@
       "description": "The amount of Capital Gains Tax losses from disposals in previous tax years that reduce the overall gain of this disposal. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
       "example": "1999.99"
     },
+    "claimOrElectionCodes":{
+      "type":"array",
+      "description":"The claim, election or notice codes related to the disposal. \n\n Possible values are: \n* **PRR** - Private Residence Relief where Letting Relief does not apply \n* **LET** - Private Residence Relief where Letting Relief applies \n* **GHO** - Gift Hold-Over Relief \n* **ROR** - Rollover Relief \n* **PRO** - Provisional Rollover Relief \n* **BAD** - Business Asset Disposal Relief \n* **NVC** - Negligible Value Claims \n* **OTH** - Other claims",
+      "items": {
+        "enum":[
+          "PRR",
+          "LET",
+          "GHO",
+          "ROR",
+          "PRO",
+          "BAD",
+          "NVC",
+          "OTH"
+        ],
+        "type":"string",
+        "example":"[\"BAD\",\"OTH\"]"
+      }
+    },
     "amountOfNetGain": {
       "type": "number",
       "description": "The total amount of net gain from the disposal. Either gain or loss must be populated but not both. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
@@ -86,6 +104,7 @@
         "otherReliefAmount": {"$ref": "#/definitions/otherReliefAmount"},
         "lossesFromThisYear": {"$ref": "#/definitions/lossesFromThisYear"},
         "lossesFromPreviousYear": {"$ref": "#/definitions/lossesFromPreviousYear"},
+        "claimOrElectionCodes": {"$ref": "#/definitions/claimOrElectionCodes"},
         "amountOfNetGain": {"$ref": "#/definitions/amountOfNetGain"},
         "amountOfNetLoss": {"$ref": "#/definitions/amountOfNetLoss"}
       },

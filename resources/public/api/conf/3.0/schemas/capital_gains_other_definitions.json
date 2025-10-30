@@ -65,12 +65,69 @@
             "maximum":99999999999.99
           },
           "claimOrElectionCodes":{
-            "type":"array",
-            "description":"The claim, election or notice codes related to the disposal. Possible values are:\\\n`PRR` - Private Residence Relief where Letting Relief does not apply\\\n`LET` - Private Residence Relief where Letting Relief applies\\\n`GHO` - Gift Hold-Over Relief\\\n`ROR` - Rollover Relief\\\n`PRO` - Provisional Rollover Relief\\\n`ESH` - Employee Shares\\\n`NVC` - Negligible Value Claims\\\n`SIR` - Social Investment Tax Relief\\\n`OTH` - Other claims\\\n`BAD` - Business Asset Disposal Relief\\\n`INV` - Investors' Relief",
-            "items":{
-              "type":"string",
-              "example":"[\"BAD\",\"OTH\"]"
-            }
+            "description": "The claim, election or notice codes related to the disposal. \n\n Possible values for listed shares are: \n* **GHO** - Gift Hold-Over Relief \n* **ROR** - Rollover Relief \n* **PRO** - Provisional Rollover Relief \n* **ESH** - Employee Shares \n* **NVC** - Negligible Value Claims \n* **OTH** - Other claims \n* **BAD** - Business Asset Disposal Relief \n* **INV** - Investors' Relief \n* **EOT** - Employee Ownership Trust \n\n Possible values for non-uk residential property are: \n* **PRR** - Private Residence Relief where Letting Relief does not apply \n* **LET** - Private Residence Relief where Letting Relief applies \n* **GHO** - Gift Hold-Over Relief \n* **ROR** - Rollover Relief \n* **PRO** - Provisional Rollover Relief \n* **ESH** - Employee Shares \n* **NVC** - Negligible Value Claims \n* **OTH** - Other claims \n* **BAD** - Business Asset Disposal Relief \n* **EOT** - Employee Ownership Trust \n\n Possible values for other property and other assets are: \n* **PRR** - Private Residence Relief where Letting Relief does not apply \n* **LET** - Private Residence Relief where Letting Relief applies \n* **GHO** - Gift Hold-Over Relief \n* **ROR** - Rollover Relief \n* **PRO** - Provisional Rollover Relief \n* **ESH** - Employee Shares \n* **NVC** - Negligible Value Claims \n* **OTH** - Other claims \n* **BAD** - Business Asset Disposal Relief \n* **INV** - Investors' Relief \n* **EOT** - Employee Ownership Trust",
+            "anyOf": [
+              {
+                "type":"array",
+                "title": "For listed shares",
+                "items": {
+                  "enum":[
+                    "GHO",
+                    "ROR",
+                    "PRO",
+                    "ESH",
+                    "NVC",
+                    "OTH",
+                    "BAD",
+                    "INV",
+                    "EOT"
+                  ],
+                  "type": "string",
+                  "example": "[\"BAD\",\"OTH\"]"
+                }
+              },
+              {
+                "type":"array",
+                "title": "For non-uk residential property",
+                "items": {
+                  "enum":[
+                    "PRR",
+                    "LET",
+                    "GHO",
+                    "ROR",
+                    "PRO",
+                    "ESH",
+                    "NVC",
+                    "OTH",
+                    "BAD",
+                    "EOT"
+                  ],
+                  "type": "string",
+                  "example": "[\"BAD\",\"OTH\"]"
+                }
+              },
+              {
+                "type":"array",
+                "title": "For otherProperty and otherAssets",
+                "items": {
+                  "enum":[
+                    "PRR",
+                    "LET",
+                    "GHO",
+                    "ROR",
+                    "PRO",
+                    "ESH",
+                    "NVC",
+                    "OTH",
+                    "BAD",
+                    "INV",
+                    "EOT"
+                  ],
+                  "type": "string",
+                  "example": "[\"BAD\",\"OTH\"]"
+                }
+              }
+            ]
           },
           "gainAfterRelief":{
             "type":"number",
