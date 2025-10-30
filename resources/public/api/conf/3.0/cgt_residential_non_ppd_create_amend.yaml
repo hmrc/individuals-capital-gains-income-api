@@ -54,7 +54,7 @@ requestBody:
             $ref: './examples/cgt_residential_non_ppd_create_amend/def2/request.json'
 
 responses:
-  "200":
+  "204":
     description: Success
     headers:
       X-CorrelationId:
