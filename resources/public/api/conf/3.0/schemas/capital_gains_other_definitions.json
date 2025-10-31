@@ -173,7 +173,7 @@
         },
         {
           "type": "array",
-          "title": "For otherProperty and otherAssets",
+          "title": "For other property and other assets",
           "items": {
             "type": "string",
             "example": "[\"BAD\",\"OTH\"]",
