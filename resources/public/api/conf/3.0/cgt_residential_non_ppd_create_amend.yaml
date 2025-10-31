@@ -98,6 +98,8 @@ responses:
             $ref: './common/errors.yaml#/components/examples/ruleIncorrectGovTestScenario'
           RULE_OUTSIDE_AMENDMENT_WINDOW:
             $ref: './common/errors.yaml#/components/examples/ruleOutsideAmendmentWindow'
+          RULE_INCORRECT_LOSSES_SUBMITTED:
+            $ref: './common/errors.yaml#/components/examples/ruleIncorrectLossesSubmitted'
 
   "403":
     description: Forbidden
