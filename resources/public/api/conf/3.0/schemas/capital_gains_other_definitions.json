@@ -394,7 +394,7 @@
     },
     "cryptoassets": {
       "type": "array",
-      "descriprion": "An array of cryptoassets entries.",
+      "description": "An array of cryptoassets entries.",
       "items": {
         "type": "object",
         "properties": {
