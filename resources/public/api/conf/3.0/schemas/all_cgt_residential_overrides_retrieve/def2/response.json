@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "TY 2024-25 or before",
+  "title": "TY 2025-26 onwards",
   "description": "Retrieve All CGT Residential Property Disposals and Overrides Response",
   "type": "object",
   "properties": {
@@ -16,7 +16,7 @@
         "disposals": {
           "type": "array",
           "description": "An array of residential property disposals.",
-          "items": {"$ref": "../../cgt_non_ppd_definitions.json#/definitions/disposals"}
+          "items": {"$ref": "../../cgt_non_ppd_definitions.json#/definitions/disposals2526"}
         }
       },
       "required": [
