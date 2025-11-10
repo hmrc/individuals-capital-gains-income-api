@@ -20,7 +20,6 @@ tags:
 parameters:
   - $ref: './common/pathParameters.yaml#/components/parameters/nino'
   - $ref: './common/pathParameters.yaml#/components/parameters/taxYearMinimum2021'
-  - $ref: './common/queryParameters.yaml#/components/parameters/source'
   - $ref: './common/headers.yaml#/components/parameters/acceptHeader'
   - $ref: './common/headers.yaml#/components/parameters/authorizationReadScopeHeader'
   - $ref: './common/headers.yaml#/components/parameters/testScenarioHeader'
@@ -39,17 +38,17 @@ responses:
       application/json:
         schema:
           oneOf:
-            - $ref: './schemas/all_cgt_residential_overrides_retrieve/def1/response.json'
-            - $ref: './schemas/all_cgt_residential_overrides_retrieve/def2/response.json'
+            - $ref: './schemas/cgt_residential_non_ppd_retrieve/def1/response.json'
+            - $ref: './schemas/cgt_residential_non_ppd_retrieve/def2/response.json'
         examples:
           TY 2024-25 or before:
             description: Tax Year 2024-25 or before
             value:
-              $ref: './examples/all_cgt_residential_overrides_retrieve/def1/response.json'
+              $ref: './examples/cgt_residential_non_ppd_retrieve/def1/response.json'
           TY 2025-26 and after:
             description: Tax Year 2025-26 and after
             value:
-              $ref: './examples/all_cgt_residential_overrides_retrieve/def2/response.json'
+              $ref: './examples/cgt_residential_non_ppd_retrieve/def2/response.json'
 
   "400":
     description: Bad request
@@ -65,8 +64,6 @@ responses:
             $ref: './common/errors.yaml#/components/examples/formatNino'
           FORMAT_TAX_YEAR:
             $ref: './common/errors.yaml#/components/examples/formatTaxYear'
-          FORMAT_SOURCE:
-            $ref: './common/errors.yaml#/components/examples/formatSource'
           RULE_TAX_YEAR_NOT_SUPPORTED:
             $ref: './common/errors.yaml#/components/examples/ruleTaxYearNotSupported'
           RULE_TAX_YEAR_RANGE_INVALID:
