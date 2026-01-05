@@ -1,6 +1,6 @@
 summary: Create and Amend Other Capital Gains and Disposals
 description: |
-  This endpoint allows you to submit other Capital Gains and disposals with the exception of residential property, 
+  This endpoint enables you to submit other capital gains and disposals with the exception of residential property,
   for a given National Insurance number and tax year.
   
   ### Test data
@@ -11,9 +11,9 @@ description: |
   | N/A - DEFAULT                    | Simulates success response with gains.                                                                   |
   | INVALID_DISPOSAL_DATE            | Simulates a scenario where disposalDate is not within the specified tax year or later than today's date. |
   | INVALID_ACQUISITION_DATE         | Simulates a scenario where acquisitionDate is later than disposalDate.                                   |   
+  | OUTSIDE_AMENDMENT_WINDOW         | Simulates the scenario where request cannot be completed as it is outside the amendment window.          | 
   | STATEFUL                         | Performs a stateful create or update.                                                                    |
   | REQUEST_CANNOT_BE_FULFILLED      | Simulates the scenario where the request cannot be fulfilled for various reasons other than the ones triggering other errors. |
-  | OUTSIDE_AMENDMENT_WINDOW         | Simulates the scenario where request cannot be completed as it is outside the amendment window.          | 
 
 tags:
   - Other Capital Gains and Disposals
@@ -34,16 +34,20 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: './schemas/capital_gains_other_create_amend/def1/request.json'
+        oneOf:
+          - $ref: './schemas/capital_gains_other_create_amend/def1/request.json'
+          - $ref: './schemas/capital_gains_other_create_amend/def2/request.json'
       examples:
-        example-1:
-          description: Other Capital Gains and Disposals with Gains
+        TY 2024-25 or before:
           value:
             $ref: './examples/capital_gains_other_create_amend/def1/request.json'
+        TY 2025-26 onwards:
+          value:
+            $ref: './examples/capital_gains_other_create_amend/def2/request.json'
 
 responses:
-  "200":
-    description: Success
+  "204":
+    description: No Content
     headers:
       X-CorrelationId:
         $ref: './common/headers.yaml#/components/parameters/correlationId'
@@ -68,6 +72,12 @@ responses:
             $ref: './common/errors.yaml#/components/examples/formatDate'
           FORMAT_ASSET_DESCRIPTION:
             $ref: './common/errors.yaml#/components/examples/cgtOtherFormatAssetDescription'
+          FORMAT_TOKEN_NAME:
+            $ref: './common/errors.yaml#/components/examples/cgtOtherFormatTokenName'
+          FORMAT_COMPANY_NAME:
+            $ref: './common/errors.yaml#/components/examples/cgtOtherFormatCompanyName'
+          FORMAT_COMPANY_REGISTRATION_NUMBER:
+            $ref: './common/errors.yaml#/components/examples/cgtOtherFormatCompanyRegistrationName'
           FORMAT_ASSET_TYPE:
             $ref: './common/errors.yaml#/components/examples/cgtOtherFormatAssetType'
           FORMAT_CLAIM_OR_ELECTION_CODES:
@@ -84,8 +94,16 @@ responses:
             $ref: './common/errors.yaml#/components/examples/ruleAcquisitionDate'
           RULE_GAIN_LOSS:
             $ref: './common/errors.yaml#/components/examples/ruleGainLoss'
+          RULE_AMOUNT_GAIN_LOSS:
+            $ref: './common/errors.yaml#/components/examples/ruleAmountGainLoss'
           RULE_GAIN_AFTER_RELIEF_LOSS_AFTER_RELIEF:
             $ref: './common/errors.yaml#/components/examples/ruleGainAfterReliefLossAfterRelief'
+          RULE_INVALID_CLAIM_DISPOSALS:
+            $ref: './common/errors.yaml#/components/examples/ruleInvalidClaimDisposals'
+          RULE_MISSING_COMPANY_NAME:
+            $ref: './common/errors.yaml#/components/examples/ruleMissingCompanyName'
+          RULE_INVALID_CLAIM_OR_ELECTION_CODES:
+            $ref: './common/errors.yaml#/components/examples/ruleInvalidClaimOrElectionCodes'
           RULE_INCORRECT_GOV_TEST_SCENARIO:
             $ref: './common/errors.yaml#/components/examples/ruleIncorrectGovTestScenario'
           RULE_OUTSIDE_AMENDMENT_WINDOW:
