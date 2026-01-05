@@ -314,8 +314,10 @@ class Def1_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
       |}
     """.stripMargin
   )
-
-  val formatNonStandardGainsError: MtdError = RuleIncorrectOrEmptyBodyError.withPath("/nonStandardGains")
+  
+  val formatNonStandardGainsError: MtdError = RuleIncorrectNonStandardGainsSubmittedError.copy(
+    paths = Some(Seq("/nonStandardGains"))
+  )
 
   val allInvalidDateRulesJson: JsValue = Json.parse(
     """
