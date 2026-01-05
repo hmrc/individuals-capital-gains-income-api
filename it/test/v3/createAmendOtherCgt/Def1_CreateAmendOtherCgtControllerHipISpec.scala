@@ -314,7 +314,7 @@ class Def1_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
       |}
     """.stripMargin
   )
-  
+
   val formatNonStandardGainsError: MtdError = RuleIncorrectNonStandardGainsSubmittedError.copy(
     paths = Some(Seq("/nonStandardGains"))
   )
