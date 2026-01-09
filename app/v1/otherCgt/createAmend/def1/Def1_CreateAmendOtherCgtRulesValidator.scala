@@ -119,7 +119,14 @@ object Def1_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def1_Create
   }
 
   private def validateNonStandardGains(requestBody: Def1_CreateAmendOtherCgtRequestBody): Validated[Seq[MtdError], Unit] = {
-    requestBody.nonStandardGains.map(validateNonStandardGains).getOrElse(valid)
+    requestBody.nonStandardGains match {
+      case Some(ns) =>
+        validatePresenceOfAtLeastOneField(requestBody)
+          .productR(
+            validateNonStandardGains(ns)
+          )
+      case None => valid
+    }
   }
 
   private def validateNonStandardGains(nonStandardGains: NonStandardGains): Validated[Seq[MtdError], Unit] = {
@@ -134,6 +141,16 @@ object Def1_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def1_Create
       (otherGainsRttTaxPaid, "/nonStandardGains/otherGainsRttTaxPaid")
     ).traverse_ { case (value, path) =>
       resolveNonNegativeParsedNumber(value, path)
+    }
+  }
+
+  private def validatePresenceOfAtLeastOneField(requestBody: Def1_CreateAmendOtherCgtRequestBody): Validated[Seq[MtdError], Unit] = {
+    requestBody.nonStandardGains match {
+      case Some(ns) =>
+        if (ns.carriedInterestGain.isEmpty && ns.attributedGains.isEmpty && ns.otherGains.isEmpty) {
+          Invalid(List(RuleIncorrectNonStandardGainsSubmittedError.withPath("/nonStandardGains")))
+        } else valid
+      case None => valid
     }
   }
 
