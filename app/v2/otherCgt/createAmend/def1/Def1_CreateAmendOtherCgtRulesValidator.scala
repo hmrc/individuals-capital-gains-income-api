@@ -121,7 +121,7 @@ object Def1_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def1_Create
   private def validateNonStandardGains(requestBody: Def1_CreateAmendOtherCgtRequestBody): Validated[Seq[MtdError], Unit] = {
     requestBody.nonStandardGains match {
       case Some(ns) =>
-        validatePresenceOfAtLeastOneField(requestBody)
+        validatePresenceOfAtLeastOneField(ns)
           .productR(
             validateNonStandardGains(ns)
           )
@@ -144,14 +144,10 @@ object Def1_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def1_Create
     }
   }
 
-  private def validatePresenceOfAtLeastOneField(requestBody: Def1_CreateAmendOtherCgtRequestBody): Validated[Seq[MtdError], Unit] = {
-    requestBody.nonStandardGains match {
-      case Some(ns) =>
-        if (ns.carriedInterestGain.isEmpty && ns.attributedGains.isEmpty && ns.otherGains.isEmpty) {
-          Invalid(List(RuleIncorrectNonStandardGainsSubmittedError.withPath("/nonStandardGains")))
-        } else valid
-      case None => valid
-    }
+  private def validatePresenceOfAtLeastOneField(nonStandardGain: NonStandardGains): Validated[Seq[MtdError], Unit] = {
+    if (nonStandardGain.carriedInterestGain.isEmpty && nonStandardGain.attributedGains.isEmpty && nonStandardGain.otherGains.isEmpty) {
+      Invalid(List(RuleIncorrectNonStandardGainsSubmittedError.withPath("/nonStandardGains")))
+    } else valid
   }
 
   private def validateLosses(requestBody: Def1_CreateAmendOtherCgtRequestBody): Validated[Seq[MtdError], Unit] = {
