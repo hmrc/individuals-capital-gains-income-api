@@ -28,7 +28,7 @@
     },
     "acquisitionDate":{
       "type":"string",
-      "description":"The date the asset was acquired in the format YYYY-MM-DD. For brokers' schedules where gains from several disposals are entered as one, this should be the date on which the first asset was acquired.",
+      "description":"The date the asset was acquired in the format `YYYY-MM-DD`.",
       "format": "date",
       "example":"2022-03-04"
     },
