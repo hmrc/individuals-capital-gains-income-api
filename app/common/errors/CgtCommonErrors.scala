@@ -49,6 +49,12 @@ object RuleIncorrectLossesSubmittedError
       "LossesFromThisYear can not be submitted if the numberOfDisposals is less than or equal to 1",
       BAD_REQUEST)
 
+object RuleIncorrectNonStandardGainsSubmittedError
+    extends MtdError(
+      "RULE_INCORRECT_NON_STANDARD_GAINS",
+      "At least one of carriedInterestGain, attributedGains or otherGains must be provided",
+      BAD_REQUEST)
+
 object RuleDisposalDateErrorV1 extends MtdError("RULE_DISPOSAL_DATE", "The disposalDate must be within the specified tax year", BAD_REQUEST)
 
 object RuleCompletionDateError

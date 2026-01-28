@@ -192,9 +192,8 @@ class Def1_CreateAmendOtherCgtRulesValidatorSpec extends UnitSpec with JsonError
           .removeProperty("/nonStandardGains/carriedInterestGain")
           .removeProperty("/nonStandardGains/attributedGains")
           .removeProperty("/nonStandardGains/otherGains")) shouldBe
-          error(RuleIncorrectOrEmptyBodyError.withPath("/nonStandardGains"))
+          error(RuleIncorrectNonStandardGainsSubmittedError.withPath("/nonStandardGains"))
       }
-
     }
 
     "return ValueFormatError" when {
