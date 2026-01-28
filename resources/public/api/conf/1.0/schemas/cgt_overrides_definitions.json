@@ -26,10 +26,11 @@
       "description": "The total disposal proceeds from the sale of the residential property. The value must be between 0 and 99999999999.99 up to 2 decimal places.",
       "example": "1999.99"
     },
-    "acquisitionDate": {
-      "type": "string",
-      "description": "The date the disposed property was acquired, in the format YYYY-MM-DD.",
-      "example": "2020-04-06"
+    "acquisitionDate":{
+      "type":"string",
+      "description":"The date the asset was acquired in the format `YYYY-MM-DD`.",
+      "format": "date",
+      "example":"2022-03-04"
     },
     "acquisitionAmount": {
       "type": "number",
