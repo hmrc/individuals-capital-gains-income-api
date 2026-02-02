@@ -143,7 +143,7 @@
     },
     "companyName": {
       "type": "string",
-      "description": "The name of the company. Required for listed shares.",
+      "description": "The name of the company.",
       "example": "Company One",
       "pattern":"^.{0,160}$"
     },
