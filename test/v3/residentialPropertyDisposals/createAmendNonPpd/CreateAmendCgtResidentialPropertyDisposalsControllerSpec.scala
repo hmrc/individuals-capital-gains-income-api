@@ -27,7 +27,6 @@ import api.utils.MockIdGenerator
 import play.api.Configuration
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
-import v3.residentialPropertyDisposals.MockNrsProxyService
 import v3.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.*
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,7 +40,6 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
     with MockAppConfig
     with MockCreateAmendCgtResidentialPropertyDisposalsService
     with MockAuditService
-    with MockNrsProxyService
     with MockCreateAmendCgtResidentialPropertyDisposalsValidatorFactory
     with MockIdGenerator {
 
@@ -103,10 +101,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
     "return a successful response with status NO_CONTENT" when {
       "happy path" in new Test {
         willUseValidator(returningSuccess(requestData))
-
-        MockNrsProxyService
-          .submitAsync(validNino, "itsa-cgt-disposal", validRequestJson)
-          .returns(())
+        
 
         MockCreateAmendCgtResidentialPropertyDisposalsService
           .createAndAmend(requestData)
@@ -125,8 +120,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
 
       "service returns an error" in new Test {
         willUseValidator(returningSuccess(requestData))
-
-        MockNrsProxyService.submitAsync(validNino, "itsa-cgt-disposal", validRequestJson)
+        
 
         MockCreateAmendCgtResidentialPropertyDisposalsService
           .createAndAmend(requestData)
@@ -145,7 +139,6 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
       validatorFactory = mockCreateAmendCgtResidentialPropertyDisposalsValidatorFactory,
       service = mockCreateAmendCgtResidentialPropertyDisposalsService,
       auditService = mockAuditService,
-      nrsProxyService = mockNrsProxyService,
       cc = cc,
       idGenerator = mockIdGenerator
     )

@@ -32,8 +32,7 @@ object CodeCoverageSettings {
   )
 
   private val excludedExtraPackages: Seq[String] = Seq(
-    "api.models.domain.ClaimOrElectionCodes",
-    "api.connectors.NrsProxyConnector"
+    "api.models.domain.ClaimOrElectionCodes"
   )
 
   val settings: Seq[Setting[?]] = Seq(

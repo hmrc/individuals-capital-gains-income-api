@@ -19,7 +19,6 @@ package v3.endpoints
 import api.models.errors.*
 import api.services.*
 import api.support.{IntegrationBaseSpec, WireMockMethods}
-import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.*
 import play.api.http.HeaderNames.ACCEPT
@@ -360,12 +359,7 @@ class CreateAmendCgtPpdOverridesControllerIfsISpec extends IntegrationBaseSpec w
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
-
-    def verifyNrs(payload: JsValue): Unit =
-      verify(
-        postRequestedFor(urlEqualTo(s"/mtd-api-nrs-proxy/$nino/itsa-cgt-disposal-ppd"))
-          .withRequestBody(equalToJson(payload.toString())))
-
+    
   }
 
   private trait NonTysTest extends Test {
@@ -385,8 +379,7 @@ class CreateAmendCgtPpdOverridesControllerIfsISpec extends IntegrationBaseSpec w
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe NO_CONTENT
-
-        verifyNrs(validRequestBodyJson)
+        
       }
 
     }
@@ -453,7 +446,6 @@ class CreateAmendCgtPpdOverridesControllerIfsISpec extends IntegrationBaseSpec w
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
 
-            verifyNrs(validRequestBodyJson)
           }
 
         }

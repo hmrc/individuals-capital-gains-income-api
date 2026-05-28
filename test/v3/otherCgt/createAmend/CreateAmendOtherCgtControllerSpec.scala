@@ -29,7 +29,6 @@ import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
 import v3.otherCgt.createAmend.def1.model.request.*
 import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
-import v3.residentialPropertyDisposals.MockNrsProxyService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -41,7 +40,6 @@ class CreateAmendOtherCgtControllerSpec
     with MockMtdIdLookupService
     with MockAppConfig
     with MockCreateAmendOtherCgtService
-    with MockNrsProxyService
     with MockAuditService
     with MockCreateAmendOtherCgtValidatorFactory
     with MockIdGenerator {
@@ -136,10 +134,7 @@ class CreateAmendOtherCgtControllerSpec
       "happy path" in new Test {
 
         willUseValidator(returningSuccess(requestData))
-
-        MockNrsProxyService
-          .submitAsync(validNino, "itsa-cgt-disposal-other", validRequestJson)
-          .returns(())
+        
 
         MockCreateAmendOtherCgtService
           .createAmend(requestData)
@@ -158,10 +153,7 @@ class CreateAmendOtherCgtControllerSpec
 
       "service returns an error" in new Test {
         willUseValidator(returningSuccess(requestData))
-
-        MockNrsProxyService
-          .submitAsync(validNino, "itsa-cgt-disposal-other", validRequestJson)
-          .returns(())
+        
 
         MockCreateAmendOtherCgtService
           .createAmend(requestData)
@@ -179,7 +171,6 @@ class CreateAmendOtherCgtControllerSpec
       lookupService = mockMtdIdLookupService,
       validatorFactory = mockCreateAmendOtherCgtValidatorFactory,
       service = mockCreateAmendOtherCgtService,
-      nrsProxyService = mockNrsProxyService,
       auditService = mockAuditService,
       cc = cc,
       idGenerator = mockIdGenerator

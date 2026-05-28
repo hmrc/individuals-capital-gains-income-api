@@ -19,7 +19,6 @@ package v3.endpoints
 import api.models.errors.*
 import api.services.*
 import api.support.{IntegrationBaseSpec, WireMockMethods}
-import com.github.tomakehurst.wiremock.client.WireMock.*
 import com.github.tomakehurst.wiremock.stubbing.StubMapping
 import common.errors.*
 import play.api.http.HeaderNames.ACCEPT
@@ -369,12 +368,7 @@ class Def2_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
           "suspend-temporal-validations" -> "true"
         )
     }
-
-    def verifyNrs(payload: JsValue): Unit =
-      verify(
-        postRequestedFor(urlEqualTo(s"/mtd-api-nrs-proxy/$nino/itsa-cgt-disposal-ppd"))
-          .withRequestBody(equalToJson(payload.toString())))
-
+    
   }
 
   "Calling Create and Amend 'Report and Pay Capital Gains Tax on Property' Overrides endpoint" should {
@@ -390,8 +384,7 @@ class Def2_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe NO_CONTENT
-
-        verifyNrs(validRequestBodyJson)
+        
       }
     }
 
@@ -457,8 +450,7 @@ class Def2_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-
-            verifyNrs(validRequestBodyJson)
+            
           }
 
         }
