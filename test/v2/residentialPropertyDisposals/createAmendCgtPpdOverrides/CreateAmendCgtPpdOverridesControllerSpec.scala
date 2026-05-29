@@ -128,7 +128,6 @@ class CreateAmendCgtPpdOverridesControllerSpec
       "happy path" in new Test {
         willUseValidator(returningSuccess(requestData))
         MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
-        
 
         MockCreateAmendCgtPpdOverridesService
           .createAmend(requestData)
@@ -147,7 +146,6 @@ class CreateAmendCgtPpdOverridesControllerSpec
 
       "service returns an error" in new Test {
         willUseValidator(returningSuccess(requestData))
-        
 
         MockCreateAmendCgtPpdOverridesService
           .createAmend(requestData)

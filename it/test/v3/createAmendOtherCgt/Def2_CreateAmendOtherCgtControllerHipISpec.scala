@@ -427,7 +427,7 @@ class Def2_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
           ("suspend-temporal-validations", suspendTemporalValidations)
         )
     }
-    
+
   }
 
   "Calling the 'Create and Amend Other Capital Gains and Disposals' endpoint" should {

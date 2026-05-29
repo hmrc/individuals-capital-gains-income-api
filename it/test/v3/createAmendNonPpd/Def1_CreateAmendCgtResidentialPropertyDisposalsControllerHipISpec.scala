@@ -293,7 +293,7 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
 
         val response: WSResponse = await(request.put(validRequestJson))
         response.status shouldBe NO_CONTENT
-        
+
       }
     }
 
@@ -360,7 +360,7 @@ class Def1_CreateAmendCgtResidentialPropertyDisposalsControllerHipISpec extends 
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-            
+
           }
         }
 

@@ -359,7 +359,7 @@ class CreateAmendCgtPpdOverridesControllerIfsISpec extends IntegrationBaseSpec w
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
-    
+
   }
 
   private trait NonTysTest extends Test {
@@ -379,7 +379,7 @@ class CreateAmendCgtPpdOverridesControllerIfsISpec extends IntegrationBaseSpec w
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe NO_CONTENT
-        
+
       }
 
     }

@@ -374,7 +374,6 @@ class CreateAmendCgtPpdOverridesControllerISpec extends IntegrationBaseSpec with
          |  }
          |}
                 """.stripMargin
-    
 
   }
 
@@ -404,7 +403,7 @@ class CreateAmendCgtPpdOverridesControllerISpec extends IntegrationBaseSpec with
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe OK
-        
+
       }
 
       "any valid request is made for a TYS tax year" in new TysHipTest {
@@ -417,7 +416,7 @@ class CreateAmendCgtPpdOverridesControllerISpec extends IntegrationBaseSpec with
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe OK
-        
+
       }
     }
 
@@ -499,7 +498,7 @@ class CreateAmendCgtPpdOverridesControllerISpec extends IntegrationBaseSpec with
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-            
+
           }
         }
 
@@ -517,7 +516,7 @@ class CreateAmendCgtPpdOverridesControllerISpec extends IntegrationBaseSpec with
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-            
+
           }
         }
 

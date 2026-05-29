@@ -301,7 +301,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
          |  }
          |}
          |""".stripMargin
-    
+
   }
 
   trait NonTysTest extends Test {
@@ -332,7 +332,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
 
         val response: WSResponse = await(request.put(validRequestJson))
         response.status shouldBe OK
-        
+
       }
 
       "any valid request is made for a TYS tax year" in new TysHipTest {
@@ -346,7 +346,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
 
         val response: WSResponse = await(request.put(validRequestJson))
         response.status shouldBe OK
-        
+
       }
     }
 
@@ -430,7 +430,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-            
+
           }
         }
 
@@ -448,7 +448,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-            
+
           }
         }
 

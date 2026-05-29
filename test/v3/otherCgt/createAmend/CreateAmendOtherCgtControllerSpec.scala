@@ -134,7 +134,6 @@ class CreateAmendOtherCgtControllerSpec
       "happy path" in new Test {
 
         willUseValidator(returningSuccess(requestData))
-        
 
         MockCreateAmendOtherCgtService
           .createAmend(requestData)
@@ -153,7 +152,6 @@ class CreateAmendOtherCgtControllerSpec
 
       "service returns an error" in new Test {
         willUseValidator(returningSuccess(requestData))
-        
 
         MockCreateAmendOtherCgtService
           .createAmend(requestData)

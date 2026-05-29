@@ -360,7 +360,7 @@ class CreateAmendOtherCgtControllerIfsISpec extends IntegrationBaseSpec with Wir
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
-    
+
   }
 
   private trait NonTysTest extends Test {

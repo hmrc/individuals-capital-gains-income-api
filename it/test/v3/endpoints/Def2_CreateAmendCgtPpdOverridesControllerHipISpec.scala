@@ -368,7 +368,7 @@ class Def2_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
           "suspend-temporal-validations" -> "true"
         )
     }
-    
+
   }
 
   "Calling Create and Amend 'Report and Pay Capital Gains Tax on Property' Overrides endpoint" should {
@@ -384,7 +384,7 @@ class Def2_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe NO_CONTENT
-        
+
       }
     }
 
@@ -450,7 +450,7 @@ class Def2_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-            
+
           }
 
         }

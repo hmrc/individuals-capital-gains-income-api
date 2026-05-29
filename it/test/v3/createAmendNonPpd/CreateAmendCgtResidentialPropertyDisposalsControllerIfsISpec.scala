@@ -277,7 +277,6 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
           (AUTHORIZATION, "Bearer 123") // some bearer token
         )
     }
-    
 
   }
 
@@ -300,7 +299,7 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerIfsISpec extends Integ
 
         val response: WSResponse = await(request.put(validRequestJson))
         response.status shouldBe NO_CONTENT
-        
+
       }
     }
 

@@ -101,7 +101,6 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
     "return a successful response with status OK" when {
       "happy path" in new Test {
         willUseValidator(returningSuccess(requestData))
-        
 
         MockCreateAmendCgtResidentialPropertyDisposalsService
           .createAndAmend(requestData)
@@ -120,7 +119,6 @@ class CreateAmendCgtResidentialPropertyDisposalsControllerSpec
 
       "service returns an error" in new Test {
         willUseValidator(returningSuccess(requestData))
-        
 
         MockCreateAmendCgtResidentialPropertyDisposalsService
           .createAndAmend(requestData)

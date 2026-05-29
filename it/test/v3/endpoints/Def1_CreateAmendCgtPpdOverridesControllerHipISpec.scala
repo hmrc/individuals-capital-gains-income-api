@@ -388,7 +388,7 @@ class Def1_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe NO_CONTENT
-        
+
       }
 
       "any valid request is made for a TYS tax year" in new TysHipTest {
@@ -401,7 +401,7 @@ class Def1_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
 
         val response: WSResponse = await(request.put(validRequestBodyJson))
         response.status shouldBe NO_CONTENT
-        
+
       }
     }
 
@@ -482,7 +482,7 @@ class Def1_CreateAmendCgtPpdOverridesControllerHipISpec extends IntegrationBaseS
             response.status shouldBe expectedStatus
             response.json shouldBe Json.toJson(expectedBody)
             response.header("Content-Type") shouldBe Some("application/json")
-            
+
           }
 
         }
