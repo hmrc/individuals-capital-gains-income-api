@@ -104,6 +104,23 @@
         ]
       }
     },
+    "claimOrElectionCodesCryptoassets2627": {
+      "type": "array",
+      "description": "The claim, election or notice codes related to the disposal. \n\nPossible values are: \n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **NVC** - Negligible Value Claims\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **INC** - Incorporation Relief",
+      "items":{
+        "type": "string",
+        "example": "[\"BAD\",\"OTH\"]",
+        "enum":[
+          "GHO",
+          "ROR",
+          "PRO",
+          "NVC",
+          "OTH",
+          "BAD",
+          "INC"
+        ]
+      }
+    },
     "claimOrElectionCodesUnlistedShares": {
       "type": "array",
       "description": "The claim, election or notice codes related to the disposal. \n\nPossible values are: \n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **NVC** - Negligible Value Claims\n\n* **ESH** - Employee Shares\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **INV** - Investors' Relief\n\n* **EOT** - Employee Ownership Trust",
@@ -179,6 +196,71 @@
     },
     "claimOrElectionCodesOtherGains": {
       "description": "The claim, election or notice codes related to the disposal. \n\nPossible values for listed shares are: \n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **ESH** - Employee Shares\n\n* **NVC** - Negligible Value Claims\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **INV** - Investors' Relief\n\n* **EOT** - Employee Ownership Trust\n\nPossible values for non-uk residential property are:\n\n* **PRR** - Private Residence Relief where Letting Relief does not apply\n\n* **LET** - Private Residence Relief where Letting Relief applies\n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **ESH** - Employee Shares\n\n* **NVC** - Negligible Value Claims\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **EOT** - Employee Ownership Trust\n\nPossible values for other property and other assets are:\n\n* **PRR** - Private Residence Relief where Letting Relief does not apply\n\n* **LET** - Private Residence Relief where Letting Relief applies\n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **ESH** - Employee Shares\n\n* **NVC** - Negligible Value Claims\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **INV** - Investors' Relief\n\n* **EOT** - Employee Ownership Trust",
+      "anyOf": [
+        {
+          "type": "array",
+          "title": "For listed shares",
+          "items": {
+            "type": "string",
+            "example": "[\"BAD\",\"OTH\"]",
+            "enum": [
+              "GHO",
+              "ROR",
+              "PRO",
+              "ESH",
+              "NVC",
+              "OTH",
+              "BAD",
+              "INV",
+              "EOT"
+            ]
+          }
+        },
+        {
+          "type": "array",
+          "title": "For non-uk residential property",
+          "items": {
+            "type": "string",
+            "example": "[\"BAD\",\"OTH\"]",
+            "enum": [
+              "PRR",
+              "LET",
+              "GHO",
+              "ROR",
+              "PRO",
+              "ESH",
+              "NVC",
+              "OTH",
+              "BAD",
+              "EOT"
+            ]
+          }
+        },
+        {
+          "type": "array",
+          "title": "For other property and other assets",
+          "items": {
+            "type": "string",
+            "example": "[\"BAD\",\"OTH\"]",
+            "enum": [
+              "PRR",
+              "LET",
+              "GHO",
+              "ROR",
+              "PRO",
+              "ESH",
+              "NVC",
+              "OTH",
+              "BAD",
+              "INV",
+              "EOT"
+            ]
+          }
+        }
+      ]
+    },
+    "claimOrElectionCodesOtherGains2627": {
+      "description": "The claim, election or notice codes related to the disposal. \n\nPossible values for listed shares are: \n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **ESH** - Employee Shares\n\n* **NVC** - Negligible Value Claims\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **INV** - Investors' Relief\n\n* **EOT** - Employee Ownership Trust\n\nPossible values for non-uk residential property are:\n\n* **PRR** - Private Residence Relief where Letting Relief does not apply\n\n* **LET** - Private Residence Relief where Letting Relief applies\n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **ESH** - Employee Shares\n\n* **NVC** - Negligible Value Claims\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **EOT** - Employee Ownership Trust\n\nPossible values for other property and other assets are:\n\n* **PRR** - Private Residence Relief where Letting Relief does not apply\n\n* **LET** - Private Residence Relief where Letting Relief applies\n\n* **GHO** - Gift Hold-Over Relief\n\n* **ROR** - Rollover Relief\n\n* **PRO** - Provisional Rollover Relief\n\n* **ESH** - Employee Shares\n\n* **NVC** - Negligible Value Claims\n\n* **OTH** - Other claims\n\n* **BAD** - Business Asset Disposal Relief\n\n* **INV** - Investors' Relief\n\n* **EOT** - Employee Ownership Trust\n\n* **INC** - Incorporation Relief",
       "anyOf": [
         {
           "type": "array",
@@ -443,6 +525,39 @@
         ]
       }
     },
+    "cryptoassets2627": {
+      "type": "array",
+      "description": "An array of cryptoassets entries.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "numberOfDisposals" : {"$ref": "#/definitions/cryptoNumberOfDisposals"},
+          "assetDescription" : {"$ref": "#/definitions/assetDescription"},
+          "tokenName" : {"$ref": "#/definitions/tokenName"},
+          "acquisitionDate" : {"$ref": "#/definitions/acquisitionDate"},
+          "disposalDate" : {"$ref": "#/definitions/disposalDate"},
+          "disposalProceeds" : {"$ref": "#/definitions/disposalProceeds"},
+          "allowableCosts" : {"$ref": "#/definitions/allowableCosts"},
+          "gainsWithBadr" : {"$ref": "#/definitions/gainsWithBadr"},
+          "gainsBeforeLosses" : {"$ref": "#/definitions/gainsBeforeLosses"},
+          "losses" : {"$ref": "#/definitions/lossesField"},
+          "claimOrElectionCodes" : {"$ref": "#/definitions/claimOrElectionCodesCryptoassets2627"},
+          "amountOfNetGain" : {"$ref": "#/definitions/amountOfNetGain"},
+          "amountOfNetLoss" : {"$ref": "#/definitions/amountOfNetLoss"},
+          "rttTaxPaid" : {"$ref": "#/definitions/rttTaxPaid"}
+        },
+        "required": [
+          "numberOfDisposals",
+          "assetDescription",
+          "tokenName",
+          "acquisitionDate",
+          "disposalDate",
+          "disposalProceeds",
+          "allowableCosts",
+          "gainsBeforeLosses"
+        ]
+      }
+    },
     "otherGains": {
       "type": "array",
       "description": "An array of other gains entries.",
@@ -463,6 +578,42 @@
           "gainsBeforeLosses" : {"$ref": "#/definitions/gainsBeforeLosses"},
           "losses" : {"$ref": "#/definitions/lossesField"},
           "claimOrElectionCodes" : {"$ref": "#/definitions/claimOrElectionCodesOtherGains"},
+          "amountOfNetGain" : {"$ref": "#/definitions/amountOfNetGain"},
+          "amountOfNetLoss" : {"$ref": "#/definitions/amountOfNetLoss"},
+          "rttTaxPaid" : {"$ref": "#/definitions/rttTaxPaid"}
+        },
+        "required": [
+          "assetType",
+          "numberOfDisposals",
+          "assetDescription",
+          "acquisitionDate",
+          "disposalDate",
+          "disposalProceeds",
+          "allowableCosts",
+          "gainsBeforeLosses"
+        ]
+      }
+    },
+    "otherGains2627": {
+      "type": "array",
+      "description": "An array of other gains entries.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "assetType" : {"$ref": "#/definitions/assetType"},
+          "numberOfDisposals" : {"$ref": "#/definitions/otherGainsNumberOfDisposals"},
+          "assetDescription" : {"$ref": "#/definitions/assetDescription"},
+          "companyName" : {"$ref": "#/definitions/companyName"},
+          "companyRegistrationNumber" : {"$ref": "#/definitions/companyRegistrationNumber"},
+          "acquisitionDate" : {"$ref": "#/definitions/acquisitionDate"},
+          "disposalDate" : {"$ref": "#/definitions/disposalDate"},
+          "disposalProceeds" : {"$ref": "#/definitions/disposalProceeds"},
+          "allowableCosts" : {"$ref": "#/definitions/allowableCosts"},
+          "gainsWithBadr" : {"$ref": "#/definitions/gainsWithBadr"},
+          "gainsWithInv" : {"$ref": "#/definitions/gainsWithInv"},
+          "gainsBeforeLosses" : {"$ref": "#/definitions/gainsBeforeLosses"},
+          "losses" : {"$ref": "#/definitions/lossesField"},
+          "claimOrElectionCodes" : {"$ref": "#/definitions/claimOrElectionCodesOtherGains2627"},
           "amountOfNetGain" : {"$ref": "#/definitions/amountOfNetGain"},
           "amountOfNetLoss" : {"$ref": "#/definitions/amountOfNetLoss"},
           "rttTaxPaid" : {"$ref": "#/definitions/rttTaxPaid"}
