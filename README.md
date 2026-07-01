@@ -68,10 +68,8 @@ You can create a GitHub issue [here](https://github.com/hmrc/income-tax-mtd-chan
 
 ## API Reference / Documentation
 
-Available on
-the [Individuals Capital Gains Income Documentation](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/individuals-capital-gains-income-api)
+Available on the [HMRC Developer Hub](https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/individuals-capital-gains-income-api)
 
 ## License
 
-This code is open source software licensed under
-the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html")
+This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html")
