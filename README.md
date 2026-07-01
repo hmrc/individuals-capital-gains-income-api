@@ -7,7 +7,7 @@ The Individuals Capital Gains Income API allows a developer to create, amend, re
 
 ## Requirements
 
-- Scala 3.x.x
+- Scala 3.5.x
 - Java 21
 - sbt 1.10.x
 - [Service Manager V2](https://github.com/hmrc/sm2)
@@ -27,14 +27,6 @@ sm2 --start MTDFB_INDIVIDUALS_CAPITAL_GAINS_INCOME
 Run unit tests: `sbt test`
 
 Run integration tests: `sbt it/test`
-
-Note: if you run into `java.lang.OutOfMemoryError` errors, add a `.sbtopts` file to the root of the project with the
-following contents:
-
-```
--J-Xmx3G
--J-XX:+UseG1GC
-```
 
 ## View OpenAPI Specification (OAS) documentation
 
@@ -72,4 +64,4 @@ Available on the [HMRC Developer Hub](https://developer.service.hmrc.gov.uk/api-
 
 ## License
 
-This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html")
+This code is open source software licensed under the [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0.html)
