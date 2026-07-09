@@ -39,8 +39,6 @@ object BusinessIdFormatError extends MtdError("FORMAT_BUSINESS_ID", "The Busines
 
 object PaymentIdFormatError extends MtdError(code = "FORMAT_PAYMENT_ID", message = "The payment ID format is invalid", BAD_REQUEST)
 
-object TransactionIdFormatError extends MtdError(code = "FORMAT_TRANSACTION_ID", message = "The transaction ID format is invalid", BAD_REQUEST)
-
 object IdFormatError extends MtdError(code = "FORMAT_ID", message = "The ID format is invalid", BAD_REQUEST)
 
 object ValueFormatError extends MtdError("FORMAT_VALUE", "The value must be between 0 and 99999999999.99", BAD_REQUEST) {
@@ -55,8 +53,6 @@ object ValueFormatError extends MtdError("FORMAT_VALUE", "The value must be betw
     ValueFormatError.copy(paths = Some(Seq(path)), message = s"The value must be an integer between $min and $max")
 
 }
-
-object CalculationIdFormatError extends MtdError("FORMAT_CALCULATION_ID", "The provided calculation ID is invalid", BAD_REQUEST)
 
 object StringFormatError extends MtdError(code = "FORMAT_STRING", message = "The supplied string format is not valid", BAD_REQUEST)
 
