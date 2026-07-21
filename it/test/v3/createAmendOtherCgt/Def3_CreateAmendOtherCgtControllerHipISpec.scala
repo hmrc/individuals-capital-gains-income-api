@@ -441,6 +441,7 @@ class Def3_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
         )
 
         val response: WSResponse = await(request.put(fullRequestBodyMtdJson))
+        println(Json.prettyPrint(fullRequestBodyMtdJson))
         response.status shouldBe NO_CONTENT
       }
 
