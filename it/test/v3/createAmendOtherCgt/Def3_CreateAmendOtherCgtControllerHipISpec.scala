@@ -508,16 +508,16 @@ class Def3_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
 
         val input = Seq(
           // Path errors
-          ("AA1123A", "2025-26", fullRequestBodyMtdJson, BAD_REQUEST, NinoFormatError, None, None),
-          ("AA123456A", "20256", fullRequestBodyMtdJson, BAD_REQUEST, TaxYearFormatError, None, None),
-          ("AA123456A", "2025-27", fullRequestBodyMtdJson, BAD_REQUEST, RuleTaxYearRangeInvalidError, None, None),
+          ("AA1123A", "2026-27", fullRequestBodyMtdJson, BAD_REQUEST, NinoFormatError, None, None),
+          ("AA123456A", "20267", fullRequestBodyMtdJson, BAD_REQUEST, TaxYearFormatError, None, None),
+          ("AA123456A", "2026-28", fullRequestBodyMtdJson, BAD_REQUEST, RuleTaxYearRangeInvalidError, None, None),
           ("AA123456A", "2018-19", fullRequestBodyMtdJson, BAD_REQUEST, RuleTaxYearNotSupportedError, None, None),
 
           // Body errors
-          ("AA123456A", "2025-26", JsObject.empty, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None, Some("empty body")),
-          ("AA123456A", "2025-26", emptyObjectsAndArraysMtdJson, BAD_REQUEST, emptyObjectsAndArraysError, None, Some("empty objects and arrays")),
-          ("AA123456A", "2025-26", missingMandatoryFieldsMtdJson, BAD_REQUEST, missingMandatoryFieldsError, None, Some("missing mandatory fields")),
-          ("AA123456A", "2025-26", allInvalidFieldsRequestBodyJson, BAD_REQUEST, BadRequestError, Some(wrappedErrors), Some("all field errors"))
+          ("AA123456A", "2026-27", JsObject.empty, BAD_REQUEST, RuleIncorrectOrEmptyBodyError, None, Some("empty body")),
+          ("AA123456A", "2026-27", emptyObjectsAndArraysMtdJson, BAD_REQUEST, emptyObjectsAndArraysError, None, Some("empty objects and arrays")),
+          ("AA123456A", "2026-27", missingMandatoryFieldsMtdJson, BAD_REQUEST, missingMandatoryFieldsError, None, Some("missing mandatory fields")),
+          ("AA123456A", "2026-27", allInvalidFieldsRequestBodyJson, BAD_REQUEST, BadRequestError, Some(wrappedErrors), Some("all field errors"))
         )
 
         input.foreach(validationErrorTest.tupled)
