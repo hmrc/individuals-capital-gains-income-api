@@ -31,11 +31,15 @@ object CreateAmendOtherCgtSchema {
 
   case object Def1 extends CreateAmendOtherCgtSchema
   case object Def2 extends CreateAmendOtherCgtSchema
+  case object Def3 extends CreateAmendOtherCgtSchema
 
   def schemaFor(taxYearString: String)(implicit appConfig: AppConfig): Validated[Seq[MtdError], CreateAmendOtherCgtSchema] =
     ResolveTaxYearMinimum(TaxYear.ending(appConfig.minimumPermittedTaxYear))(taxYearString) andThen schemaFor
 
-  def schemaFor(taxYear: TaxYear): Validated[Seq[MtdError], CreateAmendOtherCgtSchema] =
-    if (taxYear >= TaxYear.fromMtd("2025-26")) Valid(Def2) else Valid(Def1)
+  def schemaFor(taxYear: TaxYear): Validated[Seq[MtdError], CreateAmendOtherCgtSchema] = {
+    if (taxYear >= TaxYear.fromMtd("2026-27")) Valid(Def3)
+    else if (taxYear == TaxYear.fromMtd("2025-26")) Valid(Def2)
+    else Valid(Def1)
+  }
 
 }
