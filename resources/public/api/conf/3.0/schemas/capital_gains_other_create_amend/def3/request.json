@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "TY 2026-27 onwards",
+  "title": "TY 2026-27 onwards {{#unless (releasedInProduction 'r22_docs')}}[Test Only]{{/unless}}",
   "type": "object",
   "properties": {
     "cryptoassets": {
