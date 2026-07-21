@@ -381,7 +381,7 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
     "return RuleAcquisitionDateError error" when {
       Seq("cryptoassets", "otherGains", "unlistedShares").foreach { arrayField =>
         s"passed a body with acquisitionDate later than disposalDate supplied for $arrayField" in {
-          val invalidJson: JsValue = updateArrayField(arrayField, "acquisitionDate", JsString("2025-12-31"))
+          val invalidJson: JsValue = updateArrayField(arrayField, "acquisitionDate", JsString("2026-12-31"))
 
           val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
 
@@ -413,7 +413,7 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
         }
 
         s"passed a body with disposalDate after the end of the tax year supplied for $arrayField" in {
-          val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2026-04-06"))
+          val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2027-04-06"))
 
           val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
 
