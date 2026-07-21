@@ -42,9 +42,14 @@ class CreateAmendOtherCgtSchemaSpec extends UnitSpec with MockAppConfig with Sca
         }
       }
 
-      "use Def2 schema for tax years 2025-26 onwards" in new Test {
-        forTaxYearsFrom(TaxYear.fromMtd("2025-26")) { taxYear =>
-          schemaFor(taxYear.asMtd) shouldBe Valid(Def2)
+      "use Def2 schema for tax year 2025-26" in new Test {
+        schemaFor("2025-26") shouldBe Valid(Def2)
+
+      }
+
+      "use Def3 schema for tax years 2026-27 onwards" in new Test {
+        forTaxYearsFrom(TaxYear.fromMtd("2026-27")) { taxYear =>
+          schemaFor(taxYear.asMtd) shouldBe Valid(Def3)
         }
       }
     }

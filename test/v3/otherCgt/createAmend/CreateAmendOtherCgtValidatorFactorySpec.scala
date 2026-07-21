@@ -23,6 +23,7 @@ import play.api.libs.json.JsObject
 import support.UnitSpec
 import v3.otherCgt.createAmend.def1.Def1_CreateAmendOtherCgtValidator
 import v3.otherCgt.createAmend.def2.Def2_CreateAmendOtherCgtValidator
+import v3.otherCgt.createAmend.def3.Def3_CreateAmendOtherCgtValidator
 import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
 class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
@@ -52,6 +53,12 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorVal
     "given a request corresponding to a Def2 schema" should {
       "return a Def2 validator" in new Test {
         validatorFor("2025-26") shouldBe a[Def2_CreateAmendOtherCgtValidator]
+      }
+    }
+
+    "given a request corresponding to a Def3 schema" should {
+      "return a Def3 validator" in new Test {
+        validatorFor("2026-27") shouldBe a[Def3_CreateAmendOtherCgtValidator]
       }
     }
 
