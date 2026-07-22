@@ -27,7 +27,7 @@ import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
 import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{fullValidDownstreamResponseJson, fullValidMtdResponseJson}
 
-class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
+class Def3_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
 
   "Calling the 'retrieve other CGT' endpoint" should {
     "return a 200 status code" when {
@@ -70,9 +70,9 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
         }
 
         val input = Seq(
-          ("AA1123A", "2019-20", BAD_REQUEST, NinoFormatError),
+          ("AA1123A", "2026-27", BAD_REQUEST, NinoFormatError),
           ("AA123456A", "20177", BAD_REQUEST, TaxYearFormatError),
-          ("AA123456A", "2015-17", BAD_REQUEST, RuleTaxYearRangeInvalidError),
+          ("AA123456A", "2026-28", BAD_REQUEST, RuleTaxYearRangeInvalidError),
           ("AA123456A", "2018-19", BAD_REQUEST, RuleTaxYearNotSupportedError)
         )
         input.foreach(args => (validationErrorTest).tupled(args))
@@ -132,8 +132,8 @@ class Def2_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
   private trait Test {
 
     val nino: String          = "AA123456A"
-    def taxYear: String       = "2025-26"
-    def downstreamUri: String = s"/itsa/income-tax/v1/25-26/income/disposals/other-gains/$nino"
+    def taxYear: String       = "2026-27"
+    def downstreamUri: String = s"/itsa/income-tax/v1/26-27/income/disposals/other-gains/$nino"
 
     def uri: String = s"/other-gains/$nino/$taxYear"
 
