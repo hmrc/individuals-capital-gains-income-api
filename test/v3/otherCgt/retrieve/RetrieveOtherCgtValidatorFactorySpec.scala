@@ -21,6 +21,7 @@ import config.MockAppConfig
 import support.UnitSpec
 import v3.otherCgt.retrieve.def1.Def1_RetrieveOtherCgtValidator
 import v3.otherCgt.retrieve.def2.Def2_RetrieveOtherCgtValidator
+import v3.otherCgt.retrieve.def3.Def3_RetrieveOtherCgtValidator
 import v3.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData
 
 class RetrieveOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
@@ -45,6 +46,11 @@ class RetrieveOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
     "given a request corresponding to a Def2 schema" should {
       "return a Def2 validator" in new Test {
         validatorFor("2025-26") shouldBe a[Def2_RetrieveOtherCgtValidator]
+      }
+    }
+    "given a request corresponding to a Def3 schema" should {
+      "return a Def3 validator" in new Test {
+        validatorFor("2026-27") shouldBe a[Def3_RetrieveOtherCgtValidator]
       }
     }
     "given a request where no valid schema could be determined" should {

@@ -19,9 +19,10 @@ package v3.otherCgt.retrieve
 import api.config.AppConfig
 import api.controllers.validators.Validator
 import cats.data.Validated.{Invalid, Valid}
-import v3.otherCgt.retrieve.RetrieveOtherCgtSchema.{Def1, Def2}
+import v3.otherCgt.retrieve.RetrieveOtherCgtSchema.{Def1, Def2, Def3}
 import v3.otherCgt.retrieve.def1.Def1_RetrieveOtherCgtValidator
 import v3.otherCgt.retrieve.def2.Def2_RetrieveOtherCgtValidator
+import v3.otherCgt.retrieve.def3.Def3_RetrieveOtherCgtValidator
 import v3.otherCgt.retrieve.model.request.RetrieveOtherCgtRequestData
 
 import javax.inject.{Inject, Singleton}
@@ -35,6 +36,7 @@ class RetrieveOtherCgtValidatorFactory @Inject() (implicit appConfig: AppConfig)
     schema match {
       case Valid(Def1)     => new Def1_RetrieveOtherCgtValidator(nino, taxYear)
       case Valid(Def2)     => new Def2_RetrieveOtherCgtValidator(nino, taxYear)
+      case Valid(Def3)     => new Def3_RetrieveOtherCgtValidator(nino, taxYear)
       case Invalid(errors) => Validator.returningErrors(errors)
     }
   }

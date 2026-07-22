@@ -14,37 +14,51 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def3.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
-import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.*
+import v3.otherCgt.retrieve.def3.fixture.Def3_RetrieveOtherCgtFixture.{
+  gainExcludedIndexedSecuritiesResponseModel,
+  gainExcludedIndexedSecuritiesValidResponseJson
+}
 
-class Def2_RetrieveOtherCgtResponseSpec extends UnitSpec {
+class GainExcludedIndexedSecuritiesSpec extends UnitSpec {
 
-  "Def3_RetrieveOtherCgtResponse" when {
+  val invalidJson: JsValue = Json.parse(
+    """
+      |{
+      |   "gainsFromExcludedSecurities": true
+      |}
+       """.stripMargin
+  )
+
+  val minimumResponseModel: GainExcludedIndexedSecurities = GainExcludedIndexedSecurities(
+    gainsFromExcludedSecurities = None
+  )
+
+  "GainExcludedIndexedSecurities" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        fullValidDownstreamResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe fullResponseModel
+        gainExcludedIndexedSecuritiesValidResponseJson.as[GainExcludedIndexedSecurities] shouldBe gainExcludedIndexedSecuritiesResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe minimumResponseModel
+        JsObject.empty.as[GainExcludedIndexedSecurities] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        JsObject.empty.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
+        invalidJson.validate[Def3_RetrieveOtherCgtResponse] shouldBe a[JsError]
       }
     }
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(fullResponseModel) shouldBe fullValidMtdResponseJson
+        Json.toJson(gainExcludedIndexedSecuritiesResponseModel) shouldBe gainExcludedIndexedSecuritiesValidResponseJson
       }
     }
   }

@@ -14,31 +14,30 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def3.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
-import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.*
+import v3.otherCgt.retrieve.def3.fixture.Def3_RetrieveOtherCgtFixture.*
 
-class Def2_RetrieveOtherCgtResponseSpec extends UnitSpec {
+class Def3_RetrieveOtherCgtResponseSpec extends UnitSpec {
 
   "Def3_RetrieveOtherCgtResponse" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        fullValidDownstreamResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe fullResponseModel
+        fullValidDownstreamResponseJson.as[Def3_RetrieveOtherCgtResponse] shouldBe fullResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe minimumResponseModel
+        minimumValidResponseJson.as[Def3_RetrieveOtherCgtResponse] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        JsObject.empty.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
+        JsObject.empty.validate[Def3_RetrieveOtherCgtResponse] shouldBe a[JsError]
       }
     }
 
