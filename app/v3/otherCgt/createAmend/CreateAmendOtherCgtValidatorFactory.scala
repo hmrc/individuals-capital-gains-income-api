@@ -36,7 +36,7 @@ class CreateAmendOtherCgtValidatorFactory @Inject() (implicit appConfig: AppConf
 
     schema match {
       case Valid(Def1)     => new Def1_CreateAmendOtherCgtValidator(nino, taxYear, body)
-      case Valid(Def2)     => new Def2_CreateAmendOtherCgtValidator(nino, taxYear, body, temporalValidationEnabled)
+      case Valid(Def2)     => new Def2_CreateAmendOtherCgtValidator(nino, taxYear, body)
       case Valid(Def3)     => new Def3_CreateAmendOtherCgtValidator(nino, taxYear, body, temporalValidationEnabled)
       case Invalid(errors) => Validator.returningErrors(errors)
     }
