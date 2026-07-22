@@ -26,6 +26,7 @@ import cats.data.Validated.Valid
 import play.api.libs.json.Reads
 import v3.residentialPropertyDisposals.retrieveNonPpd.def1.model.response.Def1_RetrieveCgtResidentialPropertyResponse
 import v3.residentialPropertyDisposals.retrieveNonPpd.def2.model.response.Def2_RetrieveCgtResidentialPropertyResponse
+import v3.residentialPropertyDisposals.retrieveNonPpd.def3.model.response.Def3_RetrieveCgtResidentialPropertyResponse
 import v3.residentialPropertyDisposals.retrieveNonPpd.model.response.RetrieveCgtResidentialPropertyResponse
 
 import scala.math.Ordering.Implicits.infixOrderingOps
@@ -44,11 +45,18 @@ object RetrieveCgtResidentialPropertySchema {
     val connectorReads: Reads[DownstreamResp] = Def2_RetrieveCgtResidentialPropertyResponse.format.reads(_)
   }
 
+  case object Def3 extends RetrieveCgtResidentialPropertySchema {
+    type DownstreamResp = Def3_RetrieveCgtResidentialPropertyResponse
+    val connectorReads: Reads[DownstreamResp] = Def3_RetrieveCgtResidentialPropertyResponse.format.reads(_)
+  }
+
   def schemaFor(taxYearString: String)(implicit appConfig: AppConfig): Validated[Seq[MtdError], RetrieveCgtResidentialPropertySchema] =
     ResolveTaxYearMinimum(TaxYear.ending(appConfig.minimumPermittedTaxYear))(taxYearString) andThen schemaFor
 
   def schemaFor(taxYear: TaxYear): Validated[Seq[MtdError], RetrieveCgtResidentialPropertySchema] = {
-    if (taxYear >= TaxYear.fromMtd("2025-26")) Valid(Def2) else Valid(Def1)
+    if (taxYear >= TaxYear.fromMtd("2026-27")) Valid(Def3)
+    else if (taxYear == TaxYear.fromMtd("2025-26")) Valid(Def2)
+    else Valid(Def1)
   }
 
 }
