@@ -23,6 +23,7 @@ import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
 import v3.residentialPropertyDisposals.createAmendNonPpd.def1.Def1_CreateAmendCgtResidentialPropertyDisposalsValidator
 import v3.residentialPropertyDisposals.createAmendNonPpd.def2.Def2_CreateAmendCgtResidentialPropertyDisposalsValidator
+import v3.residentialPropertyDisposals.createAmendNonPpd.def3.Def3_CreateAmendCgtResidentialPropertyDisposalsValidator
 import v3.residentialPropertyDisposals.createAmendNonPpd.model.request.CreateAmendCgtResidentialPropertyDisposalsRequestData
 
 class CreateAmendCgtResidentialPropertyDisposalsValidatorFactorySpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
@@ -58,6 +59,12 @@ class CreateAmendCgtResidentialPropertyDisposalsValidatorFactorySpec extends Uni
     "return the Def2 validator" when {
       "given a request handled by a Def2 schema" in new Test {
         validatorFactory("2025-26") shouldBe a[Def2_CreateAmendCgtResidentialPropertyDisposalsValidator]
+      }
+    }
+
+    "return the Def3 validator" when {
+      "given a request handled by a Def3 schema" in new Test {
+        validatorFactory("2026-27") shouldBe a[Def3_CreateAmendCgtResidentialPropertyDisposalsValidator]
       }
     }
 
