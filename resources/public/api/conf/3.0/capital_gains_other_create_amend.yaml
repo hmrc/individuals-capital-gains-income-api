@@ -37,17 +37,25 @@ requestBody:
         oneOf:
           - $ref: './schemas/capital_gains_other_create_amend/def1/request.json'
           - $ref: './schemas/capital_gains_other_create_amend/def2/request.json'
+          {{#if (enabled 'r22_docs')}}
           - $ref: './schemas/capital_gains_other_create_amend/def3/request.json'
+          {{/if}}
       examples:
         TY 2024-25 or before:
           value:
             $ref: './examples/capital_gains_other_create_amend/def1/request.json'
+        {{#if (enabled 'r22_docs')}}
         TY 2025-26:
+        {{else}}
+        TY 2025-26 onwards:
+        {{/if}}
           value:
             $ref: './examples/capital_gains_other_create_amend/def2/request.json'
+        {{#if (enabled 'r22_docs')}}
         TY 2026-27 onwards:
           value:
             $ref: './examples/capital_gains_other_create_amend/def3/request.json'
+        {{/if}}
 
 responses:
   "204":
