@@ -19,12 +19,11 @@ package v3.otherCgt.createAmend.def2
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.utils.JsonErrorValidators
-import api.utils.DateUtils.getCurrentDate
 import common.errors.*
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.createAmend.def2.fixture.Def2_CreateAmendOtherCgtFixture.*
-import v3.otherCgt.createAmend.def2.model.request.{Def2_CreateAmendOtherCgtRequestBody, Def2_CreateAmendOtherCgtRequestData}
+import v3.otherCgt.createAmend.def2.model.request.Def2_CreateAmendOtherCgtRequestData
 import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
 class Def2_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValidators {
@@ -69,66 +68,19 @@ class Def2_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
     updateArrayOrObjectField(gainPath, JsNull, json)
   }
 
-  private def validator(nino: String = validNino,
-                        taxYear: String = validTaxYear,
-                        body: JsValue = fullRequestBodyMtdJson,
-                        temporalValidationEnabled: Boolean = true) =
+  private def validator(nino: String = validNino, taxYear: String = validTaxYear, body: JsValue = fullRequestBodyMtdJson) =
     new Def2_CreateAmendOtherCgtValidator(
       nino = nino,
       taxYear = taxYear,
-      body = body,
-      temporalValidationEnabled = temporalValidationEnabled
+      body = body
     )
 
   "validator" should {
     "return the parsed domain object" when {
-      def updateAllDisposalDatesJson(disposalDate: String): JsValue = Seq("cryptoassets", "otherGains", "unlistedShares")
-        .foldLeft(fullRequestBodyMtdJson) { case (updatedJson, arrayField) =>
-          updateArrayField(arrayField, "disposalDate", JsString(disposalDate), json = updatedJson)
-        }
-
-      def updateAllDisposalDatesModel(disposalDate: String): Def2_CreateAmendOtherCgtRequestBody = fullRequestBodyModel.copy(
-        cryptoassets = fullRequestBodyModel.cryptoassets.map(_.map(_.copy(disposalDate = disposalDate))),
-        otherGains = fullRequestBodyModel.otherGains.map(_.map(_.copy(disposalDate = disposalDate))),
-        unlistedShares = fullRequestBodyModel.unlistedShares.map(_.map(_.copy(disposalDate = disposalDate)))
-      )
-
-      "a valid request with past disposalDates within a non-future tax year is supplied and temporal validation is enabled" in {
+      "a valid request with past disposalDates within a non-future tax year" in {
         val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator().validateAndWrapResult()
 
         result shouldBe Right(Def2_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, fullRequestBodyModel))
-      }
-
-      "a valid request with future disposalDates within the current tax year is supplied and temporal validation is disabled" in {
-        val currentTaxYear: TaxYear    = TaxYear.currentTaxYear
-        val futureDisposalDate: String = getCurrentDate.plusDays(1).toString
-
-        val requestBodyJson: JsValue                              = updateAllDisposalDatesJson(futureDisposalDate)
-        val requestBodyModel: Def2_CreateAmendOtherCgtRequestBody = updateAllDisposalDatesModel(futureDisposalDate)
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(
-          taxYear = currentTaxYear.asMtd,
-          body = requestBodyJson,
-          temporalValidationEnabled = false
-        ).validateAndWrapResult()
-
-        result shouldBe Right(Def2_CreateAmendOtherCgtRequestData(parsedNino, currentTaxYear, requestBodyModel))
-      }
-
-      "a valid request with future disposalDates within a future tax year is supplied and temporal validation is disabled" in {
-        val futureTaxYear: TaxYear     = TaxYear.ending(TaxYear.currentTaxYear.year + 1)
-        val futureDisposalDate: String = futureTaxYear.startDate.toString
-
-        val requestBodyJson: JsValue                              = updateAllDisposalDatesJson(futureDisposalDate)
-        val requestBodyModel: Def2_CreateAmendOtherCgtRequestBody = updateAllDisposalDatesModel(futureDisposalDate)
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(
-          taxYear = futureTaxYear.asMtd,
-          body = requestBodyJson,
-          temporalValidationEnabled = false
-        ).validateAndWrapResult()
-
-        result shouldBe Right(Def2_CreateAmendOtherCgtRequestData(parsedNino, futureTaxYear, requestBodyModel))
       }
     }
 
