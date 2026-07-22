@@ -20,9 +20,10 @@ import api.config.AppConfig
 import api.controllers.validators.Validator
 import cats.data.Validated.{Invalid, Valid}
 import play.api.libs.json.JsValue
-import v3.residentialPropertyDisposals.createAmendNonPpd.CreateAmendCgtResidentialPropertyDisposalsSchema.{Def1, Def2}
+import v3.residentialPropertyDisposals.createAmendNonPpd.CreateAmendCgtResidentialPropertyDisposalsSchema.{Def1, Def2, Def3}
 import v3.residentialPropertyDisposals.createAmendNonPpd.def1.Def1_CreateAmendCgtResidentialPropertyDisposalsValidator
 import v3.residentialPropertyDisposals.createAmendNonPpd.def2.Def2_CreateAmendCgtResidentialPropertyDisposalsValidator
+import v3.residentialPropertyDisposals.createAmendNonPpd.def3.Def3_CreateAmendCgtResidentialPropertyDisposalsValidator
 import v3.residentialPropertyDisposals.createAmendNonPpd.model.request.CreateAmendCgtResidentialPropertyDisposalsRequestData
 
 import javax.inject.Inject
@@ -36,6 +37,7 @@ class CreateAmendCgtResidentialPropertyDisposalsValidatorFactory @Inject() (impl
     schema match {
       case Valid(Def1)     => new Def1_CreateAmendCgtResidentialPropertyDisposalsValidator(nino, taxYear, body)
       case Valid(Def2)     => new Def2_CreateAmendCgtResidentialPropertyDisposalsValidator(nino, taxYear, body)
+      case Valid(Def3)     => new Def3_CreateAmendCgtResidentialPropertyDisposalsValidator(nino, taxYear, body)
       case Invalid(errors) => Validator.returningErrors(errors)
     }
   }

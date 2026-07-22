@@ -31,16 +31,19 @@ object CreateAmendCgtResidentialPropertyDisposalsSchema {
 
   case object Def1 extends CreateAmendCgtResidentialPropertyDisposalsSchema
   case object Def2 extends CreateAmendCgtResidentialPropertyDisposalsSchema
+  case object Def3 extends CreateAmendCgtResidentialPropertyDisposalsSchema
 
   def schemaFor(
       taxYearString: String
   )(implicit appConfig: AppConfig): Validated[Seq[MtdError], CreateAmendCgtResidentialPropertyDisposalsSchema] =
     ResolveTaxYearMinimum(TaxYear.ending(appConfig.minimumPermittedTaxYear))(taxYearString)
-      .andThen(schemaForValidated)
+      .andThen(schemaFor)
 
-  private def schemaForValidated(
+  private def schemaFor(
       taxYear: TaxYear
   ): Validated[Seq[MtdError], CreateAmendCgtResidentialPropertyDisposalsSchema] =
-    Valid(if (taxYear >= TaxYear.fromMtd("2025-26")) Def2 else Def1)
+    if (taxYear >= TaxYear.fromMtd("2026-27")) Valid(Def3)
+    else if (taxYear == TaxYear.fromMtd("2025-26")) Valid(Def2)
+    else Valid(Def1)
 
 }
