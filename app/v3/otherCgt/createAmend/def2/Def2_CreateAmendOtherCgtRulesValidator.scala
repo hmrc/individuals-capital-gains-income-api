@@ -16,6 +16,7 @@
 
 package v3.otherCgt.createAmend.def2
 
+import api.controllers.validators.RulesValidator
 import api.controllers.validators.resolvers.*
 import api.models.domain.TaxYear
 import api.models.errors.{DateFormatError, MtdError}
@@ -28,7 +29,7 @@ import v3.otherCgt.createAmend.def2.model.request.*
 
 import java.time.LocalDate
 
-object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
+object Def2_CreateAmendOtherCgtRulesValidator extends RulesValidator[Def2_CreateAmendOtherCgtRequestData] {
 
   private val assetDescriptionAndTokenNameRegex = "^[0-9a-zA-Z{À-˿'}\\- _&`():.'^]{1,90}$".r
   private val companyNameRegex                  = "^.{0,160}$".r
@@ -36,19 +37,13 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   private val resolveParsedNumber               = ResolveParsedNumber()
   private val resolveBigInteger                 = ResolveBigInteger(1, 99999999999L)
 
-  private def combine(results: Validated[Seq[MtdError], ?]*): Validated[Seq[MtdError], Unit] = results.traverse_(identity)
-
-  private def resolveEnum[A](parser: PartialFunction[String, A], error: => MtdError): Resolver[String, A] =
-    resolvePartialFunction(error)(parser)
-
-  def validateBusinessRules(parsed: Def2_CreateAmendOtherCgtRequestData,
-                            temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Def2_CreateAmendOtherCgtRequestData] = {
+  def validateBusinessRules(parsed: Def2_CreateAmendOtherCgtRequestData): Validated[Seq[MtdError], Def2_CreateAmendOtherCgtRequestData] = {
     import parsed.body.*
 
     combine(
-      validateCryptoassets(cryptoassets, parsed.taxYear, temporalValidationEnabled),
-      validateOtherGains(otherGains, parsed.taxYear, temporalValidationEnabled),
-      validateUnlistedShares(unlistedShares, parsed.taxYear, temporalValidationEnabled),
+      validateCryptoassets(cryptoassets, parsed.taxYear),
+      validateOtherGains(otherGains, parsed.taxYear),
+      validateUnlistedShares(unlistedShares, parsed.taxYear),
       validateGainExcludedIndexedSecurities(gainExcludedIndexedSecurities),
       validateQualifyingAssetHoldingCompany(qualifyingAssetHoldingCompany),
       validateNonStandardGains(nonStandardGains),
@@ -71,8 +66,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   private def validateAcquisitionAndDisposalDates(acquisitionDate: LocalDate,
                                                   disposalDate: LocalDate,
                                                   taxYear: TaxYear,
-                                                  basePath: String,
-                                                  temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+                                                  basePath: String): Validated[Seq[MtdError], Unit] = {
     val currentDate = getCurrentDate
 
     val isAcquisitionDateInvalid = acquisitionDate.isAfter(disposalDate)
@@ -81,7 +75,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
       val isOutsideTaxYear = disposalDate.isBefore(taxYear.startDate) || disposalDate.isAfter(taxYear.endDate)
       val isAfterToday     = disposalDate.isAfter(currentDate)
 
-      if (temporalValidationEnabled) isOutsideTaxYear || isAfterToday else isOutsideTaxYear
+      isOutsideTaxYear || isAfterToday
     }
 
     val validatedAcquisitionDateRule = if (isAcquisitionDateInvalid) {
@@ -102,19 +96,16 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   private def resolveAndValidateDates(acquisitionDate: String,
                                       disposalDate: String,
                                       basePath: String,
-                                      taxYear: TaxYear,
-                                      temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+                                      taxYear: TaxYear): Validated[Seq[MtdError], Unit] = {
     (
       ResolveIsoDate(acquisitionDate, DateFormatError.withPath(s"$basePath/acquisitionDate")),
       ResolveIsoDate(disposalDate, DateFormatError.withPath(s"$basePath/disposalDate"))
     ).tupled.andThen { case (acquisitionDate, disposalDate) =>
-      validateAcquisitionAndDisposalDates(acquisitionDate, disposalDate, taxYear, basePath, temporalValidationEnabled)
+      validateAcquisitionAndDisposalDates(acquisitionDate, disposalDate, taxYear, basePath)
     }
   }
 
-  private def validateCryptoassets(cryptoassets: Option[Seq[Cryptoassets]],
-                                   taxYear: TaxYear,
-                                   temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+  private def validateCryptoassets(cryptoassets: Option[Seq[Cryptoassets]], taxYear: TaxYear): Validated[Seq[MtdError], Unit] = {
     cryptoassets.fold(Valid(())) { cryptoassets =>
       cryptoassets.zipWithIndex.traverse_ { case (cryptoassets, index) =>
         val basePath = s"/cryptoassets/$index"
@@ -137,8 +128,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
           cryptoassets.acquisitionDate,
           cryptoassets.disposalDate,
           basePath,
-          taxYear,
-          temporalValidationEnabled
+          taxYear
         )
 
         val validatedMandatoryDecimalNumbers = List(
@@ -185,9 +175,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
     }
   }
 
-  private def validateOtherGains(otherGains: Option[Seq[OtherGains]],
-                                 taxYear: TaxYear,
-                                 temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+  private def validateOtherGains(otherGains: Option[Seq[OtherGains]], taxYear: TaxYear): Validated[Seq[MtdError], Unit] = {
     otherGains.fold(Valid(())) { otherGains =>
       otherGains.zipWithIndex.traverse_ { case (otherGains, index) =>
         val basePath = s"/otherGains/$index"
@@ -221,8 +209,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
           otherGains.acquisitionDate,
           otherGains.disposalDate,
           basePath,
-          taxYear,
-          temporalValidationEnabled
+          taxYear
         )
 
         val validatedMandatoryDecimalNumbers = List(
@@ -295,9 +282,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
     }
   }
 
-  private def validateUnlistedShares(unlistedShares: Option[Seq[UnlistedShares]],
-                                     taxYear: TaxYear,
-                                     temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+  private def validateUnlistedShares(unlistedShares: Option[Seq[UnlistedShares]], taxYear: TaxYear): Validated[Seq[MtdError], Unit] = {
     unlistedShares.fold(Valid(())) { unlistedShares =>
       unlistedShares.zipWithIndex.traverse_ { case (unlistedShares, index) =>
         val basePath = s"/unlistedShares/$index"
@@ -326,8 +311,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
           unlistedShares.acquisitionDate,
           unlistedShares.disposalDate,
           basePath,
-          taxYear,
-          temporalValidationEnabled
+          taxYear
         )
 
         val validatedMandatoryDecimalNumbers = List(

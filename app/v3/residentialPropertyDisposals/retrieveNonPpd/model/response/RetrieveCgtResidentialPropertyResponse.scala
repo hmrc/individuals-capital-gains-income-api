@@ -20,6 +20,7 @@ import api.utils.JsonWritesUtil.writesFrom
 import play.api.libs.json.OWrites
 import v3.residentialPropertyDisposals.retrieveNonPpd.def1.model.response.Def1_RetrieveCgtResidentialPropertyResponse
 import v3.residentialPropertyDisposals.retrieveNonPpd.def2.model.response.Def2_RetrieveCgtResidentialPropertyResponse
+import v3.residentialPropertyDisposals.retrieveNonPpd.def3.model.response.Def3_RetrieveCgtResidentialPropertyResponse
 
 trait RetrieveCgtResidentialPropertyResponse
 
@@ -31,6 +32,9 @@ object RetrieveCgtResidentialPropertyResponse {
 
     case def2: Def2_RetrieveCgtResidentialPropertyResponse =>
       implicitly[OWrites[Def2_RetrieveCgtResidentialPropertyResponse]].writes(def2)
+
+    case def3: Def3_RetrieveCgtResidentialPropertyResponse =>
+      implicitly[OWrites[Def3_RetrieveCgtResidentialPropertyResponse]].writes(def3)
   }
 
 }

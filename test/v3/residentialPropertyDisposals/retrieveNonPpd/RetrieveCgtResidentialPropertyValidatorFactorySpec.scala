@@ -21,6 +21,7 @@ import config.MockAppConfig
 import support.UnitSpec
 import v3.residentialPropertyDisposals.retrieveNonPpd.def1.Def1_RetrieveCgtResidentialPropertyValidator
 import v3.residentialPropertyDisposals.retrieveNonPpd.def2.Def2_RetrieveCgtResidentialPropertyValidator
+import v3.residentialPropertyDisposals.retrieveNonPpd.def3.Def3_RetrieveCgtResidentialPropertyValidator
 import v3.residentialPropertyDisposals.retrieveNonPpd.model.request.RetrieveCgtResidentialPropertyRequestData
 
 class RetrieveCgtResidentialPropertyValidatorFactorySpec extends UnitSpec with MockAppConfig {
@@ -45,6 +46,11 @@ class RetrieveCgtResidentialPropertyValidatorFactorySpec extends UnitSpec with M
     "given a request corresponding to a Def2 schema" should {
       "return a Def2 validator" in new Test {
         validatorFor("2025-26") shouldBe a[Def2_RetrieveCgtResidentialPropertyValidator]
+      }
+    }
+    "given a request corresponding to a Def3 schema" should {
+      "return a Def3 validator" in new Test {
+        validatorFor("2026-27") shouldBe a[Def3_RetrieveCgtResidentialPropertyValidator]
       }
     }
     "given a request where no valid schema could be determined" should {

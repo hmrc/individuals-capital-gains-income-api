@@ -20,9 +20,10 @@ import api.config.AppConfig
 import api.controllers.validators.Validator
 import api.models.errors.MtdError
 import cats.data.Validated.{Invalid, Valid}
-import v3.residentialPropertyDisposals.retrieveNonPpd.RetrieveCgtResidentialPropertySchema.{Def1, Def2}
+import v3.residentialPropertyDisposals.retrieveNonPpd.RetrieveCgtResidentialPropertySchema.{Def1, Def2, Def3}
 import v3.residentialPropertyDisposals.retrieveNonPpd.def1.Def1_RetrieveCgtResidentialPropertyValidator
 import v3.residentialPropertyDisposals.retrieveNonPpd.def2.Def2_RetrieveCgtResidentialPropertyValidator
+import v3.residentialPropertyDisposals.retrieveNonPpd.def3.Def3_RetrieveCgtResidentialPropertyValidator
 import v3.residentialPropertyDisposals.retrieveNonPpd.model.request.RetrieveCgtResidentialPropertyRequestData
 
 import javax.inject.Inject
@@ -35,6 +36,7 @@ class RetrieveCgtResidentialPropertyValidatorFactory @Inject() (implicit appConf
     schema match {
       case Valid(Def1)     => new Def1_RetrieveCgtResidentialPropertyValidator(nino, taxYear)
       case Valid(Def2)     => new Def2_RetrieveCgtResidentialPropertyValidator(nino, taxYear)
+      case Valid(Def3)     => new Def3_RetrieveCgtResidentialPropertyValidator(nino, taxYear)
       case Invalid(errors) => Validator.returningErrors(errors)
     }
 

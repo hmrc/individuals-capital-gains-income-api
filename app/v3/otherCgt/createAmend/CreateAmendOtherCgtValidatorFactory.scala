@@ -20,9 +20,10 @@ import api.config.AppConfig
 import api.controllers.validators.Validator
 import cats.data.Validated.{Invalid, Valid}
 import play.api.libs.json.JsValue
-import v3.otherCgt.createAmend.CreateAmendOtherCgtSchema.{Def1, Def2}
+import v3.otherCgt.createAmend.CreateAmendOtherCgtSchema.{Def1, Def2, Def3}
 import v3.otherCgt.createAmend.def1.Def1_CreateAmendOtherCgtValidator
 import v3.otherCgt.createAmend.def2.Def2_CreateAmendOtherCgtValidator
+import v3.otherCgt.createAmend.def3.Def3_CreateAmendOtherCgtValidator
 import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
 import javax.inject.{Inject, Singleton}
@@ -35,7 +36,8 @@ class CreateAmendOtherCgtValidatorFactory @Inject() (implicit appConfig: AppConf
 
     schema match {
       case Valid(Def1)     => new Def1_CreateAmendOtherCgtValidator(nino, taxYear, body)
-      case Valid(Def2)     => new Def2_CreateAmendOtherCgtValidator(nino, taxYear, body, temporalValidationEnabled)
+      case Valid(Def2)     => new Def2_CreateAmendOtherCgtValidator(nino, taxYear, body)
+      case Valid(Def3)     => new Def3_CreateAmendOtherCgtValidator(nino, taxYear, body, temporalValidationEnabled)
       case Invalid(errors) => Validator.returningErrors(errors)
     }
   }
