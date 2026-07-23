@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.UnlistedShares
 
-class UnlistedSharesSpec extends UnitSpec {
+class CryptoassetsSpec extends UnitSpec {
 
   val minimumValidResponseJson: JsValue = Json.parse(
     """
       |{
       |     "numberOfDisposals": 1,
-      |     "assetDescription": "My asset",
-      |     "companyName": "Bob the Builder",
-      |     "acquisitionDate": "2025-04-10",
-      |     "disposalDate": "2025-04-12",
+      |     "assetDescription": "description string",
+      |     "tokenName": "Name of token",
+      |     "acquisitionDate": "2025-08-04",
+      |     "disposalDate": "2025-09-04",
       |     "disposalProceeds": 99999999999.99,
       |     "allowableCosts": 99999999999.99,
       |     "gainsBeforeLosses": 99999999999.99
@@ -38,52 +37,53 @@ class UnlistedSharesSpec extends UnitSpec {
        """.stripMargin
   )
 
-  val minimumResponseModel: UnlistedShares = UnlistedShares(
+  val invalidJson: JsValue = Json.parse(
+    """
+      |{
+      |   "numberOfDisposals":true
+      |}
+       """.stripMargin
+  )
+
+  val minimumResponseModel: Cryptoassets = Cryptoassets(
     numberOfDisposals = 1,
-    assetDescription = "My asset",
-    companyName = "Bob the Builder",
-    companyRegistrationNumber = None,
-    acquisitionDate = "2025-04-10",
-    disposalDate = "2025-04-12",
+    assetDescription = "description string",
+    tokenName = "Name of token",
+    acquisitionDate = "2025-08-04",
+    disposalDate = "2025-09-04",
     disposalProceeds = 99999999999.99,
     allowableCosts = 99999999999.99,
     gainsWithBadr = None,
-    gainsWithInv = None,
     gainsBeforeLosses = 99999999999.99,
     losses = None,
     claimOrElectionCodes = None,
-    gainsReportedOnRtt = None,
-    gainsExceedingLifetimeLimit = None,
-    gainsUnderSeis = None,
-    lossUsedAgainstGeneralIncome = None,
-    eisOrSeisReliefDueCurrentYear = None,
-    lossesUsedAgainstGeneralIncomePreviousYear = None,
-    eisOrSeisReliefDuePreviousYear = None,
+    amountOfNetGain = None,
+    amountOfNetLoss = None,
     rttTaxPaid = None
   )
 
-  "UnlistedShares" when {
+  "Cryptoassets" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        unlistedSharesValidDownstreamResponseJson.as[UnlistedShares] shouldBe unlistedSharesResponseModel
+        cryptoassetsValidDownstreamResponseJson.as[Cryptoassets] shouldBe cryptoassetsResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[UnlistedShares] shouldBe minimumResponseModel
+        minimumValidResponseJson.as[Cryptoassets] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        JsObject.empty.validate[UnlistedShares] shouldBe a[JsError]
+        invalidJson.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
       }
     }
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(unlistedSharesResponseModel) shouldBe unlistedSharesValidMtdResponseJson
+        Json.toJson(cryptoassetsResponseModel) shouldBe cryptoassetsValidMtdResponseJson
       }
     }
   }

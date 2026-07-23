@@ -14,47 +14,41 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.{Cryptoassets, Def2_RetrieveOtherCgtResponse}
 
-class CryptoassetsSpec extends UnitSpec {
+class OtherGainsSpec extends UnitSpec {
 
   val minimumValidResponseJson: JsValue = Json.parse(
     """
       |{
-      |     "numberOfDisposals": 1,
-      |     "assetDescription": "description string",
-      |     "tokenName": "Name of token",
-      |     "acquisitionDate": "2025-08-04",
-      |     "disposalDate": "2025-09-04",
-      |     "disposalProceeds": 99999999999.99,
-      |     "allowableCosts": 99999999999.99,
-      |     "gainsBeforeLosses": 99999999999.99
+      |   "assetType": "otherProperty",
+      |   "numberOfDisposals": 1,
+      |   "assetDescription": "example of this asset",
+      |   "acquisitionDate": "2025-04-07",
+      |   "disposalDate": "2025-07-10",
+      |   "disposalProceeds": 99999999999.99,
+      |   "allowableCosts": 99999999999.99,
+      |   "gainsBeforeLosses": 99999999999.99
       |}
-       """.stripMargin
+     """.stripMargin
   )
 
-  val invalidJson: JsValue = Json.parse(
-    """
-      |{
-      |   "numberOfDisposals":true
-      |}
-       """.stripMargin
-  )
-
-  val minimumResponseModel: Cryptoassets = Cryptoassets(
+  val minimumResponseModel: OtherGains = OtherGains(
+    assetType = "other-property",
     numberOfDisposals = 1,
-    assetDescription = "description string",
-    tokenName = "Name of token",
-    acquisitionDate = "2025-08-04",
-    disposalDate = "2025-09-04",
+    assetDescription = "example of this asset",
+    companyName = None,
+    companyRegistrationNumber = None,
+    acquisitionDate = "2025-04-07",
+    disposalDate = "2025-07-10",
     disposalProceeds = 99999999999.99,
     allowableCosts = 99999999999.99,
     gainsWithBadr = None,
+    gainsWithInv = None,
     gainsBeforeLosses = 99999999999.99,
     losses = None,
     claimOrElectionCodes = None,
@@ -63,28 +57,28 @@ class CryptoassetsSpec extends UnitSpec {
     rttTaxPaid = None
   )
 
-  "Cryptoassets" when {
+  "OtherGains" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        cryptoassetsValidDownstreamResponseJson.as[Cryptoassets] shouldBe cryptoassetsResponseModel
+        otherGainsValidDownstreamResponseJson.as[OtherGains] shouldBe otherGainsResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[Cryptoassets] shouldBe minimumResponseModel
+        minimumValidResponseJson.as[OtherGains] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        invalidJson.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
+        JsObject.empty.validate[OtherGains] shouldBe a[JsError]
       }
     }
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(cryptoassetsResponseModel) shouldBe cryptoassetsValidMtdResponseJson
+        Json.toJson(otherGainsResponseModel) shouldBe otherGainsValidMtdResponseJson
       }
     }
   }

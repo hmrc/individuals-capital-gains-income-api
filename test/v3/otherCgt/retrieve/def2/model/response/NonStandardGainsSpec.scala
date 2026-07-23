@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{nonStandardGainsResponseModel, nonStandardGainsValidResponseJson}
-import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, NonStandardGains}
 
 class NonStandardGainsSpec extends UnitSpec {
 

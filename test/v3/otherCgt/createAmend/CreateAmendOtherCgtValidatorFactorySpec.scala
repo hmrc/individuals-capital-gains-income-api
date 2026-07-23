@@ -17,7 +17,6 @@
 package v3.otherCgt.createAmend
 
 import api.controllers.validators.{AlwaysErrorsValidator, Validator}
-import common.utils.JsonErrorValidators
 import config.MockAppConfig
 import play.api.libs.json.JsObject
 import support.UnitSpec
@@ -26,7 +25,7 @@ import v3.otherCgt.createAmend.def2.Def2_CreateAmendOtherCgtValidator
 import v3.otherCgt.createAmend.def3.Def3_CreateAmendOtherCgtValidator
 import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
-class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfig {
 
   private def validatorFor(taxYear: String): Validator[CreateAmendOtherCgtRequestData] = new CreateAmendOtherCgtValidatorFactory().validator(
     nino = "ignoredNino",

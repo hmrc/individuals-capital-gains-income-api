@@ -25,7 +25,7 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import v3.residentialPropertyDisposals.retrieveNonPpd.def2.fixture.Def2_RetrieveCgtResidentialPropertyControllerFixture
+import v3.residentialPropertyDisposals.retrieveNonPpd.def3.fixture.Def3_RetrieveCgtResidentialPropertyControllerFixture
 
 class Def3_RetrieveCgtResidentialPropertyControllerHipISpec extends IntegrationBaseSpec {
 
@@ -35,10 +35,10 @@ class Def3_RetrieveCgtResidentialPropertyControllerHipISpec extends IntegrationB
     def taxYear: String = "2026-27"
 
     def downstreamUri: String       = s"/itsa/income-tax/v1/26-27/income/disposals/residential-property/$nino"
-    val downstreamResponse: JsValue = Def2_RetrieveCgtResidentialPropertyControllerFixture.downstreamJson
+    val downstreamResponse: JsValue = Def3_RetrieveCgtResidentialPropertyControllerFixture.downstreamJson
 
     private def mtdUri: String = s"/residential-property/$nino/$taxYear"
-    val mtdResponse: JsValue   = Def2_RetrieveCgtResidentialPropertyControllerFixture.mtdJson
+    val mtdResponse: JsValue   = Def3_RetrieveCgtResidentialPropertyControllerFixture.mtdJson
 
     def setupStubs(): StubMapping
 

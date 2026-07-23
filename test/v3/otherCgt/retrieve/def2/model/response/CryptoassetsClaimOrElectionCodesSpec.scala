@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import api.utils.UnitSpec
 import api.utils.enums.EnumJsonSpecSupport
-import v3.otherCgt.retrieve.def2.model.response.UnlistedSharesClaimOrElectionCodes
-import v3.otherCgt.retrieve.def2.model.response.UnlistedSharesClaimOrElectionCodes.*
+import v3.otherCgt.retrieve.def2.model.response.CryptoassetsClaimOrElectionCodes.*
 
-class UnlistedSharesClaimOrElectionCodesSpec extends UnitSpec with EnumJsonSpecSupport {
+class CryptoassetsClaimOrElectionCodesSpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testRoundTrip[UnlistedSharesClaimOrElectionCodes](
+  testRoundTrip[CryptoassetsClaimOrElectionCodes](
     ("GHO", GHO),
     ("ROR", ROR),
     ("PRO", PRO),
     ("NVC", NVC),
-    ("ESH", ESH),
     ("OTH", OTH),
-    ("BAD", BAD),
-    ("INV", INV),
-    ("EOT", EOT)
+    ("BAD", BAD)
   )
 
 }

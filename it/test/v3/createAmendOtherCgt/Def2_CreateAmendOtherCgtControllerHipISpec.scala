@@ -364,8 +364,6 @@ class Def2_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
 
     def downstreamUrl: String = s"/itsa/income-tax/v1/25-26/income/disposals/other-gains/$nino"
 
-    val suspendTemporalValidations: String = "false"
-
     def setupStubs(): Unit = ()
 
     def request: WSRequest = {
@@ -376,8 +374,7 @@ class Def2_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
       buildRequest(mtdUri)
         .withHttpHeaders(
           (ACCEPT, "application/vnd.hmrc.3.0+json"),
-          (AUTHORIZATION, "Bearer 123"),
-          ("suspend-temporal-validations", suspendTemporalValidations)
+          (AUTHORIZATION, "Bearer 123")
         )
     }
 
@@ -385,7 +382,7 @@ class Def2_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
 
   "Calling the 'Create and Amend Other Capital Gains and Disposals' endpoint" should {
     "return a 204 status code" when {
-      "any valid request is made with past disposalDates within a non-future tax year and suspendTemporalValidations is false" in new Test {
+      "any valid request is made" in new Test {
         override def setupStubs(): Unit = DownstreamStub.onSuccess(
           DownstreamStub.PUT,
           downstreamUrl,

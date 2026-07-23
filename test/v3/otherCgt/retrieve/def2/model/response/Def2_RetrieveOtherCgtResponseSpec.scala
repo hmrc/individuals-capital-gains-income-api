@@ -14,52 +14,36 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.QualifyingAssetHoldingCompany
 
-class QualifyingAssetHoldingCompanySpec extends UnitSpec {
+class Def2_RetrieveOtherCgtResponseSpec extends UnitSpec {
 
-  val invalidJson: JsValue = Json.parse(
-    """
-      |{
-      |   "gainsFromQAHCBeforeLosses":true
-      |}
-     """.stripMargin
-  )
-
-  val minimumResponseModel: QualifyingAssetHoldingCompany = QualifyingAssetHoldingCompany(
-    gainsFromQahcBeforeLosses = None,
-    lossesFromQahc = None
-  )
-
-  "QualifyingAssetHoldingCompany" when {
+  "Def2_RetrieveOtherCgtResponse" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        qualifyingAssetHoldingCompanyValidDownstreamResponseJson.as[QualifyingAssetHoldingCompany] shouldBe
-          qualifyingAssetHoldingCompanyResponseModel
+        fullValidDownstreamResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe fullResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        JsObject.empty.as[QualifyingAssetHoldingCompany] shouldBe minimumResponseModel
+        minimumValidResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        invalidJson.validate[QualifyingAssetHoldingCompany] shouldBe a[JsError]
+        JsObject.empty.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
       }
     }
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(qualifyingAssetHoldingCompanyResponseModel) shouldBe
-          qualifyingAssetHoldingCompanyValidMtdResponseJson
+        Json.toJson(fullResponseModel) shouldBe fullValidMtdResponseJson
       }
     }
   }

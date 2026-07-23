@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request
+package v3.otherCgt.retrieve.def2.model.response
 
 import api.utils.UnitSpec
 import api.utils.enums.EnumJsonSpecSupport
-import v3.residentialPropertyDisposals.createAmendNonPpd.def2.model.request.ClaimOrElectionCodes.*
+import v3.otherCgt.retrieve.def2.model.response.UnlistedSharesClaimOrElectionCodes.*
 
-class ClaimOrElectionCodesSpec extends UnitSpec with EnumJsonSpecSupport {
+class UnlistedSharesClaimOrElectionCodesSpec extends UnitSpec with EnumJsonSpecSupport {
 
-  testRoundTrip[ClaimOrElectionCodes](
-    ("PRR", PRR),
-    ("LET", LET),
+  testRoundTrip[UnlistedSharesClaimOrElectionCodes](
     ("GHO", GHO),
     ("ROR", ROR),
     ("PRO", PRO),
-    ("BAD", BAD),
     ("NVC", NVC),
-    ("OTH", OTH)
+    ("ESH", ESH),
+    ("OTH", OTH),
+    ("BAD", BAD),
+    ("INV", INV),
+    ("EOT", EOT)
   )
 
 }

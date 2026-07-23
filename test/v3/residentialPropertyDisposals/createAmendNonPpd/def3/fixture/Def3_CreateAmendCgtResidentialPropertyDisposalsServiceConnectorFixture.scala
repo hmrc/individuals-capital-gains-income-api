@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package v3.residentialPropertyDisposals.createAmendNonPpd.def3.model.fixture
+package v3.residentialPropertyDisposals.createAmendNonPpd.def3.fixture
 
 import v3.residentialPropertyDisposals.createAmendNonPpd.def3.model.request
 import v3.residentialPropertyDisposals.createAmendNonPpd.def3.model.request.{Def3_CreateAmendCgtResidentialPropertyDisposalsRequestBody, Disposal}

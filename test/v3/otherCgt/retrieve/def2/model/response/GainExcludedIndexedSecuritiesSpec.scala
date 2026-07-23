@@ -14,40 +14,39 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
-import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{lossesResponseModel, lossesValidResponseJson}
-import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, Losses}
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{
+  gainExcludedIndexedSecuritiesResponseModel,
+  gainExcludedIndexedSecuritiesValidResponseJson
+}
 
-class LossesSpec extends UnitSpec {
+class GainExcludedIndexedSecuritiesSpec extends UnitSpec {
 
   val invalidJson: JsValue = Json.parse(
     """
       |{
-      |   "broughtForwardLossesUsedInCurrentYear":true
+      |   "gainsFromExcludedSecurities": true
       |}
-     """.stripMargin
+       """.stripMargin
   )
 
-  val minimumResponseModel: Losses = Losses(
-    broughtForwardLossesUsedInCurrentYear = None,
-    setAgainstInYearGains = None,
-    setAgainstEarlierYear = None,
-    lossesToCarryForward = None
+  val minimumResponseModel: GainExcludedIndexedSecurities = GainExcludedIndexedSecurities(
+    gainsFromExcludedSecurities = None
   )
 
-  "Losses" when {
+  "GainExcludedIndexedSecurities" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        lossesValidResponseJson.as[Losses] shouldBe lossesResponseModel
+        gainExcludedIndexedSecuritiesValidResponseJson.as[GainExcludedIndexedSecurities] shouldBe gainExcludedIndexedSecuritiesResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        JsObject.empty.as[Losses] shouldBe minimumResponseModel
+        JsObject.empty.as[GainExcludedIndexedSecurities] shouldBe minimumResponseModel
       }
     }
 
@@ -59,7 +58,7 @@ class LossesSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(lossesResponseModel) shouldBe lossesValidResponseJson
+        Json.toJson(gainExcludedIndexedSecuritiesResponseModel) shouldBe gainExcludedIndexedSecuritiesValidResponseJson
       }
     }
   }

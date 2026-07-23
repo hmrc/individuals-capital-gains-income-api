@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "TY 2025-26 {{#unless (enabled 'r22_docs')}} onwards{{/unless}}",
+  "title": "TY 2025-26 {{#unless (enabled 'r22_cgt_docs')}} onwards{{/unless}}",
   "type": "object",
   "properties": {
     "disposals": {

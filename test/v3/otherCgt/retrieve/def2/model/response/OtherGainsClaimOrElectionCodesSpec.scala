@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import api.utils.UnitSpec
 import api.utils.enums.EnumJsonSpecSupport
-import v3.otherCgt.retrieve.def2.model.response.OtherGainsClaimOrElectionCodes
 import v3.otherCgt.retrieve.def2.model.response.OtherGainsClaimOrElectionCodes.*
 
 class OtherGainsClaimOrElectionCodesSpec extends UnitSpec with EnumJsonSpecSupport {

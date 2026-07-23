@@ -14,49 +14,51 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
-import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{adjustmentsResponseModel, adjustmentsValidResponseJson}
-import v3.otherCgt.retrieve.def2.model.response.{Adjustments, Def2_RetrieveOtherCgtResponse}
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
 
-class AdjustmentsSpec extends UnitSpec {
+class QualifyingAssetHoldingCompanySpec extends UnitSpec {
 
   val invalidJson: JsValue = Json.parse(
     """
       |{
-      |   "adjustmentAmount":true
+      |   "gainsFromQAHCBeforeLosses":true
       |}
-      """.stripMargin
+     """.stripMargin
   )
 
-  val minimumResponseModel: Adjustments = Adjustments(
-    adjustmentAmount = None
+  val minimumResponseModel: QualifyingAssetHoldingCompany = QualifyingAssetHoldingCompany(
+    gainsFromQahcBeforeLosses = None,
+    lossesFromQahc = None
   )
 
-  "Adjustments" when {
+  "QualifyingAssetHoldingCompany" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        adjustmentsValidResponseJson.as[Adjustments] shouldBe adjustmentsResponseModel
+        qualifyingAssetHoldingCompanyValidDownstreamResponseJson.as[QualifyingAssetHoldingCompany] shouldBe
+          qualifyingAssetHoldingCompanyResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        JsObject.empty.as[Adjustments] shouldBe minimumResponseModel
+        JsObject.empty.as[QualifyingAssetHoldingCompany] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        invalidJson.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
+        invalidJson.validate[QualifyingAssetHoldingCompany] shouldBe a[JsError]
       }
     }
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(adjustmentsResponseModel) shouldBe adjustmentsValidResponseJson
+        Json.toJson(qualifyingAssetHoldingCompanyResponseModel) shouldBe
+          qualifyingAssetHoldingCompanyValidMtdResponseJson
       }
     }
   }

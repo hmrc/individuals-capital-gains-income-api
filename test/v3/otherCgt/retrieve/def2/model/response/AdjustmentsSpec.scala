@@ -14,38 +14,36 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
-import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.{Def2_RetrieveOtherCgtResponse, LifetimeAllowance}
+import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{adjustmentsResponseModel, adjustmentsValidResponseJson}
 
-class LifetimeAllowanceSpec extends UnitSpec {
+class AdjustmentsSpec extends UnitSpec {
 
   val invalidJson: JsValue = Json.parse(
     """
       |{
-      |   "lifetimeAllowanceBADR":true
+      |   "adjustmentAmount":true
       |}
       """.stripMargin
   )
 
-  val minimumResponseModel: LifetimeAllowance = LifetimeAllowance(
-    lifetimeAllowanceBadr = None,
-    lifetimeAllowanceInv = None
+  val minimumResponseModel: Adjustments = Adjustments(
+    adjustmentAmount = None
   )
 
-  "LifetimeAllowance" when {
+  "Adjustments" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        lifetimeAllowanceValidDownstreamResponseJson.as[LifetimeAllowance] shouldBe lifetimeAllowanceResponseModel
+        adjustmentsValidResponseJson.as[Adjustments] shouldBe adjustmentsResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        JsObject.empty.as[LifetimeAllowance] shouldBe minimumResponseModel
+        JsObject.empty.as[Adjustments] shouldBe minimumResponseModel
       }
     }
 
@@ -57,7 +55,7 @@ class LifetimeAllowanceSpec extends UnitSpec {
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(lifetimeAllowanceResponseModel) shouldBe lifetimeAllowanceValidMtdResponseJson
+        Json.toJson(adjustmentsResponseModel) shouldBe adjustmentsValidResponseJson
       }
     }
   }

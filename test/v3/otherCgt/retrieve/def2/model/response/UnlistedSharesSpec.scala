@@ -14,38 +14,36 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.OtherGains
 
-class OtherGainsSpec extends UnitSpec {
+class UnlistedSharesSpec extends UnitSpec {
 
   val minimumValidResponseJson: JsValue = Json.parse(
     """
       |{
-      |   "assetType": "otherProperty",
-      |   "numberOfDisposals": 1,
-      |   "assetDescription": "example of this asset",
-      |   "acquisitionDate": "2025-04-07",
-      |   "disposalDate": "2025-07-10",
-      |   "disposalProceeds": 99999999999.99,
-      |   "allowableCosts": 99999999999.99,
-      |   "gainsBeforeLosses": 99999999999.99
+      |     "numberOfDisposals": 1,
+      |     "assetDescription": "My asset",
+      |     "companyName": "Bob the Builder",
+      |     "acquisitionDate": "2025-04-10",
+      |     "disposalDate": "2025-04-12",
+      |     "disposalProceeds": 99999999999.99,
+      |     "allowableCosts": 99999999999.99,
+      |     "gainsBeforeLosses": 99999999999.99
       |}
-     """.stripMargin
+       """.stripMargin
   )
 
-  val minimumResponseModel: OtherGains = OtherGains(
-    assetType = "other-property",
+  val minimumResponseModel: UnlistedShares = UnlistedShares(
     numberOfDisposals = 1,
-    assetDescription = "example of this asset",
-    companyName = None,
+    assetDescription = "My asset",
+    companyName = "Bob the Builder",
     companyRegistrationNumber = None,
-    acquisitionDate = "2025-04-07",
-    disposalDate = "2025-07-10",
+    acquisitionDate = "2025-04-10",
+    disposalDate = "2025-04-12",
     disposalProceeds = 99999999999.99,
     allowableCosts = 99999999999.99,
     gainsWithBadr = None,
@@ -53,33 +51,38 @@ class OtherGainsSpec extends UnitSpec {
     gainsBeforeLosses = 99999999999.99,
     losses = None,
     claimOrElectionCodes = None,
-    amountOfNetGain = None,
-    amountOfNetLoss = None,
+    gainsReportedOnRtt = None,
+    gainsExceedingLifetimeLimit = None,
+    gainsUnderSeis = None,
+    lossUsedAgainstGeneralIncome = None,
+    eisOrSeisReliefDueCurrentYear = None,
+    lossesUsedAgainstGeneralIncomePreviousYear = None,
+    eisOrSeisReliefDuePreviousYear = None,
     rttTaxPaid = None
   )
 
-  "OtherGains" when {
+  "UnlistedShares" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        otherGainsValidDownstreamResponseJson.as[OtherGains] shouldBe otherGainsResponseModel
+        unlistedSharesValidDownstreamResponseJson.as[UnlistedShares] shouldBe unlistedSharesResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[OtherGains] shouldBe minimumResponseModel
+        minimumValidResponseJson.as[UnlistedShares] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        JsObject.empty.validate[OtherGains] shouldBe a[JsError]
+        JsObject.empty.validate[UnlistedShares] shouldBe a[JsError]
       }
     }
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(otherGainsResponseModel) shouldBe otherGainsValidMtdResponseJson
+        Json.toJson(unlistedSharesResponseModel) shouldBe unlistedSharesValidMtdResponseJson
       }
     }
   }

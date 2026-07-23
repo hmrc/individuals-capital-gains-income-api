@@ -17,13 +17,11 @@
 package v3.residentialPropertyDisposals.createAmendNonPpd.def3.model.request
 
 import api.utils.enums.Enums
-import play.api.libs.json.Format
 
 enum ClaimOrElectionCodes {
   case PRR, LET, GHO, ROR, PRO, BAD, NVC, OTH
 }
 
 object ClaimOrElectionCodes {
-  given Format[ClaimOrElectionCodes]                        = Enums.format(values)
   val parser: PartialFunction[String, ClaimOrElectionCodes] = Enums.parser(values)
 }

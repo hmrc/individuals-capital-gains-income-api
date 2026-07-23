@@ -25,7 +25,7 @@ import play.api.http.Status.*
 import play.api.libs.json.{JsValue, Json}
 import play.api.libs.ws.{WSRequest, WSResponse}
 import play.api.test.Helpers.AUTHORIZATION
-import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.{fullValidDownstreamResponseJson, fullValidMtdResponseJson}
+import v3.otherCgt.retrieve.def3.fixture.Def3_RetrieveOtherCgtFixture.{fullValidDownstreamResponseJson, fullValidMtdResponseJson}
 
 class Def3_RetrieveOtherCgtControllerHipISpec extends IntegrationBaseSpec {
 

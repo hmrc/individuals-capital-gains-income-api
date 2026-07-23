@@ -14,37 +14,49 @@
  * limitations under the License.
  */
 
-package v3.otherCgt.retrieve.def2.response
+package v3.otherCgt.retrieve.def2.model.response
 
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.retrieve.def2.fixture.Def2_RetrieveOtherCgtFixture.*
-import v3.otherCgt.retrieve.def2.model.response.*
 
-class Def2_RetrieveOtherCgtResponseSpec extends UnitSpec {
+class LifetimeAllowanceSpec extends UnitSpec {
 
-  "Def3_RetrieveOtherCgtResponse" when {
+  val invalidJson: JsValue = Json.parse(
+    """
+      |{
+      |   "lifetimeAllowanceBADR":true
+      |}
+      """.stripMargin
+  )
+
+  val minimumResponseModel: LifetimeAllowance = LifetimeAllowance(
+    lifetimeAllowanceBadr = None,
+    lifetimeAllowanceInv = None
+  )
+
+  "LifetimeAllowance" when {
     "read from valid JSON" should {
       "produce the expected response model" in {
-        fullValidDownstreamResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe fullResponseModel
+        lifetimeAllowanceValidDownstreamResponseJson.as[LifetimeAllowance] shouldBe lifetimeAllowanceResponseModel
       }
     }
 
     "read from the minimum valid JSON" should {
       "produce the expected response model" in {
-        minimumValidResponseJson.as[Def2_RetrieveOtherCgtResponse] shouldBe minimumResponseModel
+        JsObject.empty.as[LifetimeAllowance] shouldBe minimumResponseModel
       }
     }
 
     "read from invalid JSON" should {
       "produce a JsError" in {
-        JsObject.empty.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
+        invalidJson.validate[Def2_RetrieveOtherCgtResponse] shouldBe a[JsError]
       }
     }
 
     "written to JSON" should {
       "produce the expected JSON" in {
-        Json.toJson(fullResponseModel) shouldBe fullValidMtdResponseJson
+        Json.toJson(lifetimeAllowanceResponseModel) shouldBe lifetimeAllowanceValidMtdResponseJson
       }
     }
   }
