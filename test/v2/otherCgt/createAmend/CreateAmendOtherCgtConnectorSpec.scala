@@ -16,10 +16,10 @@
 
 package v2.otherCgt.createAmend
 
+import api.config.MockAppConfig
 import api.connectors.ConnectorSpec
 import api.models.domain.{Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
-import config.MockAppConfig
 import uk.gov.hmrc.http.StringContextOps
 import v2.otherCgt.createAmend.def1.fixture.Def1_CreateAmendOtherCgtConnectorServiceFixture.mtdRequestBody
 import v2.otherCgt.createAmend.def1.model.request.Def1_CreateAmendOtherCgtRequestData

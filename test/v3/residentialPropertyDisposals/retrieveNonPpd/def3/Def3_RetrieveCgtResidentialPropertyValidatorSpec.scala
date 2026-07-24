@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package v3.residentialPropertyDisposals.retrieveNonPpd.def1
+package v3.residentialPropertyDisposals.retrieveNonPpd.def3
 
 import api.config.MockAppConfig
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import support.UnitSpec
 import v3.residentialPropertyDisposals.retrieveNonPpd.RetrieveCgtResidentialPropertyValidatorFactory
-import v3.residentialPropertyDisposals.retrieveNonPpd.def1.model.request.Def1_RetrieveCgtResidentialPropertyRequestData
+import v3.residentialPropertyDisposals.retrieveNonPpd.def3.model.request.Def3_RetrieveResidentialPropertyRequestData
 import v3.residentialPropertyDisposals.retrieveNonPpd.model.request.RetrieveCgtResidentialPropertyRequestData
 
-class Def1_RetrieveCgtResidentialPropertyValidatorSpec extends UnitSpec with MockAppConfig {
+class Def3_RetrieveCgtResidentialPropertyValidatorSpec extends UnitSpec with MockAppConfig {
   private implicit val correlationId: String = "1234"
   private val validNino                      = "AA123456A"
-  private val validTaxYear                   = "2024-25"
+  private val validTaxYear                   = "2026-27"
 
   private val parsedNino    = Nino(validNino)
   private val parsedTaxYear = TaxYear.fromMtd(validTaxYear)
 
-  private val validatorFactory                         = new RetrieveCgtResidentialPropertyValidatorFactory
-  private def validator(nino: String, taxYear: String) = validatorFactory.validator(nino, taxYear)
+  private val validatorFactory: RetrieveCgtResidentialPropertyValidatorFactory = new RetrieveCgtResidentialPropertyValidatorFactory
+  private def validator(nino: String, taxYear: String)                         = validatorFactory.validator(nino, taxYear)
 
   private trait Test {
 
@@ -49,7 +49,7 @@ class Def1_RetrieveCgtResidentialPropertyValidatorSpec extends UnitSpec with Moc
         val result: Either[ErrorWrapper, RetrieveCgtResidentialPropertyRequestData] =
           validator(validNino, validTaxYear).validateAndWrapResult()
 
-        result shouldBe Right(Def1_RetrieveCgtResidentialPropertyRequestData(parsedNino, parsedTaxYear))
+        result shouldBe Right(Def3_RetrieveResidentialPropertyRequestData(parsedNino, parsedTaxYear))
       }
     }
 

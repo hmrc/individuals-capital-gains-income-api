@@ -16,8 +16,8 @@
 
 package v2.otherCgt.createAmend
 
+import api.config.MockAppConfig
 import common.utils.JsonErrorValidators
-import config.MockAppConfig
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
 import v2.otherCgt.createAmend.def1.Def1_CreateAmendOtherCgtValidator

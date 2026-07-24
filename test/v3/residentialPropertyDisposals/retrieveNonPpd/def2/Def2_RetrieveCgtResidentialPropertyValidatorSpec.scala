@@ -16,9 +16,9 @@
 
 package v3.residentialPropertyDisposals.retrieveNonPpd.def2
 
+import api.config.MockAppConfig
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
-import config.MockAppConfig
 import support.UnitSpec
 import v3.residentialPropertyDisposals.retrieveNonPpd.RetrieveCgtResidentialPropertyValidatorFactory
 import v3.residentialPropertyDisposals.retrieveNonPpd.def2.model.request.Def2_RetrieveResidentialPropertyRequestData
