@@ -32,7 +32,7 @@ class CreateAmendCgtResidentialPropertyDisposalsValidatorFactory @Inject() (impl
 
   def validator(nino: String, taxYear: String, body: JsValue): Validator[CreateAmendCgtResidentialPropertyDisposalsRequestData] = {
 
-    val schema = CreateAmendCgtResidentialPropertyDisposalsSchema.schemaFor(taxYear)
+    val schema        = CreateAmendCgtResidentialPropertyDisposalsSchema.schemaFor(taxYear)
     val r22CgtEnabled = ConfigFeatureSwitches().isEnabled("r22_cgt")
 
     schema match {

@@ -16,26 +16,26 @@
 
 package v3.residentialPropertyDisposals.createAmendNonPpd.def3
 
-import api.controllers.validators.RulesValidator
 import api.controllers.validators.resolvers.*
 import api.models.errors.{DateFormatError, MtdError}
 import cats.data.Validated
-import cats.data.Validated.Invalid
+import cats.data.Validated.{Invalid, Valid}
 import cats.implicits.*
 import common.errors.*
 import v3.residentialPropertyDisposals.createAmendNonPpd.def3.model.request.{Def3_CreateAmendCgtResidentialPropertyDisposalsRequestData, Disposal}
 
 object Def3_CreateAmendCgtResidentialPropertyDisposalsRulesValidator {
 
-  private val resolveNonNegativeParsedNumber = ResolveParsedNumber()
-  private val resolveInteger                 = ResolveInteger(1, 9999)
-  private val customerReferenceRegex         = "^[0-9a-zA-Z{À-˿'}\\- _&`():.'^]{1,90}$".r
+  private val resolveNonNegativeParsedNumber        = ResolveParsedNumber()
+  private val resolveInteger                        = ResolveInteger(1, 9999)
+  private val customerReferenceRegex                = "^[0-9a-zA-Z{À-˿'}\\- _&`():.'^]{1,90}$".r
+  private val valid: Validated[Seq[MtdError], Unit] = Valid(())
 
   private def combine(results: Validated[Seq[MtdError], ?]*): Validated[Seq[MtdError], Unit] =
     results.traverse_(identity)
 
-  def validateBusinessRules(parsed: Def3_CreateAmendCgtResidentialPropertyDisposalsRequestData, r22CgtEnabled: Boolean)
-      : Validated[Seq[MtdError], Def3_CreateAmendCgtResidentialPropertyDisposalsRequestData] = {
+  def validateBusinessRules(parsed: Def3_CreateAmendCgtResidentialPropertyDisposalsRequestData,
+                            r22CgtEnabled: Boolean): Validated[Seq[MtdError], Def3_CreateAmendCgtResidentialPropertyDisposalsRequestData] = {
 
     import parsed.body.*
 
@@ -43,7 +43,7 @@ object Def3_CreateAmendCgtResidentialPropertyDisposalsRulesValidator {
       disposals.zipWithIndex.traverse_ { case (disposal, index) =>
         validateDisposal(disposal, index, r22CgtEnabled)
       }
-    ).onSuccess(parsed)
+    ).map(_ => parsed)
   }
 
   private def validateDisposal(disposal: Disposal, index: Int, r22CgtEnabled: Boolean): Validated[Seq[MtdError], Unit] = {

@@ -23,8 +23,8 @@ enum ClaimOrElectionCodes {
 }
 
 object ClaimOrElectionCodes {
-  val parser: PartialFunction[String, ClaimOrElectionCodes]          = Enums.parser(values)
+  val parser: PartialFunction[String, ClaimOrElectionCodes]           = Enums.parser(values)
   val parserWithoutInc: PartialFunction[String, ClaimOrElectionCodes] = Enums.parser(values.filterNot(_ == INC))
-  
+
   def parserFor(r22CgtEnabled: Boolean): PartialFunction[String, ClaimOrElectionCodes] = if (r22CgtEnabled) parser else parserWithoutInc
 }
