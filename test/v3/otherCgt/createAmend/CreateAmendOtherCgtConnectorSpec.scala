@@ -16,7 +16,6 @@
 
 package v3.otherCgt.createAmend
 
-import api.config.MockAppConfig
 import api.connectors.ConnectorSpec
 import api.models.domain.{Nino, TaxYear}
 import api.models.outcomes.ResponseWrapper
@@ -27,7 +26,7 @@ import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
 import scala.concurrent.Future
 
-class CreateAmendOtherCgtConnectorSpec extends ConnectorSpec with MockAppConfig {
+class CreateAmendOtherCgtConnectorSpec extends ConnectorSpec {
 
   private val nino: String = "AA111111A"
 
