@@ -17,12 +17,11 @@
 package v2.residentialPropertyDisposals.createAmendCgtPpdOverrides
 
 import api.config.MockAppConfig
-import common.utils.JsonErrorValidators
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
 import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.Def1_CreateAmendCgtPpdOverridesValidator
 
-class CreateAmendCgtPpdOverridesValidatorFactorySpec extends UnitSpec with JsonErrorValidators with MockAppConfig {
+class CreateAmendCgtPpdOverridesValidatorFactorySpec extends UnitSpec with MockAppConfig {
 
   private val validNino    = "AA123456A"
   private val validTaxYear = "2019-20"
