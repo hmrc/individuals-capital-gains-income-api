@@ -42,13 +42,14 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
     resolvePartialFunction(error)(parser)
 
   def validateBusinessRules(parsed: Def3_CreateAmendOtherCgtRequestData,
-                            temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Def3_CreateAmendOtherCgtRequestData] = {
+                            temporalValidationEnabled: Boolean,
+                            r22CgtEnabled: Boolean): Validated[Seq[MtdError], Def3_CreateAmendOtherCgtRequestData] = {
     import parsed.body.*
 
     combine(
-      validateCryptoassets(cryptoassets, parsed.taxYear, temporalValidationEnabled),
-      validateOtherGains(otherGains, parsed.taxYear, temporalValidationEnabled),
-      validateUnlistedShares(unlistedShares, parsed.taxYear, temporalValidationEnabled),
+      validateCryptoassets(cryptoassets, parsed.taxYear, temporalValidationEnabled, r22CgtEnabled),
+      validateOtherGains(otherGains, parsed.taxYear, temporalValidationEnabled, r22CgtEnabled),
+      validateUnlistedShares(unlistedShares, parsed.taxYear, temporalValidationEnabled, r22CgtEnabled),
       validateGainExcludedIndexedSecurities(gainExcludedIndexedSecurities),
       validateQualifyingAssetHoldingCompany(qualifyingAssetHoldingCompany),
       validateNonStandardGains(nonStandardGains),
@@ -114,7 +115,8 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
 
   private def validateCryptoassets(cryptoassets: Option[Seq[Cryptoassets]],
                                    taxYear: TaxYear,
-                                   temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+                                   temporalValidationEnabled: Boolean,
+                                   r22CgtEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
     cryptoassets.fold(Valid(())) { cryptoassets =>
       cryptoassets.zipWithIndex.traverse_ { case (cryptoassets, index) =>
         val basePath = s"/cryptoassets/$index"
@@ -161,7 +163,7 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
 
         val validatedClaimOrElectionCodes = validateClaimOrElectionCodes(
           cryptoassets.claimOrElectionCodes,
-          CryptoassetsClaimOrElectionCodes.parser,
+          CryptoassetsClaimOrElectionCodes.parserFor(r22CgtEnabled),
           basePath
         )
 
@@ -187,7 +189,8 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
 
   private def validateOtherGains(otherGains: Option[Seq[OtherGains]],
                                  taxYear: TaxYear,
-                                 temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+                                 temporalValidationEnabled: Boolean,
+                                 r22CgtEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
     otherGains.fold(Valid(())) { otherGains =>
       otherGains.zipWithIndex.traverse_ { case (otherGains, index) =>
         val basePath = s"/otherGains/$index"
@@ -246,7 +249,7 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
 
         val validatedClaimOrElectionCodes = validateClaimOrElectionCodes(
           otherGains.claimOrElectionCodes,
-          OtherGainsClaimOrElectionCodes.parser,
+          OtherGainsClaimOrElectionCodes.parserFor(r22CgtEnabled),
           basePath
         )
 
@@ -297,7 +300,8 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
 
   private def validateUnlistedShares(unlistedShares: Option[Seq[UnlistedShares]],
                                      taxYear: TaxYear,
-                                     temporalValidationEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
+                                     temporalValidationEnabled: Boolean,
+                                     r22CgtEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
     unlistedShares.fold(Valid(())) { unlistedShares =>
       unlistedShares.zipWithIndex.traverse_ { case (unlistedShares, index) =>
         val basePath = s"/unlistedShares/$index"
@@ -356,7 +360,7 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
 
         val validatedClaimOrElectionCodes = validateClaimOrElectionCodes(
           unlistedShares.claimOrElectionCodes,
-          UnlistedSharesClaimOrElectionCodes.parser,
+          UnlistedSharesClaimOrElectionCodes.parserFor(r22CgtEnabled),
           basePath
         )
 

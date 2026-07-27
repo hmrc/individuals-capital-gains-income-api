@@ -72,12 +72,14 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
   private def validator(nino: String = validNino,
                         taxYear: String = validTaxYear,
                         body: JsValue = fullRequestBodyMtdJson,
-                        temporalValidationEnabled: Boolean = true) =
+                        temporalValidationEnabled: Boolean = true,
+                        r22CgtEnabled: Boolean = true) =
     new Def3_CreateAmendOtherCgtValidator(
       nino = nino,
       taxYear = taxYear,
       body = body,
-      temporalValidationEnabled = temporalValidationEnabled
+      temporalValidationEnabled = temporalValidationEnabled,
+      r22CgtEnabled = r22CgtEnabled
     )
 
   "validator" should {
@@ -479,6 +481,106 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
 
           result shouldBe Left(ErrorWrapper(correlationId, RuleAmountGainLossError.withPath(s"/$arrayField/0")))
         }
+      }
+    }
+
+    "return ClaimOrElectionCodesFormatError error when r22 CGT feature switch is enabled" when {
+      "INC code is provided in cryptoassets" in {
+        val invalidJson: JsValue = updateArrayField("cryptoassets", "claimOrElectionCodes", Json.arr("INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = true, body = invalidJson).validateAndWrapResult()
+
+        result shouldBe Left(ErrorWrapper(correlationId, ClaimOrElectionCodesFormatError.withPath("/cryptoassets/0/claimOrElectionCodes/0")))
+      }
+
+      "INC code is provided in otherGains" in {
+        val invalidJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr("INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = true, body = invalidJson).validateAndWrapResult()
+
+        result shouldBe Left(ErrorWrapper(correlationId, ClaimOrElectionCodesFormatError.withPath("/otherGains/0/claimOrElectionCodes/0")))
+      }
+
+      "INC code is provided in unlistedShares" in {
+        val invalidJson: JsValue = updateArrayField("unlistedShares", "claimOrElectionCodes", Json.arr("INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = true, body = invalidJson).validateAndWrapResult()
+
+        result shouldBe Left(ErrorWrapper(correlationId, ClaimOrElectionCodesFormatError.withPath("/unlistedShares/0/claimOrElectionCodes/0")))
+      }
+
+      "INC code is mixed with valid codes in cryptoassets" in {
+        val invalidJson: JsValue = updateArrayField("cryptoassets", "claimOrElectionCodes", Json.arr("GHO", "INC", "ROR"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = true, body = invalidJson).validateAndWrapResult()
+
+        result shouldBe Left(ErrorWrapper(correlationId, ClaimOrElectionCodesFormatError.withPath("/cryptoassets/0/claimOrElectionCodes/1")))
+      }
+
+      "INC code is mixed with valid codes in otherGains" in {
+        val invalidJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr("INV", "INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = true, body = invalidJson).validateAndWrapResult()
+
+        result shouldBe Left(ErrorWrapper(correlationId, ClaimOrElectionCodesFormatError.withPath("/otherGains/0/claimOrElectionCodes/1")))
+      }
+
+      "INC code is mixed with valid codes in unlistedShares" in {
+        val invalidJson: JsValue = updateArrayField("unlistedShares", "claimOrElectionCodes", Json.arr("GHO", "INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = true, body = invalidJson).validateAndWrapResult()
+
+        result shouldBe Left(ErrorWrapper(correlationId, ClaimOrElectionCodesFormatError.withPath("/unlistedShares/0/claimOrElectionCodes/1")))
+      }
+    }
+
+    "accept INC code when r22 CGT feature switch is disabled" when {
+      "INC code is provided in cryptoassets" in {
+        val validJson: JsValue = updateArrayField("cryptoassets", "claimOrElectionCodes", Json.arr("INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = false, body = validJson).validateAndWrapResult()
+
+        result shouldBe a[Right[?, ?]]
+      }
+
+      "INC code is provided in otherGains" in {
+        val validJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr("INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = false, body = validJson).validateAndWrapResult()
+
+        result shouldBe a[Right[?, ?]]
+      }
+
+      "INC code is provided in unlistedShares" in {
+        val validJson: JsValue = updateArrayField("unlistedShares", "claimOrElectionCodes", Json.arr("INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = false, body = validJson).validateAndWrapResult()
+
+        result shouldBe a[Right[?, ?]]
+      }
+
+      "INC code is mixed with other valid codes in cryptoassets" in {
+        val validJson: JsValue = updateArrayField("cryptoassets", "claimOrElectionCodes", Json.arr("GHO", "INC", "ROR"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = false, body = validJson).validateAndWrapResult()
+
+        result shouldBe a[Right[?, ?]]
+      }
+
+      "INC code is mixed with other valid codes in otherGains" in {
+        val validJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr("INV", "INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = false, body = validJson).validateAndWrapResult()
+
+        result shouldBe a[Right[?, ?]]
+      }
+
+      "INC code is mixed with other valid codes in unlistedShares" in {
+        val validJson: JsValue = updateArrayField("unlistedShares", "claimOrElectionCodes", Json.arr("GHO", "INC"))
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(r22CgtEnabled = false, body = validJson).validateAndWrapResult()
+
+        result shouldBe a[Right[?, ?]]
       }
     }
 
