@@ -41,9 +41,7 @@ class CreateAmendOtherCgtValidatorFactorySpec extends UnitSpec with MockAppConfi
       .returns(2021)
       .anyNumberOfTimes()
 
-    MockedAppConfig.featureSwitchConfig
-      .returns(Configuration("r22CgtEnabled" -> true))
-
+    MockedAppConfig.featureSwitchConfig.returns(Configuration("r22_cgt.enabled" -> true))
   }
 
   "CreateAmendOtherCgtValidatorFactory" when {

@@ -100,12 +100,6 @@ class Def3_CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
       |    "gainsFromQAHCBeforeLosses": 99999999999.99,
       |    "lossesFromQAHC": 99999999999.99
       |  },
-      |  "nonStandardGains": {
-      |    "attributedGains": 99999999999.99,
-      |    "attributedGainsRttTaxPaid": 99999999999.99,
-      |    "otherGains": 99999999999.99,
-      |    "otherGainsRttTaxPaid": 99999999999.99
-      |  },
       |  "losses": {
       |    "broughtForwardLossesUsedInCurrentYear": 99999999999.99,
       |    "setAgainstInYearGains": 99999999999.99,

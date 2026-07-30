@@ -184,7 +184,7 @@ class Def2_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
       |    "lossesToCarryForward": -99999999999.99
       |  },
       |  "adjustments": {
-      |    "adjustmentAmount": -99999999999.99
+      |    "adjustmentAmount": -99999999999.999
       |  },
       |  "lifetimeAllowance": {
       |    "lifetimeAllowanceBadr": -99999999999.99,

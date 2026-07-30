@@ -26,5 +26,5 @@ object OtherGainsClaimOrElectionCodes {
   val parser: PartialFunction[String, OtherGainsClaimOrElectionCodes]           = Enums.parser(values)
   val parserWithoutInc: PartialFunction[String, OtherGainsClaimOrElectionCodes] = Enums.parser(values.filterNot(_ == INC))
 
-  def parserFor(r22CgtEnabled: Boolean): PartialFunction[String, OtherGainsClaimOrElectionCodes] = if (r22CgtEnabled) parserWithoutInc else parser
+  def parserFor(r22CgtEnabled: Boolean): PartialFunction[String, OtherGainsClaimOrElectionCodes] = if (r22CgtEnabled) parser else parserWithoutInc
 }

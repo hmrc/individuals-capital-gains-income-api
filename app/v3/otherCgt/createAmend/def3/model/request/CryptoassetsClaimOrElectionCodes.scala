@@ -26,5 +26,5 @@ object CryptoassetsClaimOrElectionCodes {
   val parser: PartialFunction[String, CryptoassetsClaimOrElectionCodes]           = Enums.parser(values)
   val parserWithoutInc: PartialFunction[String, CryptoassetsClaimOrElectionCodes] = Enums.parser(values.filterNot(_ == INC))
 
-  def parserFor(r22CgtEnabled: Boolean): PartialFunction[String, CryptoassetsClaimOrElectionCodes] = if (r22CgtEnabled) parserWithoutInc else parser
+  def parserFor(r22CgtEnabled: Boolean): PartialFunction[String, CryptoassetsClaimOrElectionCodes] = if (r22CgtEnabled) parser else parserWithoutInc
 }

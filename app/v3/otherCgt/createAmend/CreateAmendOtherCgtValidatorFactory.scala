@@ -33,11 +33,11 @@ class CreateAmendOtherCgtValidatorFactory @Inject() (implicit appConfig: AppConf
 
   def validator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean): Validator[CreateAmendOtherCgtRequestData] = {
     val schema        = CreateAmendOtherCgtSchema.schemaFor(taxYear)
-    val r22CgtEnabled = ConfigFeatureSwitches().isEnabled("r22Cgt")
+    val r22CgtEnabled = ConfigFeatureSwitches().isEnabled("r22_cgt")
 
     schema match {
       case Valid(Def1)     => new Def1_CreateAmendOtherCgtValidator(nino, taxYear, body)
-      case Valid(Def2)     => new Def2_CreateAmendOtherCgtValidator(nino, taxYear, body)
+      case Valid(Def2)     => new Def2_CreateAmendOtherCgtValidator(nino, taxYear, body, r22CgtEnabled)
       case Valid(Def3)     => new Def3_CreateAmendOtherCgtValidator(nino, taxYear, body, temporalValidationEnabled, r22CgtEnabled)
       case Invalid(errors) => Validator.returningErrors(errors)
     }

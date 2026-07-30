@@ -68,11 +68,15 @@ class Def2_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
     updateArrayOrObjectField(gainPath, JsNull, json)
   }
 
-  private def validator(nino: String = validNino, taxYear: String = validTaxYear, body: JsValue = fullRequestBodyMtdJson) =
+  private def validator(nino: String = validNino,
+                        taxYear: String = validTaxYear,
+                        body: JsValue = fullRequestBodyMtdJson,
+                        r22CgtEnabled: Boolean = true) =
     new Def2_CreateAmendOtherCgtValidator(
       nino = nino,
       taxYear = taxYear,
-      body = body
+      body = body,
+      r22CgtEnabled = r22CgtEnabled
     )
 
   "validator" should {

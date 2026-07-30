@@ -35,6 +35,7 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   private val companyRegistrationNumberRegex    = "^(?:\\d{8}|[A-Za-z]{2}\\d{6})$".r
   private val resolveParsedNumber               = ResolveParsedNumber()
   private val resolveBigInteger                 = ResolveBigInteger(1, 99999999999L)
+  private val resolveMaybeNegativeParsedNumber  = ResolveParsedNumber(min = -99999999999.99)
 
   private def combine(results: Validated[Seq[MtdError], ?]*): Validated[Seq[MtdError], Unit] = results.traverse_(identity)
 
@@ -52,9 +53,8 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
       validateUnlistedShares(unlistedShares, parsed.taxYear, temporalValidationEnabled, r22CgtEnabled),
       validateGainExcludedIndexedSecurities(gainExcludedIndexedSecurities),
       validateQualifyingAssetHoldingCompany(qualifyingAssetHoldingCompany),
-      validateNonStandardGains(nonStandardGains),
       validateLosses(losses),
-      validateAdjustments(adjustments),
+      validateAdjustments(adjustments, r22CgtEnabled),
       validateLifetimeAllowance(lifetimeAllowance)
     ).map(_ => parsed)
   }
@@ -409,19 +409,6 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
     }
   }
 
-  private def validateNonStandardGains(nonStandardGains: Option[NonStandardGains]): Validated[Seq[MtdError], Unit] = {
-    nonStandardGains.fold(Valid(())) { nonStandardGains =>
-      List(
-        (nonStandardGains.attributedGains, "/nonStandardGains/attributedGains"),
-        (nonStandardGains.attributedGainsRttTaxPaid, "/nonStandardGains/attributedGainsRttTaxPaid"),
-        (nonStandardGains.otherGains, "/nonStandardGains/otherGains"),
-        (nonStandardGains.otherGainsRttTaxPaid, "/nonStandardGains/otherGainsRttTaxPaid")
-      ).traverse_ { case (value, path) =>
-        resolveParsedNumber(value, path)
-      }
-    }
-  }
-
   private def validateLosses(losses: Option[Losses]): Validated[Seq[MtdError], Unit] = {
     losses.fold(Valid(())) { losses =>
       List(
@@ -435,9 +422,11 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
     }
   }
 
-  private def validateAdjustments(adjustments: Option[Adjustments]): Validated[Seq[MtdError], Unit] = {
+  private def validateAdjustments(adjustments: Option[Adjustments], r22CgtEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
     adjustments.fold(Valid(())) { adjustments =>
-      resolveParsedNumber(adjustments.adjustmentAmount, "/adjustments/adjustmentAmount").map(_ => ())
+      val resolver: ResolveParsedNumber = if (r22CgtEnabled) resolveMaybeNegativeParsedNumber else resolveParsedNumber
+
+      resolver(adjustments.adjustmentAmount, "/adjustments/adjustmentAmount").map(_ => ())
     }
   }
 
