@@ -132,6 +132,35 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
 
         result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, futureTaxYear, requestBodyModel))
       }
+
+      "a valid request with INC claimOrElectionCode is supplied when r22 cgt feature switch is enabled" in {
+        val requestBodyJson: JsValue = Seq("cryptoassets", "otherGains", "unlistedShares")
+          .foldLeft(fullRequestBodyMtdJson) { case (updatedJson, arrayField) =>
+            updateArrayField(arrayField, "claimOrElectionCodes", Json.arr("INC"), json = updatedJson)
+          }
+
+        val requestBodyModel: Def3_CreateAmendOtherCgtRequestBody = fullRequestBodyModel.copy(
+          cryptoassets = fullRequestBodyModel.cryptoassets.map(_.map(_.copy(claimOrElectionCodes = Some(Seq("INC"))))),
+          otherGains = fullRequestBodyModel.otherGains.map(_.map(_.copy(claimOrElectionCodes = Some(Seq("INC"))))),
+          unlistedShares = fullRequestBodyModel.unlistedShares.map(_.map(_.copy(claimOrElectionCodes = Some(Seq("INC")))))
+        )
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = requestBodyJson).validateAndWrapResult()
+
+        result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, requestBodyModel))
+      }
+
+      "a valid request with a negative adjustmentAmount is supplied when r22 cgt feature switch is enabled" in {
+        val requestBodyJson: JsValue = updateArrayOrObjectField("/adjustments/adjustmentAmount", JsNumber(-1.99))
+
+        val requestBodyModel: Def3_CreateAmendOtherCgtRequestBody = fullRequestBodyModel.copy(
+          adjustments = fullRequestBodyModel.adjustments.map(_.copy(adjustmentAmount = Some(-1.99)))
+        )
+
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = requestBodyJson).validateAndWrapResult()
+
+        result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, requestBodyModel))
+      }
     }
 
     "return NinoFormatError error" when {
@@ -383,202 +412,123 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
           result shouldBe Left(ErrorWrapper(correlationId, expectedError))
         }
       }
-    }
 
-    "passed a body with a negative adjustmentAmount when r22 cgt feature switch is disabled" in {
-      val invalidJson: JsValue = updateArrayOrObjectField("/adjustments/adjustmentAmount", JsNumber(-1.99))
-
-      val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(
-        body = invalidJson,
-        r22CgtEnabled = false
-      ).validateAndWrapResult()
-
-      result shouldBe Left(ErrorWrapper(correlationId, ValueFormatError.withPath("/adjustments/adjustmentAmount")))
-    }
-  }
-
-  "return RuleAcquisitionDateError error" when {
-    Seq("cryptoassets", "otherGains", "unlistedShares").foreach { arrayField =>
-      s"passed a body with acquisitionDate later than disposalDate supplied for $arrayField" in {
-        val invalidJson: JsValue = updateArrayField(arrayField, "acquisitionDate", JsString("2026-12-31"))
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
-
-        result shouldBe Left(ErrorWrapper(correlationId, RuleAcquisitionDateError.withPath(s"/$arrayField/0")))
-      }
-    }
-  }
-
-  "return RuleDisposalDateNotFutureError error" when {
-    Seq("cryptoassets", "otherGains", "unlistedShares").foreach { arrayField =>
-      s"passed a body with disposalDate in the future supplied for $arrayField" in {
-        val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2026-09-04"))
+      "passed a body with a negative adjustmentAmount when r22 cgt feature switch is disabled" in {
+        val invalidJson: JsValue = updateArrayOrObjectField("/adjustments/adjustmentAmount", JsNumber(-1.99))
 
         val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(
-          body = invalidJson
+          body = invalidJson,
+          r22CgtEnabled = false
         ).validateAndWrapResult()
 
-        result shouldBe Left(ErrorWrapper(correlationId, RuleDisposalDateNotFutureError.withPath(s"/$arrayField/0/disposalDate")))
-      }
-
-      s"passed a body with disposalDate before the start of the tax year supplied for $arrayField" in {
-        val invalidJsonBase: JsValue = updateArrayField(arrayField, "acquisitionDate", JsString("2025-01-05"))
-
-        val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2025-04-05"), json = invalidJsonBase)
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
-
-        result shouldBe Left(ErrorWrapper(correlationId, RuleDisposalDateNotFutureError.withPath(s"/$arrayField/0/disposalDate")))
-      }
-
-      s"passed a body with disposalDate after the end of the tax year supplied for $arrayField" in {
-        val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2027-04-06"))
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
-
-        result shouldBe Left(ErrorWrapper(correlationId, RuleDisposalDateNotFutureError.withPath(s"/$arrayField/0/disposalDate")))
+        result shouldBe Left(ErrorWrapper(correlationId, ValueFormatError.withPath("/adjustments/adjustmentAmount")))
       }
     }
-  }
 
-  "return RuleMissingCompanyNameError error" when {
-    "passed a body without companyName supplied for otherGains asset type listed-shares" in {
-      val invalidJson: JsValue = updateArrayField("otherGains", "companyName", JsNull)
+    "return RuleAcquisitionDateError error" when {
+      Seq("cryptoassets", "otherGains", "unlistedShares").foreach { arrayField =>
+        s"passed a body with acquisitionDate later than disposalDate supplied for $arrayField" in {
+          val invalidJson: JsValue = updateArrayField(arrayField, "acquisitionDate", JsString("2026-12-31"))
 
-      val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
 
-      result shouldBe Left(ErrorWrapper(correlationId, RuleMissingCompanyNameError.withPath("/otherGains/0")))
-    }
-  }
-
-  "return RuleInvalidClaimOrElectionCodesError error" when {
-    Seq(
-      ("listed-shares", "PRR", RuleInvalidClaimOrElectionCodesError.forListedShares),
-      ("listed-shares", "LET", RuleInvalidClaimOrElectionCodesError.forListedShares),
-      ("non-uk-residential-property", "INV", RuleInvalidClaimOrElectionCodesError)
-    ).foreach { case (assetType, code, expectedError) =>
-      s"passed a body with $code claimOrElectionCode supplied for otherGains asset type $assetType" in {
-        val invalidJsonBase: JsValue = updateArrayField("otherGains", "assetType", JsString(assetType))
-
-        val invalidJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr(code), json = invalidJsonBase)
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
-
-        result shouldBe Left(ErrorWrapper(correlationId, expectedError.withPath("/otherGains/0")))
+          result shouldBe Left(ErrorWrapper(correlationId, RuleAcquisitionDateError.withPath(s"/$arrayField/0")))
+        }
       }
     }
-  }
 
-  "return RuleInvalidClaimDisposalsError error" when {
-    Seq("otherGains", "unlistedShares").foreach { arrayField =>
-      s"passed a body with BAD and INV claimOrElectionCodes supplied for $arrayField" in {
-        val invalidJson: JsValue = updateArrayField(arrayField, "claimOrElectionCodes", Json.arr("BAD", "INV"))
+    "return RuleDisposalDateNotFutureError error" when {
+      Seq("cryptoassets", "otherGains", "unlistedShares").foreach { arrayField =>
+        s"passed a body with disposalDate in the future supplied for $arrayField" in {
+          val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2026-09-04"))
 
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(
+            body = invalidJson
+          ).validateAndWrapResult()
 
-        result shouldBe Left(ErrorWrapper(correlationId, RuleInvalidClaimDisposalsError.withPath(s"/$arrayField/0/claimOrElectionCodes")))
-      }
-    }
-  }
-
-  "return RuleAmountGainLossError error" when {
-    Seq("cryptoassets", "otherGains").foreach { arrayField =>
-      s"passed a body with both amountOfNetGain and amountOfNetLoss supplied for $arrayField" in {
-        val invalidJson: JsValue = updateArrayField(arrayField, "amountOfNetLoss", JsNumber(1.99))
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
-
-        result shouldBe Left(ErrorWrapper(correlationId, RuleAmountGainLossError.withPath(s"/$arrayField/0")))
-      }
-
-      s"passed a body without amountOfNetGain or amountOfNetLoss supplied for $arrayField" in {
-        val invalidJson: JsValue = updateArrayField(arrayField, "amountOfNetGain", JsNull)
-
-        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
-
-        result shouldBe Left(ErrorWrapper(correlationId, RuleAmountGainLossError.withPath(s"/$arrayField/0")))
-      }
-    }
-  }
-
-  "return the parsed domain object" when {
-    def updateAllDisposalDatesJson(disposalDate: String): JsValue = Seq("cryptoassets", "otherGains", "unlistedShares")
-      .foldLeft(fullRequestBodyMtdJson) { case (updatedJson, arrayField) =>
-        updateArrayField(arrayField, "disposalDate", JsString(disposalDate), json = updatedJson)
-      }
-
-    def updateAllDisposalDatesModel(disposalDate: String): Def3_CreateAmendOtherCgtRequestBody = fullRequestBodyModel.copy(
-      cryptoassets = fullRequestBodyModel.cryptoassets.map(_.map(_.copy(disposalDate = disposalDate))),
-      otherGains = fullRequestBodyModel.otherGains.map(_.map(_.copy(disposalDate = disposalDate))),
-      unlistedShares = fullRequestBodyModel.unlistedShares.map(_.map(_.copy(disposalDate = disposalDate)))
-    )
-
-    "a valid request with past disposalDates within a non-future tax year is supplied and temporal validation is enabled" in {
-      val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator().validateAndWrapResult()
-
-      result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, fullRequestBodyModel))
-    }
-
-    "a valid request with future disposalDates within the current tax year is supplied and temporal validation is disabled" in {
-      val currentTaxYear: TaxYear    = TaxYear.currentTaxYear
-      val futureDisposalDate: String = getCurrentDate.plusDays(1).toString
-
-      val requestBodyJson: JsValue                              = updateAllDisposalDatesJson(futureDisposalDate)
-      val requestBodyModel: Def3_CreateAmendOtherCgtRequestBody = updateAllDisposalDatesModel(futureDisposalDate)
-
-      val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(
-        taxYear = currentTaxYear.asMtd,
-        body = requestBodyJson,
-        temporalValidationEnabled = false
-      ).validateAndWrapResult()
-
-      result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, currentTaxYear, requestBodyModel))
-    }
-
-    "a valid request with future disposalDates within a future tax year is supplied and temporal validation is disabled" in {
-      val futureTaxYear: TaxYear     = TaxYear.ending(TaxYear.currentTaxYear.year + 1)
-      val futureDisposalDate: String = futureTaxYear.startDate.toString
-
-      val requestBodyJson: JsValue                              = updateAllDisposalDatesJson(futureDisposalDate)
-      val requestBodyModel: Def3_CreateAmendOtherCgtRequestBody = updateAllDisposalDatesModel(futureDisposalDate)
-
-      val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(
-        taxYear = futureTaxYear.asMtd,
-        body = requestBodyJson,
-        temporalValidationEnabled = false
-      ).validateAndWrapResult()
-
-      result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, futureTaxYear, requestBodyModel))
-    }
-
-    "a valid request with INC claimOrElectionCode is supplied when r22 cgt feature switch is enabled" in {
-      val requestBodyJson: JsValue = Seq("cryptoassets", "otherGains", "unlistedShares")
-        .foldLeft(fullRequestBodyMtdJson) { case (updatedJson, arrayField) =>
-          updateArrayField(arrayField, "claimOrElectionCodes", Json.arr("INC"), json = updatedJson)
+          result shouldBe Left(ErrorWrapper(correlationId, RuleDisposalDateNotFutureError.withPath(s"/$arrayField/0/disposalDate")))
         }
 
-      val requestBodyModel: Def3_CreateAmendOtherCgtRequestBody = fullRequestBodyModel.copy(
-        cryptoassets = fullRequestBodyModel.cryptoassets.map(_.map(_.copy(claimOrElectionCodes = Some(Seq("INC"))))),
-        otherGains = fullRequestBodyModel.otherGains.map(_.map(_.copy(claimOrElectionCodes = Some(Seq("INC"))))),
-        unlistedShares = fullRequestBodyModel.unlistedShares.map(_.map(_.copy(claimOrElectionCodes = Some(Seq("INC")))))
-      )
+        s"passed a body with disposalDate before the start of the tax year supplied for $arrayField" in {
+          val invalidJsonBase: JsValue = updateArrayField(arrayField, "acquisitionDate", JsString("2025-01-05"))
 
-      val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = requestBodyJson).validateAndWrapResult()
+          val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2025-04-05"), json = invalidJsonBase)
 
-      result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, requestBodyModel))
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+
+          result shouldBe Left(ErrorWrapper(correlationId, RuleDisposalDateNotFutureError.withPath(s"/$arrayField/0/disposalDate")))
+        }
+
+        s"passed a body with disposalDate after the end of the tax year supplied for $arrayField" in {
+          val invalidJson: JsValue = updateArrayField(arrayField, "disposalDate", JsString("2027-04-06"))
+
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+
+          result shouldBe Left(ErrorWrapper(correlationId, RuleDisposalDateNotFutureError.withPath(s"/$arrayField/0/disposalDate")))
+        }
+      }
     }
 
-    "a valid request with a negative adjustmentAmount is supplied when r22 cgt feature switch is enabled" in {
-      val requestBodyJson: JsValue = updateArrayOrObjectField("/adjustments/adjustmentAmount", JsNumber(-1.99))
+    "return RuleMissingCompanyNameError error" when {
+      "passed a body without companyName supplied for otherGains asset type listed-shares" in {
+        val invalidJson: JsValue = updateArrayField("otherGains", "companyName", JsNull)
 
-      val requestBodyModel: Def3_CreateAmendOtherCgtRequestBody = fullRequestBodyModel.copy(
-        adjustments = fullRequestBodyModel.adjustments.map(_.copy(adjustmentAmount = Some(-1.99)))
-      )
+        val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
 
-      val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = requestBodyJson).validateAndWrapResult()
-
-      result shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, requestBodyModel))
+        result shouldBe Left(ErrorWrapper(correlationId, RuleMissingCompanyNameError.withPath("/otherGains/0")))
+      }
     }
+
+    "return RuleInvalidClaimOrElectionCodesError error" when {
+      Seq(
+        ("listed-shares", "PRR", RuleInvalidClaimOrElectionCodesError.forListedShares),
+        ("listed-shares", "LET", RuleInvalidClaimOrElectionCodesError.forListedShares),
+        ("non-uk-residential-property", "INV", RuleInvalidClaimOrElectionCodesError)
+      ).foreach { case (assetType, code, expectedError) =>
+        s"passed a body with $code claimOrElectionCode supplied for otherGains asset type $assetType" in {
+          val invalidJsonBase: JsValue = updateArrayField("otherGains", "assetType", JsString(assetType))
+
+          val invalidJson: JsValue = updateArrayField("otherGains", "claimOrElectionCodes", Json.arr(code), json = invalidJsonBase)
+
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+
+          result shouldBe Left(ErrorWrapper(correlationId, expectedError.withPath("/otherGains/0")))
+        }
+      }
+    }
+
+    "return RuleInvalidClaimDisposalsError error" when {
+      Seq("otherGains", "unlistedShares").foreach { arrayField =>
+        s"passed a body with BAD and INV claimOrElectionCodes supplied for $arrayField" in {
+          val invalidJson: JsValue = updateArrayField(arrayField, "claimOrElectionCodes", Json.arr("BAD", "INV"))
+
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+
+          result shouldBe Left(ErrorWrapper(correlationId, RuleInvalidClaimDisposalsError.withPath(s"/$arrayField/0/claimOrElectionCodes")))
+        }
+      }
+    }
+
+    "return RuleAmountGainLossError error" when {
+      Seq("cryptoassets", "otherGains").foreach { arrayField =>
+        s"passed a body with both amountOfNetGain and amountOfNetLoss supplied for $arrayField" in {
+          val invalidJson: JsValue = updateArrayField(arrayField, "amountOfNetLoss", JsNumber(1.99))
+
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+
+          result shouldBe Left(ErrorWrapper(correlationId, RuleAmountGainLossError.withPath(s"/$arrayField/0")))
+        }
+
+        s"passed a body without amountOfNetGain or amountOfNetLoss supplied for $arrayField" in {
+          val invalidJson: JsValue = updateArrayField(arrayField, "amountOfNetGain", JsNull)
+
+          val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator(body = invalidJson).validateAndWrapResult()
+
+          result shouldBe Left(ErrorWrapper(correlationId, RuleAmountGainLossError.withPath(s"/$arrayField/0")))
+        }
+      }
+    }
+
   }
 
 }

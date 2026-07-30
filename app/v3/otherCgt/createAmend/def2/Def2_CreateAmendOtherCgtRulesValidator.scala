@@ -425,6 +425,7 @@ object Def2_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   private def validateAdjustments(adjustments: Option[Adjustments], r22CgtEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
     adjustments.fold(Valid(())) { adjustments =>
       val resolver: ResolveParsedNumber = if (r22CgtEnabled) resolveMaybeNegativeParsedNumber else resolveParsedNumber
+
       resolver(adjustments.adjustmentAmount, "/adjustments/adjustmentAmount").map(_ => ())
     }
   }
