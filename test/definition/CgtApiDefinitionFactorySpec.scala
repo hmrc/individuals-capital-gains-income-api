@@ -139,11 +139,12 @@ class CgtApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     "the controlled access flag is enabled" should {
       "to be CONTROLLED" in {
         MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
-        MockedAppConfig.apiStatus(Version2) returns "ALPHO"
+        MockedAppConfig.apiStatus(Version2).returns("ALPHO").anyNumberOfTimes()
         MockedAppConfig.apiStatus(Version3).returns("ALPHO").anyNumberOfTimes()
-        MockedAppConfig.controlledAccessEnabled.returns(true).anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version2).returns(true).anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version3).returns(true).anyNumberOfTimes()
+        MockedAppConfig.controlledAccessEnabled.returns(true).anyNumberOfTimes()
+
         val apiDefinitionFactory: CgtApiDefinitionFactory = new CgtApiDefinitionFactory(mockAppConfig)
         apiDefinitionFactory.definition.api.versions.head.access shouldBe APIAccessType.CONTROLLED
       }
@@ -152,11 +153,11 @@ class CgtApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     "the controlled access flag is disabled" should {
       "return PUBLIC" in {
         MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
-        MockedAppConfig.apiStatus(Version2) returns "ALPHO"
+        MockedAppConfig.apiStatus(Version2).returns("ALPHO").anyNumberOfTimes()
         MockedAppConfig.apiStatus(Version3).returns("ALPHO").anyNumberOfTimes()
-        MockedAppConfig.controlledAccessEnabled.returns(false).anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version2).returns(true).anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version3).returns(true).anyNumberOfTimes()
+        MockedAppConfig.controlledAccessEnabled.returns(false).anyNumberOfTimes()
 
         val apiDefinitionFactory: CgtApiDefinitionFactory = new CgtApiDefinitionFactory(mockAppConfig)
         apiDefinitionFactory.definition.api.versions.head.access shouldBe APIAccessType.PUBLIC
