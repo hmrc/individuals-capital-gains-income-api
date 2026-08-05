@@ -139,8 +139,8 @@ class CgtApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     "the controlled access flag is enabled" should {
       "to be CONTROLLED" in {
         MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
-        MockedAppConfig.apiStatus(Version2).returns("ALPHO").anyNumberOfTimes()
-        MockedAppConfig.apiStatus(Version3).returns("ALPHO").anyNumberOfTimes()
+        MockedAppConfig.apiStatus(Version2).returns("BETA").anyNumberOfTimes()
+        MockedAppConfig.apiStatus(Version3).returns("BETA").anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version2).returns(true).anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version3).returns(true).anyNumberOfTimes()
         MockedAppConfig.controlledAccessEnabled.returns(true).anyNumberOfTimes()
@@ -153,8 +153,8 @@ class CgtApiDefinitionFactorySpec extends UnitSpec with MockAppConfig {
     "the controlled access flag is disabled" should {
       "return PUBLIC" in {
         MockedAppConfig.apiGatewayContext.returns("individuals/disposals-income").anyNumberOfTimes()
-        MockedAppConfig.apiStatus(Version2).returns("ALPHO").anyNumberOfTimes()
-        MockedAppConfig.apiStatus(Version3).returns("ALPHO").anyNumberOfTimes()
+        MockedAppConfig.apiStatus(Version2).returns("BETA").anyNumberOfTimes()
+        MockedAppConfig.apiStatus(Version3).returns("BETA").anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version2).returns(true).anyNumberOfTimes()
         MockedAppConfig.endpointsEnabled(Version3).returns(true).anyNumberOfTimes()
         MockedAppConfig.controlledAccessEnabled.returns(false).anyNumberOfTimes()
