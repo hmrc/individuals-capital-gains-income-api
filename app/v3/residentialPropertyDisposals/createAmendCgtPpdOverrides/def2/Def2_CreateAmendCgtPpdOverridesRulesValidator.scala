@@ -22,7 +22,7 @@ import api.models.errors.*
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import cats.implicits.toFoldableOps
-import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError}
+import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError, RuleDuplicatedPpdSubmissionIdError}
 import v3.residentialPropertyDisposals.createAmendCgtPpdOverrides.def2.model.request.*
 
 object Def2_CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[Def2_CreateAmendCgtPpdOverridesRequestData] {
@@ -35,7 +35,8 @@ object Def2_CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[Def2
     import parsed.*
     combine(
       validateBothSuppliedDisposals(body),
-      validateSuppliedDisposals(body)
+      validateSuppliedDisposals(body),
+      validateDuplicatePpdSubmissionIds(body)
     ).onSuccess(parsed)
   }
 
@@ -122,6 +123,30 @@ object Def2_CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[Def2
       resolveNonNegativeParsedNumber(value, path)
     }
     validatedNonNegatives
+  }
+
+  private def validateDuplicatePpdSubmissionIds(requestBody: Def2_CreateAmendCgtPpdOverridesRequestBody): Validated[Seq[MtdError], Unit] = {
+    val submissionIds =
+      requestBody.multiplePropertyDisposals.getOrElse(Seq.empty).zipWithIndex.map { case (disposal, index) =>
+        disposal.ppdSubmissionId -> s"/multiplePropertyDisposals/$index/ppdSubmissionId"
+      } ++
+        requestBody.singlePropertyDisposals.getOrElse(Seq.empty).zipWithIndex.map { case (disposal, index) =>
+          disposal.ppdSubmissionId -> s"/singlePropertyDisposals/$index/ppdSubmissionId"
+        }
+
+    val duplicatePaths = submissionIds
+      .groupBy(_._1)
+      .values
+      .filter(_.size > 1)
+      .flatten
+      .map(_._2)
+      .toSeq
+
+    if (duplicatePaths.isEmpty) {
+      Valid(())
+    } else {
+      Invalid(List(RuleDuplicatedPpdSubmissionIdError.withPaths(duplicatePaths)))
+    }
   }
 
   private def validateSinglePropertyDisposalsPpdId(singlePropertyDisposals: SinglePropertyDisposals,

@@ -36,7 +36,7 @@ object Def1_CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[Def1
     combine(
       validateBothSuppliedDisposals(body),
       validateSuppliedDisposals(body),
-      validateDuplicateSinglePpdSubmissionId(body)
+      validateDuplicatePpdSubmissionIds(body)
     ).onSuccess(parsed)
   }
 
@@ -122,41 +122,29 @@ object Def1_CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[Def1
     validatedNonNegatives
   }
 
-  private def validateDuplicateSinglePpdSubmissionId(requestBody: Def1_CreateAmendCgtPpdOverridesRequestBody,
-                                                     arrayIndex: Int): Validated[Seq[MtdError], Unit] = {
-    val submissionIds = requestBody.multiplePropertyDisposals.getOrElse(Seq.empty).flatMap(_.ppdSubmissionId) ++
-                        requestBody.singlePropertyDisposals.getOrElse(Seq.empty).flatMap(_.ppdSubmissionId)
+  private def validateDuplicatePpdSubmissionIds(requestBody: Def1_CreateAmendCgtPpdOverridesRequestBody): Validated[Seq[MtdError], Unit] = {
+    val submissionIds =
+      requestBody.multiplePropertyDisposals.getOrElse(Seq.empty).zipWithIndex.map { case (disposal, index) =>
+        disposal.ppdSubmissionId -> s"/multiplePropertyDisposals/$index/ppdSubmissionId"
+      } ++
+        requestBody.singlePropertyDisposals.getOrElse(Seq.empty).zipWithIndex.map { case (disposal, index) =>
+          disposal.ppdSubmissionId -> s"/singlePropertyDisposals/$index/ppdSubmissionId"
+        }
 
-    if (submissionIds.distinct.size != submissionIds.size) {
-      Invalid(List(RuleDuplicatedPpdSubmissionIdError.withPath(s"/multiplePropertyDisposals/$arrayIndex/ppdSubmissionId"),
-        RuleDuplicatedPpdSubmissionIdError.withPath(s"/singlePropertyDisposals/$arrayIndex/ppdSubmissionId")))
-    } else {
+    val duplicatePaths = submissionIds
+      .groupBy(_._1)
+      .values
+      .filter(_.size > 1)
+      .flatten
+      .map(_._2)
+      .toSeq
+
+    if (duplicatePaths.isEmpty) {
       Valid(())
+    } else {
+      Invalid(List(RuleDuplicatedPpdSubmissionIdError.withPaths(duplicatePaths)))
     }
   }
-
-//  private def validateDuplicateSinglePpdSubmissionId(singlePropertyDisposals: Option[Seq[SinglePropertyDisposals]],
-//                                               arrayIndex: Int): Validated[Seq[MtdError], Unit] = {
-//    val submissionIds = singlePropertyDisposals.getOrElse(Seq.empty).flatMap(_.ppdSubmissionId)
-//
-//    if(submissionIds.distinct.size != submissionIds.size) {
-//      Invalid(List(RuleDuplicatedPpdSubmissionIdError.withPath(s"/singlePropertyDisposals/$arrayIndex/ppdSubmissionId"),
-//                   RuleDuplicatedPpdSubmissionIdError.withPath(s"/singlePropertyDisposals/$arrayIndex/ppdSubmissionId")))
-//    } else {
-//      Valid(())
-//    }
-//  }
-//
-//  private def validateDuplicateMultiplePpdSubmissionId(multiplePropertyDisposals: Option[Seq[MultiplePropertyDisposals]],
-//                                                     arrayIndex: Int): Validated[Seq[MtdError], Unit] = {
-//    val submissionIds = multiplePropertyDisposals.getOrElse(Seq.empty).flatMap(_.ppdSubmissionId)
-//
-//    if (submissionIds.distinct.size != submissionIds.size) {
-//      Invalid(List(RuleDuplicatedPpdSubmissionIdError.withPath(s"/multiplePropertyDisposals/$arrayIndex/ppdSubmissionId")))
-//    } else {
-//      Valid(())
-//    }
-//  }
 
   private def validateSinglePropertyDisposalsPpdId(singlePropertyDisposals: SinglePropertyDisposals,
                                                    arrayIndex: Int): Validated[Seq[MtdError], Unit] =

@@ -19,7 +19,7 @@ package v3.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1
 import api.config.MockAppConfig
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
-import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError}
+import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError, RuleDuplicatedPpdSubmissionIdError}
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
 import v3.residentialPropertyDisposals.createAmendCgtPpdOverrides.CreateAmendCgtPpdOverridesValidatorFactory
@@ -244,6 +244,53 @@ class Def1_CreateAmendCgtPpdOverridesRulesValidatorSpec extends UnitSpec with Mo
       |    ],
       |    "singlePropertyDisposals": [
       |         {
+      |             "ppdSubmissionId": "AB0000000099",
+      |             "completionDate": "2020-02-28",
+      |             "disposalProceeds": 454.24,
+      |             "acquisitionDate": "2020-03-29",
+      |             "acquisitionAmount": 3434.45,
+      |             "improvementCosts": 233.45,
+      |             "additionalCosts": 423.34,
+      |             "prfAmount": 2324.67,
+      |             "otherReliefAmount": 3434.23,
+      |             "lossesFromThisYear": 436.23,
+      |             "lossesFromPreviousYear": 234.23,
+      |             "amountOfNetGain": 4567.89
+      |         },
+      |         {
+      |             "ppdSubmissionId": "AB0000000091",
+      |             "completionDate": "2020-02-28",
+      |             "disposalProceeds": 454.24,
+      |             "acquisitionDate": "2020-03-29",
+      |             "acquisitionAmount": 3434.45,
+      |             "improvementCosts": 233.45,
+      |             "additionalCosts": 423.34,
+      |             "prfAmount": 2324.67,
+      |             "otherReliefAmount": 3434.23,
+      |             "lossesFromThisYear": 436.23,
+      |             "lossesFromPreviousYear": 234.23,
+      |             "amountOfNetLoss": 4567.89
+      |         }
+      |    ]
+      |}
+      |""".stripMargin
+  )
+
+  private val duplicateSubmissionIdRequestBodyJson: JsValue = Json.parse(
+    """
+      |{
+      |    "multiplePropertyDisposals": [
+      |         {
+      |            "ppdSubmissionId": "AB0000000092",
+      |            "amountOfNetGain": 1234.78
+      |         },
+      |         {
+      |            "ppdSubmissionId": "AB0000000098",
+      |            "amountOfNetLoss": 134.99
+      |         }
+      |    ],
+      |    "singlePropertyDisposals": [
+      |         {
       |             "ppdSubmissionId": "AB0000000098",
       |             "completionDate": "2020-02-28",
       |             "disposalProceeds": 454.24,
@@ -276,6 +323,100 @@ class Def1_CreateAmendCgtPpdOverridesRulesValidatorSpec extends UnitSpec with Mo
       |""".stripMargin
   )
 
+  private val duplicateMultiplePropertyDisposalSubmissionIdRequestBodyJson: JsValue = Json.parse(
+    """
+      |{
+      |    "multiplePropertyDisposals": [
+      |         {
+      |            "ppdSubmissionId": "AB0000000098",
+      |            "amountOfNetGain": 1234.78
+      |         },
+      |         {
+      |            "ppdSubmissionId": "AB0000000098",
+      |            "amountOfNetLoss": 134.99
+      |         }
+      |    ],
+      |    "singlePropertyDisposals": [
+      |         {
+      |             "ppdSubmissionId": "AB0000000099",
+      |             "completionDate": "2020-02-28",
+      |             "disposalProceeds": 454.24,
+      |             "acquisitionDate": "2020-03-29",
+      |             "acquisitionAmount": 3434.45,
+      |             "improvementCosts": 233.45,
+      |             "additionalCosts": 423.34,
+      |             "prfAmount": 2324.67,
+      |             "otherReliefAmount": 3434.23,
+      |             "lossesFromThisYear": 436.23,
+      |             "lossesFromPreviousYear": 234.23,
+      |             "amountOfNetGain": 4567.89
+      |         },
+      |         {
+      |             "ppdSubmissionId": "AB0000000091",
+      |             "completionDate": "2020-02-28",
+      |             "disposalProceeds": 454.24,
+      |             "acquisitionDate": "2020-03-29",
+      |             "acquisitionAmount": 3434.45,
+      |             "improvementCosts": 233.45,
+      |             "additionalCosts": 423.34,
+      |             "prfAmount": 2324.67,
+      |             "otherReliefAmount": 3434.23,
+      |             "lossesFromThisYear": 436.23,
+      |             "lossesFromPreviousYear": 234.23,
+      |             "amountOfNetLoss": 4567.89
+      |         }
+      |    ]
+      |}
+      |""".stripMargin
+  )
+
+  private val duplicateSinglePropertyDisposalSubmissionIdRequestBodyJson: JsValue = Json.parse(
+    """
+      |{
+      |    "multiplePropertyDisposals": [
+      |         {
+      |            "ppdSubmissionId": "AB0000000098",
+      |            "amountOfNetGain": 1234.78
+      |         },
+      |         {
+      |            "ppdSubmissionId": "AB0000000092",
+      |            "amountOfNetLoss": 134.99
+      |         }
+      |    ],
+      |    "singlePropertyDisposals": [
+      |         {
+      |             "ppdSubmissionId": "AB0000000099",
+      |             "completionDate": "2020-02-28",
+      |             "disposalProceeds": 454.24,
+      |             "acquisitionDate": "2020-03-29",
+      |             "acquisitionAmount": 3434.45,
+      |             "improvementCosts": 233.45,
+      |             "additionalCosts": 423.34,
+      |             "prfAmount": 2324.67,
+      |             "otherReliefAmount": 3434.23,
+      |             "lossesFromThisYear": 436.23,
+      |             "lossesFromPreviousYear": 234.23,
+      |             "amountOfNetGain": 4567.89
+      |         },
+      |         {
+      |             "ppdSubmissionId": "AB0000000099",
+      |             "completionDate": "2020-02-28",
+      |             "disposalProceeds": 454.24,
+      |             "acquisitionDate": "2020-03-29",
+      |             "acquisitionAmount": 3434.45,
+      |             "improvementCosts": 233.45,
+      |             "additionalCosts": 423.34,
+      |             "prfAmount": 2324.67,
+      |             "otherReliefAmount": 3434.23,
+      |             "lossesFromThisYear": 436.23,
+      |             "lossesFromPreviousYear": 234.23,
+      |             "amountOfNetLoss": 4567.89
+      |         }
+      |    ]
+      |}
+      |""".stripMargin
+  )
+
   private val invalidValueRequestBodyJson: JsValue = Json.parse(
     """
       |{
@@ -285,13 +426,13 @@ class Def1_CreateAmendCgtPpdOverridesRulesValidatorSpec extends UnitSpec with Mo
       |            "amountOfNetGain": 1234.787385
       |         },
       |         {
-      |            "ppdSubmissionId": "AB0000000092",
+      |            "ppdSubmissionId": "AB0000000093",
       |            "amountOfNetLoss": -134.99
       |         }
       |    ],
       |    "singlePropertyDisposals": [
       |         {
-      |             "ppdSubmissionId": "AB0000000092",
+      |             "ppdSubmissionId": "AB0000000094",
       |             "completionDate": "2020-02-28",
       |             "disposalProceeds": 454.24999,
       |             "acquisitionDate": "2020-03-29",
@@ -305,7 +446,7 @@ class Def1_CreateAmendCgtPpdOverridesRulesValidatorSpec extends UnitSpec with Mo
       |             "amountOfNetGain": 4567.8974726
       |         },
       |         {
-      |             "ppdSubmissionId": "AB0000000092",
+      |             "ppdSubmissionId": "AB0000000095",
       |             "completionDate": "2020-02-28",
       |             "disposalProceeds": -454.24,
       |             "acquisitionDate": "2020-03-29",
@@ -720,6 +861,59 @@ class Def1_CreateAmendCgtPpdOverridesRulesValidatorSpec extends UnitSpec with Mo
             PpdSubmissionIdFormatError.withPaths(
               Seq(
                 "/multiplePropertyDisposals/0/ppdSubmissionId"
+              ))
+          )
+        )
+      }
+    }
+
+    "return a RuleDuplicatedPpdSubmissionIdError" when {
+      "a body with duplicate ppdSubmissionIds is submitted" in new Test {
+
+        val result: Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequestData] =
+          validator(validNino, validTaxYear, duplicateSubmissionIdRequestBodyJson, false).validateAndWrapResult()
+
+        result shouldBe Left(
+          ErrorWrapper(
+            correlationId,
+            RuleDuplicatedPpdSubmissionIdError.withPaths(
+              Seq(
+                "/multiplePropertyDisposals/1/ppdSubmissionId",
+                "/singlePropertyDisposals/0/ppdSubmissionId"
+              ))
+          )
+        )
+      }
+
+      "a body with duplicate multiplePropertyDisposals ppdSubmissionIds is submitted" in new Test {
+
+        val result: Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequestData] =
+          validator(validNino, validTaxYear, duplicateMultiplePropertyDisposalSubmissionIdRequestBodyJson, false).validateAndWrapResult()
+
+        result shouldBe Left(
+          ErrorWrapper(
+            correlationId,
+            RuleDuplicatedPpdSubmissionIdError.withPaths(
+              Seq(
+                "/multiplePropertyDisposals/0/ppdSubmissionId",
+                "/multiplePropertyDisposals/1/ppdSubmissionId"
+              ))
+          )
+        )
+      }
+
+      "a body with duplicate singlePropertyDisposals ppdSubmissionIds is submitted" in new Test {
+
+        val result: Either[ErrorWrapper, CreateAmendCgtPpdOverridesRequestData] =
+          validator(validNino, validTaxYear, duplicateSinglePropertyDisposalSubmissionIdRequestBodyJson, false).validateAndWrapResult()
+
+        result shouldBe Left(
+          ErrorWrapper(
+            correlationId,
+            RuleDuplicatedPpdSubmissionIdError.withPaths(
+              Seq(
+                "/singlePropertyDisposals/0/ppdSubmissionId",
+                "/singlePropertyDisposals/1/ppdSubmissionId"
               ))
           )
         )
