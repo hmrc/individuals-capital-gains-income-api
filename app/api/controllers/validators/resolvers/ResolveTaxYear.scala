@@ -75,7 +75,7 @@ case class ResolveTaxYearMinimum(
 ) extends ResolverSupport {
 
   private val baseResolver: Resolver[String, TaxYear] =
-    ResolveTaxYear.resolverWithCustomErrors(formatError, rangeError).thenValidate(satisfiesMin(minimumTaxYear, notSupportedError))
+    ResolveTaxYear.resolverWithCustomErrors(formatError, rangeError)
 
   private val withMinCheck: Resolver[String, TaxYear] = baseResolver.thenValidate(satisfiesMin(minimumTaxYear, notSupportedError))
 
