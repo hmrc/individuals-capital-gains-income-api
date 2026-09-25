@@ -16,8 +16,9 @@
 
 package v3.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1
 
+import api.config.AppConfig
 import api.controllers.validators.Validator
-import api.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject}
+import api.controllers.validators.resolvers.{ResolveNino, ResolveNonEmptyJsonObject, ResolveTaxYearMinimum}
 import api.models.domain.TaxYear
 import api.models.errors.MtdError
 import cats.data.Validated
@@ -30,18 +31,18 @@ import v3.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1.model.req
 }
 import v3.residentialPropertyDisposals.createAmendCgtPpdOverrides.model.request.CreateAmendCgtPpdOverridesRequestData
 
-class Def1_CreateAmendCgtPpdOverridesValidator(nino: String, taxYear: String, body: JsValue)
+class Def1_CreateAmendCgtPpdOverridesValidator(nino: String, taxYear: String, body: JsValue, temporalValidationEnabled: Boolean)(implicit
+    appConfig: AppConfig)
     extends Validator[CreateAmendCgtPpdOverridesRequestData] {
   private val resolveJson = new ResolveNonEmptyJsonObject[Def1_CreateAmendCgtPpdOverridesRequestBody]()
 
+  private val resolveTaxYear =
+    ResolveTaxYearMinimum(TaxYear.ending(appConfig.minimumPermittedTaxYear), allowIncompleteTaxYear = !temporalValidationEnabled)
+
   def validate: Validated[Seq[MtdError], CreateAmendCgtPpdOverridesRequestData] = (
     ResolveNino(nino),
+    resolveTaxYear(taxYear),
     resolveJson(body)
-  ).mapN((validNino, validBody) =>
-    Def1_CreateAmendCgtPpdOverridesRequestData(
-      validNino,
-      TaxYear.fromMtd(taxYear),
-      validBody
-    )) andThen validateBusinessRules
+  ).mapN(Def1_CreateAmendCgtPpdOverridesRequestData.apply) andThen validateBusinessRules
 
 }

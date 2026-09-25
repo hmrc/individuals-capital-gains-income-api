@@ -29,12 +29,15 @@ import javax.inject.Inject
 
 class CreateAmendCgtPpdOverridesValidatorFactory @Inject() (implicit appConfig: AppConfig) {
 
-  def validator(nino: String, taxYear: String, body: JsValue): Validator[CreateAmendCgtPpdOverridesRequestData] = {
+  def validator(nino: String,
+                taxYear: String,
+                body: JsValue,
+                temporalValidationEnabled: Boolean): Validator[CreateAmendCgtPpdOverridesRequestData] = {
 
     val schema = CreateAmendCgtPpdOverridesSchema.schemaFor(taxYear)
     schema match {
-      case Valid(Def1)     => new Def1_CreateAmendCgtPpdOverridesValidator(nino, taxYear, body)
-      case Valid(Def2)     => new Def2_CreateAmendCgtPpdOverridesValidator(nino, taxYear, body)
+      case Valid(Def1)     => new Def1_CreateAmendCgtPpdOverridesValidator(nino, taxYear, body, temporalValidationEnabled)
+      case Valid(Def2)     => new Def2_CreateAmendCgtPpdOverridesValidator(nino, taxYear, body, temporalValidationEnabled)
       case Invalid(errors) => Validator.returningErrors(errors)
     }
   }
