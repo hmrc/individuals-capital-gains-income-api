@@ -96,5 +96,10 @@ object RuleInvalidClaimOrElectionCodesError
 
 object RuleOutsideAmendmentWindowError extends MtdError("RULE_OUTSIDE_AMENDMENT_WINDOW", "You are outside the amendment window", BAD_REQUEST)
 
+object RuleDisposalDateError extends MtdError("RULE_DISPOSAL_DATE", "The disposalDate must be within the specified tax year", BAD_REQUEST)
+
+object RuleAcquisitionDatAfterDisposalDate
+    extends MtdError("RULE_ACQUISITION_DATE_AFTER_DISPOSAL_DATE", "The acquisitionDate must not be later than disposalDate", BAD_REQUEST)
+
 // Not found errors
 object PpdSubmissionIdNotFoundError extends MtdError("PPD_SUBMISSION_ID_NOT_FOUND", "Matching resource not found", NOT_FOUND)
