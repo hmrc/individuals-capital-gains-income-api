@@ -811,7 +811,7 @@ class Def2_CreateAmendCgtResidentialPropertyDisposalsValidatorSpec extends UnitS
           validator(validNino, acquisitionDatAfterDisposalDateErrorJson).validateAndWrapResult()
 
         result shouldBe Left(
-          ErrorWrapper(correlationId, RuleAcquisitionDatAfterDisposalDate.withPath("/disposals/0"))
+          ErrorWrapper(correlationId, RuleAcquisitionDateAfterDisposalDateError.withPath("/disposals/0"))
         )
       }
     }

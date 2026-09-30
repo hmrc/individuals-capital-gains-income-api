@@ -26,6 +26,7 @@ import common.errors.*
 import v3.residentialPropertyDisposals.createAmendNonPpd.def3.model.request.{Def3_CreateAmendCgtResidentialPropertyDisposalsRequestData, Disposal}
 
 import java.time.LocalDate
+import scala.math.Ordered.orderingToOrdered
 
 object Def3_CreateAmendCgtResidentialPropertyDisposalsRulesValidator {
 
@@ -53,23 +54,18 @@ object Def3_CreateAmendCgtResidentialPropertyDisposalsRulesValidator {
                                                   disposalDate: LocalDate,
                                                   taxYear: TaxYear,
                                                   basePath: String): Validated[Seq[MtdError], Unit] = {
-    val isAcquisitionDateInvalid = acquisitionDate.isAfter(disposalDate)
-
-    val isDisposalDateInvalid = disposalDate.isBefore(taxYear.startDate) || disposalDate.isAfter(taxYear.endDate)
-
-    val validatedAcquisitionDateRule = if (isAcquisitionDateInvalid) {
-      Invalid(List(RuleAcquisitionDatAfterDisposalDate.withPath(basePath)))
-    } else {
-      valid
-    }
-
-    val validatedDisposalDateRule = if (isDisposalDateInvalid) {
-      Invalid(List(RuleDisposalDateError.withPath(s"$basePath/disposalDate")))
-    } else {
-      valid
-    }
-
-    combine(validatedAcquisitionDateRule, validatedDisposalDateRule)
+    combine(
+      Validated.cond(
+        acquisitionDate <= disposalDate,
+        (),
+        List(RuleAcquisitionDateAfterDisposalDateError.withPath(basePath))
+      ),
+      Validated.cond(
+        disposalDate >= taxYear.startDate && disposalDate <= taxYear.endDate,
+        (),
+        List(RuleDisposalDateError.withPath(s"$basePath/disposalDate"))
+      )
+    )
   }
 
   private def validateDisposal(disposal: Disposal, index: Int, taxYear: TaxYear, r22CgtEnabled: Boolean): Validated[Seq[MtdError], Unit] = {
@@ -100,7 +96,7 @@ object Def3_CreateAmendCgtResidentialPropertyDisposalsRulesValidator {
       ResolveIsoDate(disposalDate, DateFormatError.withPath(s"/disposals/$index/disposalDate")),
       ResolveIsoDate(completionDate, DateFormatError.withPath(s"/disposals/$index/completionDate")),
       ResolveIsoDate(acquisitionDate, DateFormatError.withPath(s"/disposals/$index/acquisitionDate"))
-    ).tupled.andThen { case (disposalDate, completionDate, acquisitionDate) =>
+    ).tupled.andThen { case (disposalDate, _, acquisitionDate) =>
       validateAcquisitionAndDisposalDates(acquisitionDate, disposalDate, taxYear, s"/disposals/$index")
     }
 
