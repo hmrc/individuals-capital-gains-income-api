@@ -18,11 +18,10 @@ package v2.residentialPropertyDisposals.createAmendNonPpd.def1
 
 import api.controllers.validators.RulesValidator
 import api.controllers.validators.resolvers.*
-import api.models.errors.{DateFormatError, MtdError}
+import api.models.errors.*
 import cats.data.Validated
 import cats.data.Validated.Invalid
 import cats.implicits.*
-import common.errors.{CustomerRefFormatError, RuleAmountGainLossError}
 import v2.residentialPropertyDisposals.createAmendNonPpd.def1.Def1_CreateAmendCgtResidentialPropertyDisposalsRulesValidator.valid
 import v2.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.{Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData, Disposal}
 

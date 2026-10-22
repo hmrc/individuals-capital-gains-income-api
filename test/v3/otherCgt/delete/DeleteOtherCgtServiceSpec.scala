@@ -18,20 +18,9 @@ package v3.otherCgt.delete
 
 import api.controllers.EndpointLogContext
 import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{
-  DownstreamErrorCode,
-  DownstreamErrors,
-  ErrorWrapper,
-  InternalError,
-  MtdError,
-  NinoFormatError,
-  NotFoundError,
-  RuleTaxYearNotSupportedError,
-  TaxYearFormatError
-}
+import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.RuleOutsideAmendmentWindowError
 import v3.otherCgt.delete.def1.model.request.Def1_DeleteOtherCgtRequestData
 import v3.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 

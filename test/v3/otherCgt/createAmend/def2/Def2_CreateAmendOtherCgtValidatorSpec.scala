@@ -19,7 +19,6 @@ package v3.otherCgt.createAmend.def2
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.utils.JsonErrorValidators
-import common.errors.*
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.createAmend.def2.fixture.Def2_CreateAmendOtherCgtFixture.*

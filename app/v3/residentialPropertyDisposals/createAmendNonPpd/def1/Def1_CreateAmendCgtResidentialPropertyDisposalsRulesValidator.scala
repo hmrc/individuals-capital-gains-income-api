@@ -19,11 +19,10 @@ package v3.residentialPropertyDisposals.createAmendNonPpd.def1
 import api.controllers.validators.RulesValidator
 import api.controllers.validators.resolvers.*
 import api.models.domain.TaxYear
-import api.models.errors.{DateFormatError, MtdError}
+import api.models.errors.*
 import cats.data.Validated
 import cats.data.Validated.Invalid
 import cats.implicits.*
-import common.errors.*
 import v3.residentialPropertyDisposals.createAmendNonPpd.def1.model.request.{Def1_CreateAmendCgtResidentialPropertyDisposalsRequestData, Disposal}
 
 import java.time.LocalDate

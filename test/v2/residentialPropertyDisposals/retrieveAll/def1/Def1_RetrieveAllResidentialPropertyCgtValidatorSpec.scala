@@ -19,7 +19,6 @@ package v2.residentialPropertyDisposals.retrieveAll.def1
 import api.config.MockAppConfig
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
-import common.errors.SourceFormatError
 import support.UnitSpec
 import v2.residentialPropertyDisposals.retrieveAll.RetrieveAllResidentialPropertyCgtValidatorFactory
 import v2.residentialPropertyDisposals.retrieveAll.def1.model.MtdSourceEnum

@@ -17,18 +17,9 @@
 package v2.residentialPropertyDisposals.createAmendCgtPpdOverrides
 
 import api.controllers.RequestContext
-import api.models.errors.{
-  InternalError,
-  MtdError,
-  NinoFormatError,
-  NotFoundError,
-  RuleTaxYearNotEndedError,
-  RuleTaxYearNotSupportedError,
-  TaxYearFormatError
-}
 import api.services.{BaseService, ServiceOutcome}
+import api.models.errors.*
 import cats.implicits.toBifunctorOps
-import common.errors.*
 import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.model.request.CreateAmendCgtPpdOverridesRequestData
 
 import javax.inject.{Inject, Singleton}

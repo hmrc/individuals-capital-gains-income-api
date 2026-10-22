@@ -18,12 +18,11 @@ package v3.otherCgt.createAmend.def2
 
 import api.controllers.validators.resolvers.*
 import api.models.domain.TaxYear
-import api.models.errors.{DateFormatError, MtdError}
+import api.models.errors.*
 import api.utils.DateUtils.getCurrentDate
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import cats.implicits.*
-import common.errors.*
 import v3.otherCgt.createAmend.def2.model.request.*
 
 import java.time.LocalDate

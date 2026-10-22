@@ -71,17 +71,18 @@ class ApiDefinitionFactorySpec extends UnitSpec {
   trait Test extends UnitSpec with MockHttpClient with MockAppConfig {
     MockedAppConfig.apiGatewayContext returns "individuals/self-assessment/adjustable-summary"
 
-    val apiDefinitionFactory: ApiDefinitionFactory = new ApiDefinitionFactory {
-      protected val appConfig: AppConfig = mockAppConfig
+    protected val appConfig: AppConfig = mockAppConfig
 
-      val definition: Definition = Definition(
+    val apiDefinitionFactory: ApiDefinitionFactory = new ApiDefinitionFactory(mockAppConfig) {
+
+      override lazy val definition: Definition = Definition(
         APIDefinition(
-          "test API definition",
-          "description",
-          "context",
-          List("category"),
-          List(APIVersion(Version1, APIStatus.BETA, access = APIAccessType.PUBLIC, endpointsEnabled = true)),
-          None
+          name = "test API definition",
+          description = "description",
+          context = "context",
+          categories = List("category"),
+          versions = List(APIVersion(Version1, APIStatus.BETA, access = APIAccessType.PUBLIC, endpointsEnabled = true)),
+          requiresTrust = None
         )
       )
 

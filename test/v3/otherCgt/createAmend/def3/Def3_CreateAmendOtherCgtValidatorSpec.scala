@@ -20,7 +20,6 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.utils.JsonErrorValidators
 import api.utils.DateUtils.getCurrentDate
-import common.errors.*
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.otherCgt.createAmend.def3.fixture.Def3_CreateAmendOtherCgtFixture.*

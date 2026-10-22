@@ -44,6 +44,26 @@ object ValueFormatError extends MtdError("FORMAT_VALUE", "The value must be betw
 
 object StringFormatError extends MtdError(code = "FORMAT_STRING", message = "The supplied string format is not valid", BAD_REQUEST)
 
+object PpdSubmissionIdFormatError extends MtdError("FORMAT_PPD_SUBMISSION_ID", "The provided ppdSubmissionId is invalid", BAD_REQUEST)
+
+object CustomerRefFormatError extends MtdError("FORMAT_CUSTOMER_REF", "The provided customer reference is invalid", BAD_REQUEST)
+
+object AssetDescriptionFormatError extends MtdError("FORMAT_ASSET_DESCRIPTION", "The provided asset description is invalid", BAD_REQUEST)
+
+object AssetTypeFormatError extends MtdError("FORMAT_ASSET_TYPE", "The format of the assetType value is invalid", BAD_REQUEST)
+
+object TokenNameFormatError extends MtdError("FORMAT_TOKEN_NAME", "The provided tokenName is invalid", BAD_REQUEST)
+
+object CompanyNameFormatError extends MtdError("FORMAT_COMPANY_NAME", "The provided companyName is invalid", BAD_REQUEST)
+
+object CompanyRegistrationNumberFormatError
+    extends MtdError("FORMAT_COMPANY_REGISTRATION_NUMBER", "The provided companyRegistrationNumber is invalid", BAD_REQUEST)
+
+object SourceFormatError extends MtdError("FORMAT_SOURCE", "The provided source is invalid", BAD_REQUEST)
+
+object ClaimOrElectionCodesFormatError
+    extends MtdError("FORMAT_CLAIM_OR_ELECTION_CODES", "The format of the claimOrElectionCodes value is invalid", BAD_REQUEST)
+
 //Standard Errors
 object NotFoundError extends MtdError("MATCHING_RESOURCE_NOT_FOUND", "Matching resource not found", NOT_FOUND)
 
@@ -101,6 +121,33 @@ object RuleTaxYearNotEndedError extends MtdError("RULE_TAX_YEAR_NOT_ENDED", "The
 
 object RuleDuplicateIdError extends MtdError(code = "RULE_DUPLICATE_ID_NOT_ALLOWED", message = "Duplicate IDs are not allowed", BAD_REQUEST)
 
+object RuleDuplicatedPpdSubmissionIdError
+    extends MtdError("RULE_DUPLICATED_PPD_SUBMISSION_ID", "A provided ppdSubmissionId is duplicated", BAD_REQUEST) {
+
+  def forDuplicatedIdAndPaths(id: String, paths: Seq[String]): MtdError = copy(
+    message = s"The ppdSubmissionId '$id' is duplicated",
+    paths = Some(paths)
+  )
+
+}
+
+object RuleIncorrectDisposalTypeError
+    extends MtdError("RULE_INCORRECT_DISPOSAL_TYPE", "A provided ppdSubmissionId is being used for the incorrect disposal type", BAD_REQUEST)
+
+object RuleGainLossError extends MtdError("RULE_GAIN_LOSS", "Only one of gain or loss values can be provided", BAD_REQUEST)
+
+object RuleIncorrectLossesSubmittedError
+    extends MtdError(
+      "RULE_INCORRECT_LOSSES_SUBMITTED",
+      "LossesFromThisYear can not be submitted if the numberOfDisposals is less than or equal to 1",
+      BAD_REQUEST)
+
+object RuleIncorrectNonStandardGainsSubmittedError
+    extends MtdError(
+      "RULE_INCORRECT_NON_STANDARD_GAINS",
+      "At least one of carriedInterestGain, attributedGains or otherGains must be provided",
+      BAD_REQUEST)
+
 object RuleFromDateNotSupportedError
     extends MtdError(code = "RULE_FROM_DATE_NOT_SUPPORTED", message = "The specified from date is too early", BAD_REQUEST)
 
@@ -117,10 +164,54 @@ object RuleDateRangeInvalidError extends MtdError(code = "RULE_DATE_RANGE_INVALI
 
 object RuleInvalidDateRangeError extends MtdError(code = "RULE_INVALID_DATE_RANGE", message = "The provided date range is invalid", BAD_REQUEST)
 
+object RuleDisposalDateError extends MtdError("RULE_DISPOSAL_DATE", "The disposalDate must be within the specified tax year", BAD_REQUEST)
+
+object RuleCompletionDateError
+    extends MtdError(
+      "RULE_COMPLETION_DATE",
+      "The completionDate must be within the specific tax year and not in the future. If the specified tax year has not ended, the completionDate must be between 7th March and 5th April",
+      BAD_REQUEST)
+
+object RuleAcquisitionDateAfterDisposalDateError
+    extends MtdError("RULE_ACQUISITION_DATE_AFTER_DISPOSAL_DATE", "The acquisitionDate must not be later than disposalDate", BAD_REQUEST)
+
+object RuleGainAfterReliefLossAfterReliefError
+    extends MtdError("RULE_GAIN_AFTER_RELIEF_LOSS_AFTER_RELIEF", "Only one of gainAfterRelief or lossAfterRelief values can be provided", BAD_REQUEST)
+
+object RuleAcquisitionDateError extends MtdError("RULE_ACQUISITION_DATE", "The acquisitionDate must not be later than disposalDate", BAD_REQUEST)
+
+object RuleDisposalDateNotFutureError
+    extends MtdError(
+      "RULE_DISPOSAL_DATE_NOT_FUTURE",
+      "The disposalDate must be in the specified tax year and no later than today's date",
+      BAD_REQUEST)
+
 object NoTransactionDetailsFoundError extends MtdError(code = "NO_DETAILS_FOUND", message = "No transaction details found", BAD_REQUEST)
 
 object RuleEndBeforeStartDateError
     extends MtdError("RULE_END_DATE_BEFORE_START_DATE", "The supplied accounting period end date is before the start date", BAD_REQUEST)
+
+object RuleAmountGainLossError
+    extends MtdError("RULE_AMOUNT_GAIN_LOSS", "Either amountOfNetGain or amountOfNetLoss, must be provided but not both", BAD_REQUEST)
+
+object RuleInvalidClaimDisposalsError
+    extends MtdError(
+      "RULE_INVALID_CLAIM_DISPOSALS",
+      "BAD and INV relief codes cannot be claimed in the same disposal. Itemise disposals separately",
+      BAD_REQUEST)
+
+object RuleMissingCompanyNameError extends MtdError("RULE_MISSING_COMPANY_NAME", "companyName is required for listed shares", BAD_REQUEST)
+
+object RuleInvalidClaimOrElectionCodesError
+    extends MtdError("RULE_INVALID_CLAIM_OR_ELECTION_CODES", "INV relief code does not apply to non-UK residential property disposals", BAD_REQUEST) {
+
+  def forListedShares: MtdError = copy(message = "PRR and LET relief codes do not apply to listed shares disposals")
+}
+
+object RuleOutsideAmendmentWindowError extends MtdError("RULE_OUTSIDE_AMENDMENT_WINDOW", "You are outside the amendment window", BAD_REQUEST)
+
+// Not found errors
+object PpdSubmissionIdNotFoundError extends MtdError("PPD_SUBMISSION_ID_NOT_FOUND", "Matching resource not found", NOT_FOUND)
 
 //Stub Errors
 object RuleIncorrectGovTestScenarioError

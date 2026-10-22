@@ -18,7 +18,6 @@ package v3.residentialPropertyDisposals.createAmendNonPpd.def3
 
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
-import common.errors.*
 import play.api.libs.json.*
 import support.UnitSpec
 import v3.residentialPropertyDisposals.createAmendNonPpd.def3.model.request.*

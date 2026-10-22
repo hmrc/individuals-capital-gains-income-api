@@ -17,10 +17,9 @@
 package v3.otherCgt.delete
 
 import api.controllers.RequestContext
-import api.models.errors.{InternalError, MtdError, NinoFormatError, NotFoundError, RuleTaxYearNotSupportedError, TaxYearFormatError}
+import api.models.errors.*
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.*
-import common.errors.RuleOutsideAmendmentWindowError
 import v3.otherCgt.delete.model.request.DeleteOtherCgtRequestData
 
 import javax.inject.{Inject, Singleton}
