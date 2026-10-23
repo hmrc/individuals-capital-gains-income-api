@@ -179,17 +179,18 @@ class DocumentationControllerSpec extends ControllerBaseSpec with MockAppConfig 
 
     private implicit val materializer: Materializer = NoMaterializer
 
-    private val apiFactory = new ApiDefinitionFactory {
-      protected val appConfig: AppConfig = mockAppConfig
+    protected val appConfig: AppConfig = mockAppConfig
 
-      val definition: Definition = Definition(
+    private val apiFactory = new ApiDefinitionFactory(mockAppConfig) {
+
+      override lazy val definition: Definition = Definition(
         APIDefinition(
-          "test API definition",
-          "description",
-          "context",
-          List("category"),
-          List(APIVersion(apiVersion, APIStatus.BETA, access = APIAccessType.PUBLIC, endpointsEnabled = true)),
-          None
+          name = "test API definition",
+          description = "description",
+          context = "context",
+          categories = List("category"),
+          versions = List(APIVersion(apiVersion, APIStatus.BETA, access = APIAccessType.PUBLIC, endpointsEnabled = true)),
+          requiresTrust = None
         )
       )
 

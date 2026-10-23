@@ -19,7 +19,6 @@ package v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.def1
 import api.config.MockAppConfig
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
-import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError}
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
 import v2.residentialPropertyDisposals.createAmendCgtPpdOverrides.CreateAmendCgtPpdOverridesValidatorFactory

@@ -21,7 +21,6 @@ import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.*
 import v3.otherCgt.createAmend.def1.fixture.Def1_CreateAmendOtherCgtConnectorServiceFixture.mtdRequestBody
 import v3.otherCgt.createAmend.def1.model.request.Def1_CreateAmendOtherCgtRequestData
 import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData

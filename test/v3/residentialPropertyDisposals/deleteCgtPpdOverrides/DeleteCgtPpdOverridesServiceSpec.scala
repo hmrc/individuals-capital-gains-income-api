@@ -18,19 +18,8 @@ package v3.residentialPropertyDisposals.deleteCgtPpdOverrides
 
 import api.controllers.EndpointLogContext
 import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{
-  DownstreamErrorCode,
-  DownstreamErrors,
-  ErrorWrapper,
-  InternalError,
-  MtdError,
-  NinoFormatError,
-  NotFoundError,
-  RuleTaxYearNotSupportedError,
-  TaxYearFormatError
-}
+import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
-import common.errors.RuleOutsideAmendmentWindowError
 import support.UnitSpec
 import uk.gov.hmrc.http.HeaderCarrier
 import v3.residentialPropertyDisposals.deleteCgtPpdOverrides.def1.model.request.Def1_DeleteCgtPpdOverridesRequestData

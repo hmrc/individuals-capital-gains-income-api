@@ -17,10 +17,9 @@
 package v3.otherCgt.createAmend
 
 import api.controllers.RequestContext
-import api.models.errors.{InternalError, MtdError, NinoFormatError, RuleTaxYearNotSupportedError, TaxYearFormatError}
+import api.models.errors.*
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.toBifunctorOps
-import common.errors.*
 import v3.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData
 
 import javax.inject.{Inject, Singleton}

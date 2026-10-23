@@ -19,7 +19,6 @@ package v2.residentialPropertyDisposals.createAmendNonPpd.def1
 import api.config.MockAppConfig
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
-import common.errors.{CustomerRefFormatError, RuleAmountGainLossError}
 import play.api.libs.json.*
 import support.UnitSpec
 import v2.residentialPropertyDisposals.createAmendNonPpd.CreateAmendCgtResidentialPropertyDisposalsValidatorFactory

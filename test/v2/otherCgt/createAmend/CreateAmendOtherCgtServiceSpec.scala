@@ -18,19 +18,9 @@ package v2.otherCgt.createAmend
 
 import api.controllers.EndpointLogContext
 import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{
-  DownstreamErrorCode,
-  DownstreamErrors,
-  ErrorWrapper,
-  InternalError,
-  MtdError,
-  NinoFormatError,
-  RuleTaxYearNotSupportedError,
-  TaxYearFormatError
-}
+import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.{RuleAcquisitionDateError, RuleDisposalDateNotFutureError}
 import v2.otherCgt.createAmend.def1.fixture.Def1_CreateAmendOtherCgtConnectorServiceFixture.mtdRequestBody
 import v2.otherCgt.createAmend.def1.model.request.Def1_CreateAmendOtherCgtRequestData
 import v2.otherCgt.createAmend.model.request.CreateAmendOtherCgtRequestData

@@ -20,7 +20,6 @@ import api.config.MockAppConfig
 import api.models.domain.{Nino, TaxYear}
 import api.models.errors.*
 import api.models.utils.JsonErrorValidators
-import common.errors.*
 import play.api.libs.json.*
 import support.UnitSpec
 import v2.otherCgt.createAmend.def1.model.request.{Def1_CreateAmendOtherCgtRequestBody, Def1_CreateAmendOtherCgtRequestData}

@@ -18,20 +18,9 @@ package v2.residentialPropertyDisposals.retrieveAll
 
 import api.controllers.EndpointLogContext
 import api.models.domain.{Nino, TaxYear}
-import api.models.errors.{
-  DownstreamErrorCode,
-  DownstreamErrors,
-  ErrorWrapper,
-  InternalError,
-  MtdError,
-  NinoFormatError,
-  NotFoundError,
-  RuleTaxYearNotSupportedError,
-  TaxYearFormatError
-}
+import api.models.errors.*
 import api.models.outcomes.ResponseWrapper
 import api.services.ServiceSpec
-import common.errors.SourceFormatError
 import uk.gov.hmrc.http.HeaderCarrier
 import v2.residentialPropertyDisposals.retrieveAll.def1.model.MtdSourceEnum
 import v2.residentialPropertyDisposals.retrieveAll.def1.model.request.Def1_RetrieveAllResidentialPropertyRequestData

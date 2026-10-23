@@ -17,10 +17,9 @@
 package v3.residentialPropertyDisposals.deleteCgtPpdOverrides
 
 import api.controllers.RequestContext
-import api.models.errors.{InternalError, MtdError, NinoFormatError, NotFoundError, RuleTaxYearNotSupportedError, TaxYearFormatError}
+import api.models.errors.*
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.toBifunctorOps
-import common.errors.RuleOutsideAmendmentWindowError
 import v3.residentialPropertyDisposals.deleteCgtPpdOverrides.model.request.DeleteCgtPpdOverridesRequestData
 
 import javax.inject.{Inject, Singleton}

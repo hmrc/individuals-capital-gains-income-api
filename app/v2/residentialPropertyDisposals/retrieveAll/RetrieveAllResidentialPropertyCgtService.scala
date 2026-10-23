@@ -17,10 +17,9 @@
 package v2.residentialPropertyDisposals.retrieveAll
 
 import api.controllers.RequestContext
-import api.models.errors.{MtdError, *}
+import api.models.errors.*
 import api.services.{BaseService, ServiceOutcome}
 import cats.implicits.toBifunctorOps
-import common.errors.SourceFormatError
 import v2.residentialPropertyDisposals.retrieveAll.model.request.RetrieveAllResidentialPropertyCgtRequestData
 import v2.residentialPropertyDisposals.retrieveAll.model.response.RetrieveAllResidentialPropertyCgtResponse
 

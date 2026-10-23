@@ -19,10 +19,9 @@ package v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.def2
 import api.controllers.validators.Validator
 import api.controllers.validators.resolvers.{ResolveNino, ResolverSupport}
 import api.models.domain.TaxYear
-import api.models.errors.MtdError
+import api.models.errors.*
 import cats.data.Validated
 import cats.implicits.*
-import common.errors.SourceFormatError
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.def2.model.request.Def2_RetrieveCgtPpdOverridesRequestData
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.model.MtdSourceEnum
 import v3.residentialPropertyDisposals.retrieveCgtPpdOverrides.model.request.RetrieveCgtPpdOverridesRequestData

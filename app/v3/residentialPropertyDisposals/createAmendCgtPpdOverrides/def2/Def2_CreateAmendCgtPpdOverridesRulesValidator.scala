@@ -22,7 +22,6 @@ import api.models.errors.*
 import cats.data.Validated
 import cats.data.Validated.{Invalid, Valid}
 import cats.implicits.toFoldableOps
-import common.errors.{PpdSubmissionIdFormatError, RuleAmountGainLossError, RuleDuplicatedPpdSubmissionIdError}
 import v3.residentialPropertyDisposals.createAmendCgtPpdOverrides.def2.model.request.*
 
 object Def2_CreateAmendCgtPpdOverridesRulesValidator extends RulesValidator[Def2_CreateAmendCgtPpdOverridesRequestData] {
