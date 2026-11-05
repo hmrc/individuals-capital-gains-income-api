@@ -118,7 +118,8 @@ object Def3_RetrieveOtherCgtFixture {
     qualifyingAssetHoldingCompany = Some(qualifyingAssetHoldingCompanyResponseModel),
     losses = Some(lossesResponseModel),
     adjustments = Some(adjustmentsResponseModel),
-    lifetimeAllowance = Some(lifetimeAllowanceResponseModel)
+    lifetimeAllowance = Some(lifetimeAllowanceResponseModel),
+    supplementaryInformation = Some("Additional information relating to the disposal of an asset and the justification for the relief code applied.")
   )
 
   val cryptoassetsValidMtdResponseJson: JsValue = Json.parse(
@@ -250,7 +251,8 @@ object Def3_RetrieveOtherCgtFixture {
       |  "qualifyingAssetHoldingCompany": $qualifyingAssetHoldingCompanyValidMtdResponseJson,
       |  "losses": $lossesValidResponseJson,
       |  "adjustments": $adjustmentsValidResponseJson,
-      |  "lifetimeAllowance": $lifetimeAllowanceValidMtdResponseJson
+      |  "lifetimeAllowance": $lifetimeAllowanceValidMtdResponseJson,
+      |  "supplementaryInformation": "Additional information relating to the disposal of an asset and the justification for the relief code applied."
       |}
     """.stripMargin
   )
@@ -357,7 +359,8 @@ object Def3_RetrieveOtherCgtFixture {
       |  "qualifyingAssetHoldingCompany": $qualifyingAssetHoldingCompanyValidDownstreamResponseJson,
       |  "losses": $lossesValidResponseJson,
       |  "adjustments": $adjustmentsValidResponseJson,
-      |  "lifeTimeAllowance": $lifetimeAllowanceValidDownstreamResponseJson
+      |  "lifeTimeAllowance": $lifetimeAllowanceValidDownstreamResponseJson,
+      |  "whiteSpace": "Additional information relating to the disposal of an asset and the justification for the relief code applied."
       |}
     """.stripMargin
   )
@@ -371,7 +374,8 @@ object Def3_RetrieveOtherCgtFixture {
     qualifyingAssetHoldingCompany = None,
     losses = None,
     adjustments = None,
-    lifetimeAllowance = None
+    lifetimeAllowance = None,
+    supplementaryInformation = None
   )
 
   val minimumValidResponseJson: JsValue = Json.parse(
