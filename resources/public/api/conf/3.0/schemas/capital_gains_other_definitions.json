@@ -798,6 +798,12 @@
         "lifetimeAllowanceInv" : {"$ref": "#/definitions/lifetimeAllowanceInv"}
       }
     },
+    "supplementaryInformation":{
+      "type":"string",
+      "description": "{{#unless (releasedInProduction 'r23_whitespace_docs')}}[Test only] {{/unless}}Additional information relating to Capital Gains Tax (CGT), including justifications for relief codes. Must not be empty or contain only whitespace.",
+      "example": "Additional information relating to the disposal of an asset and the justification for the relief code applied.",
+      "pattern": "^[A-Za-z0-9 &'\"()*,\\-./@£]{1,20480}$"
+    },
     "disposals":{
       "type":"array",
       "description":"An array of other Capital Gains disposals.",
