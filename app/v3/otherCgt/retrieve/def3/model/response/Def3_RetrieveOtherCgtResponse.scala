@@ -29,7 +29,8 @@ case class Def3_RetrieveOtherCgtResponse(submittedOn: Timestamp,
                                          qualifyingAssetHoldingCompany: Option[QualifyingAssetHoldingCompany],
                                          losses: Option[Losses],
                                          adjustments: Option[Adjustments],
-                                         lifetimeAllowance: Option[LifetimeAllowance])
+                                         lifetimeAllowance: Option[LifetimeAllowance],
+                                         supplementaryInformation: Option[String])
     extends RetrieveOtherCgtResponse
 
 object Def3_RetrieveOtherCgtResponse {
@@ -43,7 +44,8 @@ object Def3_RetrieveOtherCgtResponse {
       (JsPath \ "qualifyingAssetHoldingCompany").readNullable[QualifyingAssetHoldingCompany] and
       (JsPath \ "losses").readNullable[Losses] and
       (JsPath \ "adjustments").readNullable[Adjustments] and
-      (JsPath \ "lifeTimeAllowance").readNullable[LifetimeAllowance]
+      (JsPath \ "lifeTimeAllowance").readNullable[LifetimeAllowance] and
+      (JsPath \ "whiteSpace").readNullable[String]
   )(Def3_RetrieveOtherCgtResponse.apply)
 
   implicit val writes: OWrites[Def3_RetrieveOtherCgtResponse] = Json.writes[Def3_RetrieveOtherCgtResponse]
