@@ -18,12 +18,12 @@ package v3.otherCgt.createAmend.def3.model.request
 
 import play.api.libs.json.{JsValue, Json}
 import support.UnitSpec
-import v3.otherCgt.createAmend.def3.fixture.Def3_CreateAmendOtherCgtFixture.{fullRequestBodyModel, fullRequestBodyMtdJson}
+import v3.otherCgt.createAmend.def3.fixture.Def3_CreateAmendOtherCgtFixture.{fullRequestBodyModel, fullRequestBodyMtdJson, supplementaryInformation}
 
 class Def3_CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
 
   val downstreamJson: JsValue = Json.parse(
-    """
+    s"""
       |{
       |  "cryptoassets": [
       |    {
@@ -112,7 +112,8 @@ class Def3_CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
       |  "lifeTimeAllowance": {
       |    "lifetimeAllowanceBADR": 99999999999.99,
       |    "lifetimeAllowanceINV": 99999999999.99
-      |  }
+      |  },
+      |  "supplementaryInformation": "$supplementaryInformation"
       |}
     """.stripMargin
   )
