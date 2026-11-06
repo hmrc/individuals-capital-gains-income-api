@@ -27,7 +27,8 @@ case class Def3_CreateAmendOtherCgtRequestBody(cryptoassets: Option[Seq[Cryptoas
                                                qualifyingAssetHoldingCompany: Option[QualifyingAssetHoldingCompany],
                                                losses: Option[Losses],
                                                adjustments: Option[Adjustments],
-                                               lifetimeAllowance: Option[LifetimeAllowance])
+                                               lifetimeAllowance: Option[LifetimeAllowance],
+                                               supplementaryInformation: Option[String])
     extends CreateAmendOtherCgtRequestBody
 
 object Def3_CreateAmendOtherCgtRequestBody {
@@ -41,7 +42,8 @@ object Def3_CreateAmendOtherCgtRequestBody {
       (JsPath \ "qualifyingAssetHoldingCompany").writeNullable[QualifyingAssetHoldingCompany] and
       (JsPath \ "losses").writeNullable[Losses] and
       (JsPath \ "adjustments").writeNullable[Adjustments] and
-      (JsPath \ "lifeTimeAllowance").writeNullable[LifetimeAllowance]
+      (JsPath \ "lifeTimeAllowance").writeNullable[LifetimeAllowance] and
+      (JsPath \ "supplementaryInformation").writeNullable[String]
   )(o => Tuple.fromProductTyped(o))
 
 }
