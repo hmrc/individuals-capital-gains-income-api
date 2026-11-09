@@ -113,7 +113,7 @@ class Def3_CreateAmendOtherCgtRequestBodySpec extends UnitSpec {
       |    "lifetimeAllowanceBADR": 99999999999.99,
       |    "lifetimeAllowanceINV": 99999999999.99
       |  },
-      |  "supplementaryInformation": "$supplementaryInformation"
+      |  "whiteSpace": "$supplementaryInformation"
       |}
     """.stripMargin
   )

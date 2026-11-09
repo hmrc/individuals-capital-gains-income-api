@@ -59,6 +59,9 @@ object SourceFormatError extends MtdError("FORMAT_SOURCE", "The provided source 
 object ClaimOrElectionCodesFormatError
     extends MtdError("FORMAT_CLAIM_OR_ELECTION_CODES", "The format of the claimOrElectionCodes value is invalid", BAD_REQUEST)
 
+object SupplementaryInformationFormatError
+    extends MtdError("FORMAT_SUPPLEMENTARY_INFORMATION", "The provided supplementaryInformation is invalid", BAD_REQUEST)
+
 //Standard Errors
 object NotFoundError extends MtdError("MATCHING_RESOURCE_NOT_FOUND", "Matching resource not found", NOT_FOUND)
 

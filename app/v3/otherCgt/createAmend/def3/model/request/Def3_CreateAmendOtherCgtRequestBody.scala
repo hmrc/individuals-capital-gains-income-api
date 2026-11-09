@@ -43,7 +43,7 @@ object Def3_CreateAmendOtherCgtRequestBody {
       (JsPath \ "losses").writeNullable[Losses] and
       (JsPath \ "adjustments").writeNullable[Adjustments] and
       (JsPath \ "lifeTimeAllowance").writeNullable[LifetimeAllowance] and
-      (JsPath \ "supplementaryInformation").writeNullable[String]
-  )(o => Tuple.fromProductTyped(o))
+      (JsPath \ "whiteSpace").writeNullable[String]
+  )(Tuple.fromProductTyped(_))
 
 }
