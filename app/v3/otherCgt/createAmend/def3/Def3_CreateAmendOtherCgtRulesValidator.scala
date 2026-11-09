@@ -37,7 +37,7 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   private val resolveBigInteger                 = ResolveBigInteger(1, 99999999999L)
   private val resolveMaybeNegativeParsedNumber  = ResolveParsedNumber(min = -99999999999.99)
 
-  private val resolveStringPattern =
+  private val resolveSupplementaryInformationStringPattern =
     ResolveStringPattern(supplementaryInformationRegex, SupplementaryInformationFormatError.withPath("/supplementaryInformation"))
 
   private def combine(results: Validated[Seq[MtdError], ?]*): Validated[Seq[MtdError], Unit] = results.traverse_(identity)
@@ -446,6 +446,6 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   }
 
   private def validateSupplementaryInformation(supplementaryInformation: Option[String]): Validated[Seq[MtdError], Unit] =
-    supplementaryInformation.fold(Valid(())) { resolveStringPattern(_).map(_ => ()) }
+    supplementaryInformation.fold(Valid(())) { resolveSupplementaryInformationStringPattern(_).map(_ => ()) }
 
 }
