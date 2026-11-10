@@ -27,5 +27,10 @@
     "lifetimeAllowance": {
       "$ref": "../../capital_gains_other_definitions.json#/definitions/lifetimeAllowance"
     }
+    {{#if (enabled 'r23_whitespace_docs')}}
+      ,"supplementaryInformation": {
+        "$ref": "../../capital_gains_other_definitions.json#/definitions/supplementaryInformation"
+      }
+    {{/if}}
   }
 }
