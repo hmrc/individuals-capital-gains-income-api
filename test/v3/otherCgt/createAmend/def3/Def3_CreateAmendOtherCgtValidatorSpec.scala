@@ -94,6 +94,29 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
         unlistedShares = fullRequestBodyModel.unlistedShares.map(_.map(_.copy(disposalDate = disposalDate)))
       )
 
+      "a valid request is supplied" in {
+        validator().validateAndWrapResult() shouldBe Right(Def3_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, fullRequestBodyModel))
+      }
+
+      val testCases: Seq[(String, String)] = Seq(
+        (('a' to 'z').mkString, "lowercase letters"),
+        (('A' to 'Z').mkString, "uppercase letters"),
+        (('0' to '9').mkString, "digits"),
+        ("a b", "spaces"),
+        ("""&'"()*,-./@£""", "allowed special characters"),
+        ("a", "a single character"),
+        ("a" * 20480, "20480 characters")
+      )
+
+      testCases.foreach { (value, description) =>
+        s"a valid supplementaryInformation field is supplied with $description" in {
+          val validJson: JsValue = fullRequestBodyMtdJson.update("/supplementaryInformation", JsString(value))
+
+          validator(body = validJson).validateAndWrapResult() shouldBe Right(
+            Def3_CreateAmendOtherCgtRequestData(parsedNino, parsedTaxYear, fullRequestBodyModel.copy(supplementaryInformation = Some(value))))
+        }
+      }
+
       "a valid request with past disposalDates within a non-future tax year is supplied and temporal validation is enabled" in {
         val result: Either[ErrorWrapper, CreateAmendOtherCgtRequestData] = validator().validateAndWrapResult()
 
@@ -421,6 +444,22 @@ class Def3_CreateAmendOtherCgtValidatorSpec extends UnitSpec with JsonErrorValid
         ).validateAndWrapResult()
 
         result shouldBe Left(ErrorWrapper(correlationId, ValueFormatError.withPath("/adjustments/adjustmentAmount")))
+      }
+    }
+
+    "return SupplementaryInformationFormatError" when {
+      val invalidCharacters: Seq[(String, String)] = """:|%\!#é""".map(char => (char.toString, s"with invalid special character '$char'"))
+      val invalidLengths: Seq[(String, String)]    = Seq(0, 20481).map(length => ("a" * length, s"with an invalid length of $length"))
+
+      val testCases: Seq[(String, String)] = invalidCharacters ++ invalidLengths
+
+      testCases.foreach { (value, description) =>
+        s"an incorrectly formatted supplementaryInformation is supplied in the request body $description" in {
+          val invalidJson: JsValue = fullRequestBodyMtdJson.update("/supplementaryInformation", JsString(value))
+
+          validator(body = invalidJson).validateAndWrapResult() shouldBe Left(
+            ErrorWrapper(correlationId, SupplementaryInformationFormatError.withPath("/supplementaryInformation")))
+        }
       }
     }
 

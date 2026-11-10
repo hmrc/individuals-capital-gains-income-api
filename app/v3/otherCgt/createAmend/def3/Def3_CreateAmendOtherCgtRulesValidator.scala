@@ -32,9 +32,13 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
   private val assetDescriptionAndTokenNameRegex = "^[0-9a-zA-Z{À-˿'}\\- _&`():.'^]{1,90}$".r
   private val companyNameRegex                  = "^.{0,160}$".r
   private val companyRegistrationNumberRegex    = "^(?:\\d{8}|[A-Za-z]{2}\\d{6})$".r
+  private val supplementaryInformationRegex     = """^[A-Za-z0-9 &'"()*,\-./@£]{1,20480}$""".r
   private val resolveParsedNumber               = ResolveParsedNumber()
   private val resolveBigInteger                 = ResolveBigInteger(1, 99999999999L)
   private val resolveMaybeNegativeParsedNumber  = ResolveParsedNumber(min = -99999999999.99)
+
+  private val resolveSupplementaryInformationStringPattern =
+    ResolveStringPattern(supplementaryInformationRegex, SupplementaryInformationFormatError.withPath("/supplementaryInformation"))
 
   private def combine(results: Validated[Seq[MtdError], ?]*): Validated[Seq[MtdError], Unit] = results.traverse_(identity)
 
@@ -54,7 +58,8 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
       validateQualifyingAssetHoldingCompany(qualifyingAssetHoldingCompany),
       validateLosses(losses),
       validateAdjustments(adjustments, r22CgtEnabled),
-      validateLifetimeAllowance(lifetimeAllowance)
+      validateLifetimeAllowance(lifetimeAllowance),
+      validateSupplementaryInformation(supplementaryInformation)
     ).map(_ => parsed)
   }
 
@@ -439,5 +444,8 @@ object Def3_CreateAmendOtherCgtRulesValidator extends ResolverSupport {
       }
     }
   }
+
+  private def validateSupplementaryInformation(supplementaryInformation: Option[String]): Validated[Seq[MtdError], Unit] =
+    supplementaryInformation.fold(Valid(())) { resolveSupplementaryInformationStringPattern(_).map(_ => ()) }
 
 }

@@ -229,7 +229,8 @@ class Def3_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
       |  "lifetimeAllowance": {
       |    "lifetimeAllowanceBadr": -99999999999.99,
       |    "lifetimeAllowanceInv": 99999999999.999
-      |  }
+      |  },
+      |  "supplementaryInformation": ""
       |}
     """.stripMargin
   )
@@ -264,6 +265,7 @@ class Def3_CreateAmendOtherCgtControllerHipISpec extends IntegrationBaseSpec wit
         "/unlistedShares/0/disposalDate"
       )
     ),
+    SupplementaryInformationFormatError.withPath("/supplementaryInformation"),
     TokenNameFormatError.withPath("/cryptoassets/0/tokenName"),
     ValueFormatError.forPathAndRange(
       path = "/adjustments/adjustmentAmount",

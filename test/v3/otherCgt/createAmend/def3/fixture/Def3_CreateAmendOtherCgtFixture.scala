@@ -107,6 +107,8 @@ object Def3_CreateAmendOtherCgtFixture {
     lifetimeAllowanceInv = Some(99999999999.99)
   )
 
+  val supplementaryInformation = "Some additional explanatory details where a claim code alone is insufficient"
+
   val fullRequestBodyModel: Def3_CreateAmendOtherCgtRequestBody = Def3_CreateAmendOtherCgtRequestBody(
     cryptoassets = Some(Seq(cryptoassetsModel)),
     otherGains = Some(Seq(otherGainsModel)),
@@ -115,7 +117,8 @@ object Def3_CreateAmendOtherCgtFixture {
     qualifyingAssetHoldingCompany = Some(qualifyingAssetHoldingCompanyModel),
     losses = Some(lossesModel),
     adjustments = Some(adjustmentsModel),
-    lifetimeAllowance = Some(lifetimeAllowanceModel)
+    lifetimeAllowance = Some(lifetimeAllowanceModel),
+    supplementaryInformation = Some(supplementaryInformation)
   )
 
   val cryptoassetsMtdJson: JsValue = Json.parse(
@@ -244,7 +247,8 @@ object Def3_CreateAmendOtherCgtFixture {
       |  "qualifyingAssetHoldingCompany": $qualifyingAssetHoldingCompanyMtdJson,
       |  "losses": $lossesJson,
       |  "adjustments": $adjustmentsJson,
-      |  "lifetimeAllowance": $lifetimeAllowanceMtdJson
+      |  "lifetimeAllowance": $lifetimeAllowanceMtdJson,
+      |  "supplementaryInformation": "$supplementaryInformation"
       |}
     """.stripMargin
   )

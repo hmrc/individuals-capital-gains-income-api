@@ -213,6 +213,13 @@ components:
         code: FORMAT_CUSTOMER_REF
         message: The provided customer reference is invalid
 
+    formatSupplementaryInformation:
+      description: |
+        The format of the supplied supplementaryInformation is not valid.
+      value:
+        code: FORMAT_SUPPLEMENTARY_INFORMATION
+        message: The provided supplementaryInformation is invalid
+
     ruleAcquisitionDateAfterDisposalDate:
       description: The acquisitionDate must not be later than disposalDate.
       value:
